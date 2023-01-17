@@ -1,0 +1,191 @@
+import React, { useCallback, useEffect, useState } from "react"
+import { BsEye, BsEyeSlash } from "react-icons/bs"
+import { useDispatch, useSelector } from "react-redux"
+
+import { Error, Toggle } from "../../components"
+import { useRegisterUpdateMutation } from "../../features/user/userApi"
+import { userClearInit, userToggleChecked } from "../../features/user/userSlice"
+
+const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput }) => {
+
+
+
+  const id = user?.id || null
+
+  const { currentColor } = useSelector((state) => state?.theme)
+
+  const { page, limit, toggle } = useSelector((state) => state?.user)
+
+  const dispatch = useDispatch()
+
+  const [show, setShow] = useState(true)
+  const [error, setError] = useState("")
+
+  // data to save
+  const [email, setEmail] = useState("")
+  const [pass, setPass] = useState("")
+
+  const [registerUpdate, { data, isLoading, error: responseError }] = useRegisterUpdateMutation()
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setError("")
+    let state = toggle?.state
+    let isAdmin = toggle?.isAdmin
+    let password = pass === "" ? user?.password : pass
+    try {
+      await registerUpdate({ id, email, password, state, isAdmin, page, limit, typeAction })
+      dispatch(userClearInit())
+      setDataInput("")
+      setOpened(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const changeIconPassword = () => {
+    let x = document.getElementById("password")
+
+    if (x.type === "password") {
+      x.type = "text"
+      setShow(false)
+    } else {
+      x.type = "password"
+      setShow(true)
+    }
+  }
+
+  const getValueToggle = (type, value) => {
+    if (type === "state") {
+      dispatch(userToggleChecked({ type: "state", value: !value }))
+    } else {
+      dispatch(userToggleChecked({ type: "isAdmin", value: !value }))
+    }
+  }
+
+  const changeTypeAction = useCallback(() => {
+    setError("")
+    if (typeAction === "edit") {
+      setEmail(user?.email)
+      dispatch(userToggleChecked({ type: "state", value: user?.state }))
+      dispatch(userToggleChecked({ type: "isAdmin", value: user?.isAdmin }))
+    } else {
+      setEmail("")
+      setPass("")
+      dispatch(userToggleChecked({ type: "state", value: false }))
+      dispatch(userToggleChecked({ type: "isAdmin", value: false }))
+    }
+  }, [typeAction, data, user, dispatch])
+
+  useEffect(() => {
+    changeTypeAction()
+  }, [changeTypeAction])
+
+  useEffect(() => {
+    if (responseError?.data) {
+      setError(JSON.stringify(responseError?.data))
+    } else if (data) { }
+  }, [data, responseError])
+
+  return (
+    open && (
+      <>
+        <div
+          onClick={control}
+          className="fixed w-full h-full inset-0 z-10 bg-black/50 cursor-pointer"
+        />
+        <div className="rounded w-[400px] lg:w-[600px] space-y-8 bg-white p-10 absolute top-1/3 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
+          <h1 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
+            {typeAction === "edit" ? "Editar Usuario" : "Nuevo Usuario"}
+          </h1>
+
+          <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+            <div>
+
+              {/* Email */}
+              <div>
+                <label className="font-medium text-lg">Email</label>
+                <input
+                  id="email"
+                  className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  required
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+
+              {/* Password */}
+              <div className="mt-4">
+                <label className="font-medium text-lg">Password</label>
+                <input
+                  id="password"
+                  className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+                  type="password"
+                  name="password"
+                  autoComplete="current-password"
+                  required={typeAction === "edit" ? false : true}
+                  placeholder="Enter your password"
+                  value={pass}
+                  onChange={(e) => setPass(e.target.value)}
+                />
+                <div className="flex items-center justify-between">
+                  <div></div>
+                  {show ? (
+                    <BsEyeSlash
+                      className="text-2xl mt-[-43px] mr-[20px]"
+                      onClick={() => changeIconPassword()}
+                    />
+                  ) : (
+                    <BsEye
+                      className="text-2xl mt-[-43px] mr-[20px]"
+                      onClick={() => changeIconPassword()}
+                    />
+                  )}
+                </div>
+              </div>
+
+              {/* Toggle status */}
+              <div className="mt-4">
+                <Toggle
+                  conditional={toggle?.state}
+                  type="state"
+                  getValueToggle={getValueToggle}
+                  currentColor={currentColor}
+                />
+              </div>
+
+              {/* Toggle isAdmin */}
+              <div className="mt-4">
+                <Toggle
+                  conditional={toggle?.isAdmin}
+                  type="isAdmin"
+                  getValueToggle={getValueToggle}
+                  currentColor={currentColor}
+                />
+              </div>
+
+              {/* Button */}
+              <div className="mt-8 flex flex-col gap-y-4">
+                <button
+                  type="submit"
+                  className="active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-md text-white font-bold"
+                  disabled={isLoading}
+                  style={{ backgroundColor: currentColor }}
+                >
+                  {isLoading ? "...Procesando" : "Guardar datos"}
+                </button>
+              </div>
+            </div>
+            {error !== "" && <Error message={error} />}
+          </form>
+        </div>
+      </>
+    )
+  )
+}
+
+export default UserModal
