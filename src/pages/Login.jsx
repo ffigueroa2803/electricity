@@ -111,12 +111,7 @@ const Login = () => {
 
           {/* Remenber && Forgot Password */}
           <div className="mt-8 flex justify-between items-center">
-            <div>
-              <input type="checkbox" id="remenber" />
-              <label className="ml-2 text-base" htmlFor="remenber">
-                Recordar
-              </label>
-            </div>
+            <div></div>
             <NavLink
               to="/reset-password"
               className="text-base"
