@@ -9,7 +9,7 @@ export const userApi = apiSlice.injectEndpoints({
       providesTags: ["Users"],
     }),
 
-    registerUpdate: builder.mutation({
+    registerUpdateUser: builder.mutation({
       query: (data) => ({
         url: `${data?.typeAction === "new" ? "/api/users" : `/api/users/${data?.id}`}`,
         method: `${data?.typeAction === "new" ? "POST" : "PUT"}`,
@@ -22,4 +22,4 @@ export const userApi = apiSlice.injectEndpoints({
   }),
 })
 
-export const { useGetUsersQuery, useRegisterUpdateMutation } = userApi
+export const { useGetUsersQuery, useRegisterUpdateUserMutation } = userApi

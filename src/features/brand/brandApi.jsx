@@ -9,7 +9,7 @@ export const brandApi = apiSlice.injectEndpoints({
       providesTags: ["Marcas"],
     }),
 
-    registerUpdate: builder.mutation({
+    registerUpdateBrand: builder.mutation({
       query: (data) => ({
         url: `${data?.typeAction === "new" ? "/api/marcas" : `/api/marcas/${data?.id}`}`,
         method: `${data?.typeAction === "new" ? "POST" : "PUT"}`,
@@ -22,4 +22,4 @@ export const brandApi = apiSlice.injectEndpoints({
   }),
 })
 
-export const { useGetBrandsQuery, useRegisterUpdateMutation } = brandApi
+export const { useGetBrandsQuery, useRegisterUpdateBrandMutation } = brandApi

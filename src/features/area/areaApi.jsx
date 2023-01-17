@@ -9,7 +9,7 @@ export const areaApi = apiSlice.injectEndpoints({
       providesTags: ["Areas"],
     }),
 
-    registerUpdate: builder.mutation({
+    registerUpdateArea: builder.mutation({
       query: (data) => ({
         url: `${data?.typeAction === "new" ? "/api/areas" : `/api/areas/${data?.id}`}`,
         method: `${data?.typeAction === "new" ? "POST" : "PUT"}`,
@@ -22,4 +22,4 @@ export const areaApi = apiSlice.injectEndpoints({
   }),
 })
 
-export const { useGetAreasQuery, useRegisterUpdateMutation } = areaApi
+export const { useGetAreasQuery, useRegisterUpdateAreaMutation } = areaApi

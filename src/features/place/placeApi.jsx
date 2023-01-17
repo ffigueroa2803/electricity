@@ -9,7 +9,7 @@ export const placeApi = apiSlice.injectEndpoints({
       providesTags: ["Lugares"],
     }),
 
-    registerUpdate: builder.mutation({
+    registerUpdatePlace: builder.mutation({
       query: (data) => ({
         url: `${data?.typeAction === "new" ? "/api/lugares" : `/api/lugares/${data?.id}`}`,
         method: `${data?.typeAction === "new" ? "POST" : "PUT"}`,
@@ -22,4 +22,4 @@ export const placeApi = apiSlice.injectEndpoints({
   }),
 })
 
-export const { useGetPlacesQuery, useRegisterUpdateMutation } = placeApi
+export const { useGetPlacesQuery, useRegisterUpdatePlaceMutation } = placeApi

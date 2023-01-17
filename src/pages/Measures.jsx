@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import { Header, Table } from "../components"
-import { useGetMeasuresQuery } from "../features/measure/measureApi"
+import { Header, Modal, Table } from "../components"
+import { useGetMeasuresQuery, useRegisterUpdateMeasureMutation } from "../features/measure/measureApi"
 import { measureChangeCurrentPage, measureClearInit, measureSearch } from "../features/measure/measureSlice"
 
 const Measures = () => {
@@ -78,6 +78,18 @@ const Measures = () => {
       </div>
       {/* Table */}
       <Table data={data} isLoading={isLoading} controlModal={controlModal} changeCurrentPage={measureChangeCurrentPage} />
+
+      {/* Modal */}
+      <Modal
+        open={opened}
+        setOpened={setOpened}
+        control={controlModal}
+        items={measure}
+        typeAction={typeAction}
+        setDataInput={setDataInput}
+        title="Medida"
+        Mutation={useRegisterUpdateMeasureMutation}
+      />
     </div>
   )
 }

@@ -3,12 +3,10 @@ import { BsEye, BsEyeSlash } from "react-icons/bs"
 import { useDispatch, useSelector } from "react-redux"
 
 import { Error, Toggle } from "../../components"
-import { useRegisterUpdateMutation } from "../../features/user/userApi"
+import { useRegisterUpdateUserMutation } from "../../features/user/userApi"
 import { userClearInit, userToggleChecked } from "../../features/user/userSlice"
 
 const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput }) => {
-
-
 
   const id = user?.id || null
 
@@ -25,7 +23,7 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput })
   const [email, setEmail] = useState("")
   const [pass, setPass] = useState("")
 
-  const [registerUpdate, { data, isLoading, error: responseError }] = useRegisterUpdateMutation()
+  const [registerUpdateUser, { data, isLoading, error: responseError }] = useRegisterUpdateUserMutation()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -34,7 +32,7 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput })
     let isAdmin = toggle?.isAdmin
     let password = pass === "" ? user?.password : pass
     try {
-      await registerUpdate({ id, email, password, state, isAdmin, page, limit, typeAction })
+      await registerUpdateUser({ id, email, password, state, isAdmin, page, limit, typeAction })
       dispatch(userClearInit())
       setDataInput("")
       setOpened(false)

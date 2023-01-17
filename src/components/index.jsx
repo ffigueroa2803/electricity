@@ -3,6 +3,7 @@ import Error from "./Error"
 import Footer from "./Footer"
 import Header from "./Header"
 import LoadingCircle from "./LoadingCircle"
+import Modal from "./Modal"
 import Navbar from "./Navbar"
 import Notification from "./Notification"
 import NotFound from "./NotFound"
@@ -21,6 +22,7 @@ export {
   Header,
   LoadingCircle,
   Navbar,
+  Modal,
   Notification,
   NotFound,
   Pagination,

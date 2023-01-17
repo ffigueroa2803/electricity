@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import { Header, Table } from "../components"
-import { useGetPlacesQuery } from "../features/place/placeApi"
+import { Header, Modal, Table } from "../components"
+import { useGetPlacesQuery, useRegisterUpdatePlaceMutation } from "../features/place/placeApi"
 import { placeChangeCurrentPage, placeClearInit, placeSearch } from "../features/place/placeSlice"
 
 const Places = () => {
@@ -78,6 +78,18 @@ const Places = () => {
       </div>
       {/* Table */}
       <Table data={data} isLoading={isLoading} controlModal={controlModal} changeCurrentPage={placeChangeCurrentPage} />
+
+      {/* Modal */}
+      <Modal
+        open={opened}
+        setOpened={setOpened}
+        control={controlModal}
+        items={place}
+        typeAction={typeAction}
+        setDataInput={setDataInput}
+        title="Lugar"
+        Mutation={useRegisterUpdatePlaceMutation}
+      />
     </div>
   )
 }

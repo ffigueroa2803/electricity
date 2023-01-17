@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import { Header, Table } from "../components"
-import { useGetAreasQuery } from "../features/area/areaApi"
+import { Header, Modal, Table } from "../components"
+import { useGetAreasQuery, useRegisterUpdateAreaMutation } from "../features/area/areaApi"
 import { areaChangeCurrentPage, areaClearInit, areaSearch } from "../features/area/areaSlice"
 
 const Areas = () => {
@@ -78,6 +78,18 @@ const Areas = () => {
       </div>
       {/* Table */}
       <Table data={data} isLoading={isLoading} controlModal={controlModal} changeCurrentPage={areaChangeCurrentPage} />
+
+      {/* Modal */}
+      <Modal
+        open={opened}
+        setOpened={setOpened}
+        control={controlModal}
+        items={area}
+        typeAction={typeAction}
+        setDataInput={setDataInput}
+        title="Areas"
+        Mutation={useRegisterUpdateAreaMutation}
+      />
     </div>
   )
 }

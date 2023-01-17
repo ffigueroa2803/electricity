@@ -9,7 +9,7 @@ export const measureApi = apiSlice.injectEndpoints({
       providesTags: ["Medidas"],
     }),
 
-    registerUpdate: builder.mutation({
+    registerUpdateMeasure: builder.mutation({
       query: (data) => ({
         url: `${data?.typeAction === "new" ? "/api/medidas" : `/api/medidas/${data?.id}`}`,
         method: `${data?.typeAction === "new" ? "POST" : "PUT"}`,
@@ -22,4 +22,4 @@ export const measureApi = apiSlice.injectEndpoints({
   }),
 })
 
-export const { useGetMeasuresQuery, useRegisterUpdateMutation } = measureApi
+export const { useGetMeasuresQuery, useRegisterUpdateMeasureMutation } = measureApi

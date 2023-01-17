@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import { Header, Table } from "../components"
-import { useGetBrandsQuery } from "../features/brand/brandApi"
+import { Header, Modal, Table } from "../components"
+import { useGetBrandsQuery, useRegisterUpdateBrandMutation } from "../features/brand/brandApi"
 import { brandChangeCurrentPage, brandClearInit, brandSearch } from "../features/brand/brandSlice"
 
 const Brands = () => {
@@ -42,7 +42,7 @@ const Brands = () => {
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       {/* Header */}
-      <Header title="Areas" />
+      <Header title="Marcas" />
       {/* Search && New */}
       <div className="flex flex-col md:flex-row justify-between w-full mb-1 sm:mb-2 ml-0 lg:ml-12">
         <div className="text-end mb-3">
@@ -78,6 +78,18 @@ const Brands = () => {
       </div>
       {/* Table */}
       <Table data={data} isLoading={isLoading} controlModal={controlModal} changeCurrentPage={brandChangeCurrentPage} />
+
+      {/* Modal */}
+      <Modal
+        open={opened}
+        setOpened={setOpened}
+        control={controlModal}
+        items={brand}
+        typeAction={typeAction}
+        setDataInput={setDataInput}
+        title="Marca"
+        Mutation={useRegisterUpdateBrandMutation}
+      />
     </div>
   )
 }
