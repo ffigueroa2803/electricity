@@ -31,9 +31,7 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput, t
     let password = pass === "" ? user?.password : pass
     try {
       await registerUpdateUser({ id, email, password, state, isAdmin, page, limit, typeAction })
-      dispatch(userClearInit())
       setDataInput("")
-      setOpened(false)
     } catch (error) {
       console.log(error)
     }
@@ -85,8 +83,10 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput, t
     } else if (data) {
       if (typeAction === "edit")
         toast.success("Usuario editado correctamente!")
-      else
+      else {
         toast.success("Usuario creado correctamente!")
+        dispatch(userClearInit())
+      }
     }
   }, [data, responseError])
 
