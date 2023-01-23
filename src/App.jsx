@@ -7,6 +7,7 @@ import { useAuthCheck } from "./hooks/useAuthCheck"
 import { themeSetColor, themeSetMode } from "./features/theme/themeSlice"
 import { RootRouter } from "./routers/RootRouter"
 import { PublicRouter } from "./routers/PublicRouter"
+import { Private, Public } from "./components"
 import "./App.css"
 
 const App = () => {
@@ -27,12 +28,12 @@ const App = () => {
     }
   }, [dispatch])
 
-
   return !authChecked ? (
-    <div>Checking Authentication</div>
+    <div>Checking Authentication.........</div>
   ) : (
     <div className={currentMode === "Dark" ? "dark" : ""}>
-      {isLoggedIn ? <RouterProvider router={RootRouter} /> : <RouterProvider router={PublicRouter} />}
+      {isLoggedIn ? <Private><RouterProvider router={RootRouter} /></Private> :
+        <Public><RouterProvider router={PublicRouter} /></Public>}
     </div>
   )
 }

@@ -7,6 +7,7 @@ import { userProfileData } from "../data/dummy"
 import { userLoggedOut } from "../features/auth/authSlice"
 import avatar5 from "../assets/avatar5.png"
 import { themeSetIsClicked } from "../features/theme/themeSlice"
+import { NavLink } from "react-router-dom"
 
 const UserProfile = () => {
 
@@ -55,18 +56,17 @@ const UserProfile = () => {
       </div>
       <div>
         {userProfileData.map((item, index) => (
-          <div
+          <NavLink
+            to={`/${item.route}`}
             key={index}
             className="flex gap-5 border-b-1 border-color p-4 hover:bg-light-gray cursor-pointer  dark:hover:bg-[#42464D]"
           >
-            <button
-              type="button"
+            <div
               style={{ color: item.iconColor, backgroundColor: item.iconBg }}
               className=" text-xl rounded-lg p-3 hover:bg-light-gray"
             >
               {item.icon}
-            </button>
-
+            </div>
             <div>
               <p className="font-semibold dark:text-gray-200 ">{item.title}</p>
               <p className="text-gray-500 text-sm dark:text-gray-400">
@@ -74,7 +74,7 @@ const UserProfile = () => {
                 {item.desc}{" "}
               </p>
             </div>
-          </div>
+          </NavLink>
         ))}
       </div>
       <div className="mt-5">

@@ -15,7 +15,7 @@ export const links = [
     links: [
       {
         route: "dashboard",
-        name: "inicio",
+        name: "Tablero",
         icon: <AiOutlineDashboard />,
       },
     ],
@@ -68,6 +68,7 @@ export const userProfileData = [
     desc: "Configuraciones de la cuenta",
     iconColor: "#03C9D7",
     iconBg: "#E5FAFB",
+    route: "profile"
   },
 ]
 

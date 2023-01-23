@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import toast, { Toaster } from "react-hot-toast"
 
 import { Header, Modal, Table } from "../components"
 import { useGetAreasQuery, useRegisterUpdateAreaMutation } from "../features/area/areaApi"
@@ -32,7 +33,7 @@ const Areas = () => {
 
   useEffect(() => {
     if (error)
-      console.log(error)
+      toast.error(error)
   }, [data, error])
 
   useEffect(() => {
@@ -78,7 +79,6 @@ const Areas = () => {
       </div>
       {/* Table */}
       <Table data={data} isLoading={isLoading} controlModal={controlModal} changeCurrentPage={areaChangeCurrentPage} />
-
       {/* Modal */}
       <Modal
         open={opened}
@@ -87,9 +87,12 @@ const Areas = () => {
         items={area}
         typeAction={typeAction}
         setDataInput={setDataInput}
-        title="Areas"
+        title="Area"
         Mutation={useRegisterUpdateAreaMutation}
+        toast={toast}
       />
+      {/* Toast */}
+      <Toaster />
     </div>
   )
 }

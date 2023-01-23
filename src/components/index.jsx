@@ -8,6 +8,8 @@ import Navbar from "./Navbar"
 import Notification from "./Notification"
 import NotFound from "./NotFound"
 import Pagination from "./Pagination"
+import Private from "./Private"
+import Public from "./Public"
 import Sidebar from "./Sidebar"
 import Table from "./Table"
 import Toggle from "./user/Toggle"
@@ -26,6 +28,8 @@ export {
   Notification,
   NotFound,
   Pagination,
+  Private,
+  Public,
   Sidebar,
   Table,
   Toggle,

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Error } from "../components"
 import { placeClearInit } from "../features/place/placeSlice"
 
-const Modal = ({ open, setOpened, control, items, typeAction, setDataInput, title, Mutation }) => {
+const Modal = ({ open, setOpened, control, items, typeAction, setDataInput, title, Mutation, toast }) => {
 
   const id = items?.id || null
 
@@ -25,11 +25,9 @@ const Modal = ({ open, setOpened, control, items, typeAction, setDataInput, titl
     setError("")
     try {
       await registerUpdatePlace({ id, name, description, page, limit, typeAction })
-      dispatch(placeClearInit())
       setDataInput("")
-      setOpened(false)
     } catch (error) {
-      console.log(error)
+      toast.error(error)
     }
   }
 
@@ -49,9 +47,19 @@ const Modal = ({ open, setOpened, control, items, typeAction, setDataInput, titl
   }, [changeTypeAction])
 
   useEffect(() => {
-    if (responseError?.data) {
-      setError(JSON.stringify(responseError?.data))
-    } else if (data) { }
+    if (responseError) {
+      if (responseError?.data?.errors)
+        toast.error(JSON.stringify(responseError?.data?.errors))
+      else
+        toast.error(JSON.stringify(responseError?.data?.message))
+    } else if (data) {
+      if (typeAction === "edit")
+        toast.success("Editado correctamente!")
+      else {
+        toast.success("Creado correctamente!")
+        dispatch(placeClearInit())
+      }
+    }
   }, [data, responseError])
 
   return (
@@ -61,7 +69,7 @@ const Modal = ({ open, setOpened, control, items, typeAction, setDataInput, titl
           onClick={control}
           className="fixed w-full h-full inset-0 z-10 bg-black/50 cursor-pointer"
         />
-        <div className="rounded w-[400px] lg:w-[600px] space-y-8 bg-white p-10 absolute top-1/3 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
+        <div className="rounded w-[400px] lg:w-[600px] space-y-8 bg-white p-10 absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
           <h1 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
             {typeAction === "edit" ? `Editar ${title}` : `Nuevo ${title}`}
           </h1>

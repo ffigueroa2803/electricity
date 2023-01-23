@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { RiPencilLine, RiDeleteBinLine } from "react-icons/ri"
+import toast, { Toaster } from "react-hot-toast"
 
 import { Header, LoadingCircle, NotFound, Pagination, UserModal } from "../components"
 import { useGetUsersQuery } from "../features/user/userApi"
@@ -70,7 +71,7 @@ const Users = () => {
         <div className="lg:mr-12">
           <button
             style={{ backgroundColor: currentColor }}
-            className="flex-shrink-0 px-4 py-2 mb-3 text-base font-semibold text-white rounded-lg shadow-md w-3/4 lg:w-20"
+            className="flex-shrink-0 px-4 py-2 mb-3 text-base font-semibold text-white rounded-lg shadow-md w-3/4 lg:w-20 md:w-20"
             onClick={() => controlModal({}, "new")}
           >
             Nuevo
@@ -151,7 +152,11 @@ const Users = () => {
         user={user}
         typeAction={typeAction}
         setDataInput={setDataInput}
+        toast={toast}
       />
+
+      {/* Toast */}
+      <Toaster />
     </div>
   )
 }

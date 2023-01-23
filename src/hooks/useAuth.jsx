@@ -4,9 +4,6 @@ export const useAuth = () => {
 
   const auth = useSelector((state) => state.auth)
 
-  if (auth?.accessToken) {
-    return true
-  } else {
-    return false
-  }
+  if (auth?.accessToken) { return true }
+  else { return false }
 }

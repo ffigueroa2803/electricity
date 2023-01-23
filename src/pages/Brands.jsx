@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import toast, { Toaster } from "react-hot-toast"
 
 import { Header, Modal, Table } from "../components"
 import { useGetBrandsQuery, useRegisterUpdateBrandMutation } from "../features/brand/brandApi"
@@ -32,7 +33,7 @@ const Brands = () => {
 
   useEffect(() => {
     if (error)
-      console.log(error)
+      toast.error(error)
   }, [data, error])
 
   useEffect(() => {
@@ -78,7 +79,6 @@ const Brands = () => {
       </div>
       {/* Table */}
       <Table data={data} isLoading={isLoading} controlModal={controlModal} changeCurrentPage={brandChangeCurrentPage} />
-
       {/* Modal */}
       <Modal
         open={opened}
@@ -89,7 +89,10 @@ const Brands = () => {
         setDataInput={setDataInput}
         title="Marca"
         Mutation={useRegisterUpdateBrandMutation}
+        toast={toast}
       />
+      {/* Toast */}
+      <Toaster />
     </div>
   )
 }

@@ -5,6 +5,17 @@ import Forgot from "./Forgot"
 import Login from "./Login"
 import Measures from "./Measures"
 import Places from "./Places"
+import Profile from "./Profile"
 import Users from "./Users"
 
-export { Areas, Brands, Dashboard, Forgot, Login, Measures, Places, Users }
+export {
+  Areas,
+  Brands,
+  Dashboard,
+  Forgot,
+  Login,
+  Measures,
+  Places,
+  Profile,
+  Users
+}

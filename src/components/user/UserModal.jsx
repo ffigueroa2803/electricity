@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useState } from "react"
 import { BsEye, BsEyeSlash } from "react-icons/bs"
 import { useDispatch, useSelector } from "react-redux"
 
-import { Error, Toggle } from "../../components"
+import { Toggle } from "../../components"
 import { useRegisterUpdateUserMutation } from "../../features/user/userApi"
 import { userClearInit, userToggleChecked } from "../../features/user/userSlice"
 
-const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput }) => {
+const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput, toast }) => {
 
   const id = user?.id || null
 
@@ -17,7 +17,6 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput })
   const dispatch = useDispatch()
 
   const [show, setShow] = useState(true)
-  const [error, setError] = useState("")
 
   // data to save
   const [email, setEmail] = useState("")
@@ -27,7 +26,6 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setError("")
     let state = toggle?.state
     let isAdmin = toggle?.isAdmin
     let password = pass === "" ? user?.password : pass
@@ -62,7 +60,6 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput })
   }
 
   const changeTypeAction = useCallback(() => {
-    setError("")
     if (typeAction === "edit") {
       setEmail(user?.email)
       dispatch(userToggleChecked({ type: "state", value: user?.state }))
@@ -80,9 +77,17 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput })
   }, [changeTypeAction])
 
   useEffect(() => {
-    if (responseError?.data) {
-      setError(JSON.stringify(responseError?.data))
-    } else if (data) { }
+    if (responseError) {
+      if (responseError?.data?.errors)
+        toast.error(JSON.stringify(responseError?.data?.errors))
+      else
+        toast.error(JSON.stringify(responseError?.data?.message))
+    } else if (data) {
+      if (typeAction === "edit")
+        toast.success("Usuario editado correctamente!")
+      else
+        toast.success("Usuario creado correctamente!")
+    }
   }, [data, responseError])
 
   return (
@@ -92,14 +97,13 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput })
           onClick={control}
           className="fixed w-full h-full inset-0 z-10 bg-black/50 cursor-pointer"
         />
-        <div className="rounded w-[400px] lg:w-[600px] space-y-8 bg-white p-10 absolute top-1/3 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
+        <div className="rounded w-[400px] lg:w-[600px] space-y-8 bg-white p-10 absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
           <h1 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
             {typeAction === "edit" ? "Editar Usuario" : "Nuevo Usuario"}
           </h1>
-
+          {/* Form */}
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <div>
-
               {/* Email */}
               <div>
                 <label className="font-medium text-lg">Email</label>
@@ -115,7 +119,6 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput })
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-
               {/* Password */}
               <div className="mt-4">
                 <label className="font-medium text-lg">Password</label>
@@ -145,7 +148,6 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput })
                   )}
                 </div>
               </div>
-
               {/* Toggle status */}
               <div className="mt-4">
                 <Toggle
@@ -155,7 +157,6 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput })
                   currentColor={currentColor}
                 />
               </div>
-
               {/* Toggle isAdmin */}
               <div className="mt-4">
                 <Toggle
@@ -165,7 +166,6 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput })
                   currentColor={currentColor}
                 />
               </div>
-
               {/* Button */}
               <div className="mt-8 flex flex-col gap-y-4">
                 <button
@@ -178,7 +178,6 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput })
                 </button>
               </div>
             </div>
-            {error !== "" && <Error message={error} />}
           </form>
         </div>
       </>

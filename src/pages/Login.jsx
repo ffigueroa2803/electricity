@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { NavLink, useNavigate } from "react-router-dom"
 import { BsEyeSlash, BsEye } from "react-icons/bs"
+import toast, { Toaster } from "react-hot-toast"
 
 import { useLoginMutation } from "../features/auth/authApi"
-import { Error } from "../components"
 import { themeSetIsClicked } from "../features/theme/themeSlice"
 
 const Login = () => {
@@ -44,8 +44,11 @@ const Login = () => {
   }
 
   useEffect(() => {
-    if (responseError?.data) {
-      setError(responseError?.data?.message)
+    if (responseError) {
+      if (responseError?.data?.errors)
+        toast.error(JSON.stringify(responseError?.data?.errors))
+      else
+        toast.error(JSON.stringify(responseError?.data?.message))
     }
 
     if (data?.accessToken) {
@@ -60,9 +63,9 @@ const Login = () => {
       <p className="font-medium text-base text-gray-500 mt-4">
         ¡Bienvenido de nuevo! Por favor, ingrese la dirección de correo electrónico asociada con su cuenta.
       </p>
+      {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="mt-8">
-
           {/* Email */}
           <div>
             <label className="font-medium text-base">Dirección de correo electrónico</label>
@@ -78,7 +81,6 @@ const Login = () => {
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
-
           {/* Password */}
           <div className="mt-4">
             <label className="font-medium text-base">Contraseña</label>
@@ -108,7 +110,6 @@ const Login = () => {
               )}
             </div>
           </div>
-
           {/* Remenber && Forgot Password */}
           <div className="mt-8 flex justify-between items-center">
             <div></div>
@@ -120,7 +121,6 @@ const Login = () => {
               Has olvidado tu contraseña?
             </NavLink>
           </div>
-
           {/* Button */}
           <div className="mt-8 flex flex-col gap-y-4">
             <button
@@ -160,9 +160,9 @@ const Login = () => {
               Sign in with google
             </button>
           </div>
-
         </div>
-        {error !== "" && <Error message={error} />}
+        {/* Toast */}
+        <Toaster />
       </form>
     </div>
   )
