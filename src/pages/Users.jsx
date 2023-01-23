@@ -19,7 +19,7 @@ const Users = () => {
   const [user, setUser] = useState({})
   const [typeAction, setTypeAction] = useState("")
 
-  const { data, isLoading, error, isError } = useGetUsersQuery({ page, limit, search })
+  const { data, isLoading, error } = useGetUsersQuery({ page, limit, search })
 
   const getUserSearch = () => {
     dispatch(userChangeCurrentPage(1))
@@ -34,7 +34,7 @@ const Users = () => {
 
   useEffect(() => {
     if (error)
-      console.log(error)
+      toast.error(error)
   }, [data, error])
 
   useEffect(() => {

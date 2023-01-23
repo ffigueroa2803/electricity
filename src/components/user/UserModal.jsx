@@ -33,7 +33,7 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput, t
       await registerUpdateUser({ id, email, password, state, isAdmin, page, limit, typeAction })
       setDataInput("")
     } catch (error) {
-      console.log(error)
+      toast.error(error)
     }
   }
 
