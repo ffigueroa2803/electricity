@@ -32,8 +32,7 @@ const App = () => {
     <div>Checking Authentication.........</div>
   ) : (
     <div className={currentMode === "Dark" ? "dark" : ""}>
-      {isLoggedIn ? <Private><RouterProvider router={RootRouter} /></Private> :
-        <Public><RouterProvider router={PublicRouter} /></Public>}
+      {isLoggedIn ? <RouterProvider router={RootRouter} /> : <RouterProvider router={PublicRouter} />}
     </div>
   )
 }

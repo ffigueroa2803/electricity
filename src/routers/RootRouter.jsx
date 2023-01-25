@@ -1,10 +1,11 @@
 import { Navigate, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
 import { Areas, Brands, Dashboard, Measures, Places, Profile, Users } from "../pages"
 import { RootLayout } from "../layouts"
+import { Private } from "../components"
 
 export const RootRouter = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<RootLayout />}>
+    <Route path="/" element={<Private><RootLayout /></Private>}>
       <Route index element={<Profile />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/dashboard" element={<Dashboard />} />

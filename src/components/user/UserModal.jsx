@@ -97,9 +97,9 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput, t
           onClick={control}
           className="fixed w-full h-full inset-0 z-10 bg-black/50 cursor-pointer"
         />
-        <div className="rounded w-[400px] lg:w-[600px] space-y-8 bg-white p-10 absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
+        <div className="rounded w-[400px] lg:w-[600px] space-y-8 bg-white p-10 absolute top-1/3 left-1/2 z-20 -translate-x-1/2 -translate-y-1/3">
           <h1 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
-            {typeAction === "edit" ? "Editar Usuario" : "Nuevo Usuario"}
+            {typeAction === "edit" ? "Editar" : "Nuevo"}
           </h1>
           {/* Form */}
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
