@@ -1,66 +1,80 @@
-import React, { useCallback, useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Error } from "../components"
-import { placeClearInit } from "../features/place/placeSlice"
+import { placeClearInit } from "../features/place/placeSlice";
 
-const Modal = ({ open, setOpened, control, items, typeAction, setDataInput, title, Mutation, toast }) => {
+const Modal = ({
+  open,
+  setOpened,
+  control,
+  items,
+  typeAction,
+  setDataInput,
+  title,
+  Mutation,
+  toast,
+}) => {
+  const id = items?.id || null;
 
-  const id = items?.id || null
+  const { currentColor } = useSelector((state) => state?.theme);
 
-  const { currentColor } = useSelector((state) => state?.theme)
+  const { page, limit } = useSelector((state) => state?.place);
 
-  const { page, limit } = useSelector((state) => state?.place)
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
 
-  const [error, setError] = useState("")
-  const [name, setName] = useState("")
-  const [description, setDescription] = useState("")
-
-  const [registerUpdatePlace, { data, isLoading, error: responseError }] = Mutation()
+  const [registerUpdatePlace, { data, isLoading, error: responseError }] =
+    Mutation();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError("")
+    e.preventDefault();
     try {
-      await registerUpdatePlace({ id, name, description, page, limit, typeAction })
-      setDataInput("")
+      await registerUpdatePlace({
+        id,
+        name,
+        description,
+        page,
+        limit,
+        typeAction,
+      });
+      setDataInput("");
     } catch (error) {
-      toast.error(error)
+      toast.error(error);
     }
-  }
+  };
 
   const changeTypeAction = useCallback(() => {
-    setError("")
     if (typeAction === "edit") {
-      setName(items?.name)
-      setDescription(items?.description)
+      setName(items?.name);
+      setDescription(items?.description);
     } else {
-      setName("")
-      setDescription("")
+      setName("");
+      setDescription("");
     }
-  }, [typeAction, data, items, dispatch])
+  }, [typeAction, items, dispatch]);
 
   useEffect(() => {
-    changeTypeAction()
-  }, [changeTypeAction])
+    changeTypeAction();
+  }, [changeTypeAction]);
 
   useEffect(() => {
     if (responseError) {
       if (responseError?.data?.errors)
-        toast.error(JSON.stringify(responseError?.data?.errors))
-      else
-        toast.error(JSON.stringify(responseError?.data?.message))
+        toast.error(JSON.stringify(responseError?.data?.errors));
+      else toast.error(JSON.stringify(responseError?.data?.message));
     } else if (data) {
-      if (typeAction === "edit")
-        toast.success("Editado correctamente!")
-      else {
-        toast.success("Creado correctamente!")
-        dispatch(placeClearInit())
+      if (typeAction === "edit") {
+        setName(data?.name);
+        setDescription(data?.description);
+        toast.success("Editado correctamente!");
+      } else {
+        toast.success("Creado correctamente!");
+        dispatch(placeClearInit());
       }
     }
-  }, [data, responseError])
+  }, [data, responseError]);
 
   return (
     open && (
@@ -89,7 +103,6 @@ const Modal = ({ open, setOpened, control, items, typeAction, setDataInput, titl
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
-
               {/* Description */}
               <div className="mt-4">
                 <label className="font-medium text-lg">Nombre</label>
@@ -104,7 +117,6 @@ const Modal = ({ open, setOpened, control, items, typeAction, setDataInput, titl
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
-
               {/* Button */}
               <div className="mt-8 flex flex-col gap-y-4">
                 <button
@@ -117,12 +129,11 @@ const Modal = ({ open, setOpened, control, items, typeAction, setDataInput, titl
                 </button>
               </div>
             </div>
-            {error !== "" && <Error message={error} />}
           </form>
         </div>
       </>
     )
-  )
-}
+  );
+};
 
-export default Modal
+export default Modal;

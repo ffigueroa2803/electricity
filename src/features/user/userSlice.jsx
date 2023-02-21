@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   page: 1,
@@ -7,22 +7,25 @@ const initialState = {
   modal: false,
   toggle: {
     state: false,
-    isAdmin: false
-  }
-}
+    isAdmin: false,
+  },
+};
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
     userChangeCurrentPage: (state, action) => {
-      state.page = action.payload
+      state.page = action.payload;
     },
     userSearch: (state, action) => {
-      state.search = action.payload
+      state.search = action.payload;
     },
     userToggleChecked: (state, action) => {
-      state.toggle = { ...state.toggle, [action.payload.type]: action.payload.value }
+      state.toggle = {
+        ...state.toggle,
+        [action.payload.type]: action.payload.value,
+      };
     },
     userClearInit: (state) => {
       state.page = 1;
@@ -30,11 +33,17 @@ const userSlice = createSlice({
       state.search = "";
       state.toggle = {
         state: false,
-        isAdmin: false
-      }
+        isAdmin: false,
+      };
     },
   },
-})
+});
 
-export const { userChangeCurrentPage, userSearch, userClearSearch, userToggleChecked, userClearInit } = userSlice.actions
-export default userSlice.reducer
+export const {
+  userChangeCurrentPage,
+  userSearch,
+  userClearSearch,
+  userToggleChecked,
+  userClearInit,
+} = userSlice.actions;
+export default userSlice.reducer;

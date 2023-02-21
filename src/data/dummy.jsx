@@ -1,13 +1,14 @@
-import React from "react"
-import { AiOutlineDashboard } from "react-icons/ai"
-import { BsBoxSeam, BsFilePerson } from "react-icons/bs"
-import { TfiRuler } from "react-icons/tfi"
-import { HiOutlineRefresh, HiOutlineUsers } from "react-icons/hi"
-import { BiWorld, BiSpreadsheet, BiBadgeCheck } from "react-icons/bi"
+import React from "react";
+import { AiOutlineDashboard } from "react-icons/ai";
+import { BsBoxSeam, BsFilePerson } from "react-icons/bs";
+import { TfiRuler } from "react-icons/tfi";
+import { HiOutlineRefresh, HiOutlineUsers } from "react-icons/hi";
+import { BiWorld, BiSpreadsheet, BiBadgeCheck } from "react-icons/bi";
+import { RiProductHuntLine } from "react-icons/ri";
 
-import avatar5 from "../assets/avatar5.png"
-import { MdOutlineSupervisorAccount } from "react-icons/md"
-import { FiBarChart } from "react-icons/fi"
+import avatar5 from "../assets/avatar5.png";
+import { MdOutlineSupervisorAccount } from "react-icons/md";
+import { FiBarChart } from "react-icons/fi";
 
 export const links = [
   {
@@ -48,9 +49,14 @@ export const links = [
         name: "lugares",
         icon: <BiWorld />,
       },
+      {
+        route: "products",
+        name: "productos",
+        icon: <RiProductHuntLine />,
+      },
     ],
   },
-]
+];
 
 export const chatData = [
   {
@@ -59,7 +65,7 @@ export const chatData = [
     desc: "Felicitarlo",
     time: "9:08 AM",
   },
-]
+];
 
 export const userProfileData = [
   {
@@ -68,9 +74,9 @@ export const userProfileData = [
     desc: "Configuraciones de la cuenta",
     iconColor: "#03C9D7",
     iconBg: "#E5FAFB",
-    route: "profile"
+    route: "profile",
   },
-]
+];
 
 export const themeColors = [
   {
@@ -97,7 +103,7 @@ export const themeColors = [
     color: "#FB9678",
     name: "orange-theme",
   },
-]
+];
 
 export const earningData = [
   {
@@ -137,7 +143,7 @@ export const earningData = [
     iconBg: "rgb(235, 250, 242)",
     pcColor: "red-600",
   },
-]
+];
 
 export const LoadingCircle = () => {
   return (
@@ -166,8 +172,8 @@ export const LoadingCircle = () => {
         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
       ></path>
     </svg>
-  )
-}
+  );
+};
 
 export const LoadingCard = () => {
   return (
@@ -185,7 +191,7 @@ export const LoadingCard = () => {
             {["", ""]
               .map((shoeF, index) => {
                 const IndexStyle =
-                  index === 0 ? "bg-yellow-100" : "bg-rose-100"
+                  index === 0 ? "bg-yellow-100" : "bg-rose-100";
                 return (
                   <span
                     className={`capitalize ${IndexStyle} rounded-lg text-white px-0 py-[0.7rem] tracking-[.04em] w-[95px] h-[20px]`}
@@ -193,7 +199,7 @@ export const LoadingCard = () => {
                   >
                     {shoeF}
                   </span>
-                )
+                );
               })
               .splice(0, 2)}
           </div>
@@ -201,8 +207,8 @@ export const LoadingCard = () => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
 export const LoadingSinglePage = () => {
   return (
@@ -211,5 +217,5 @@ export const LoadingSinglePage = () => {
         <div className="m-auto rounded-lg w-full min-h-[90vh] object-cover bg-white"></div>
       </div>
     </div>
-  )
-}
+  );
+};

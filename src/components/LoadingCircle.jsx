@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 const LoadingCircle = ({ color, width, colSpan }) => {
   return (
@@ -28,8 +28,7 @@ const LoadingCircle = ({ color, width, colSpan }) => {
         </td>
       </tr>
     </>
+  );
+};
 
-  )
-}
-
-export default LoadingCircle
+export default LoadingCircle;

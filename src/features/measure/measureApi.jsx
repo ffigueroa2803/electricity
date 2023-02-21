@@ -1,8 +1,7 @@
-import { apiSlice } from "../api/apiSlice"
+import { apiSlice } from "../api/apiSlice";
 
 export const measureApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-
     getMeasures: builder.query({
       query: ({ page, limit, search }) =>
         `/api/medidas?page=${page}&limit=${limit}&querySearch=${search}`,
@@ -11,7 +10,11 @@ export const measureApi = apiSlice.injectEndpoints({
 
     registerUpdateMeasure: builder.mutation({
       query: (data) => ({
-        url: `${data?.typeAction === "new" ? "/api/medidas" : `/api/medidas/${data?.id}`}`,
+        url: `${
+          data?.typeAction === "new"
+            ? "/api/medidas"
+            : `/api/medidas/${data?.id}`
+        }`,
         method: `${data?.typeAction === "new" ? "POST" : "PUT"}`,
         body: data,
       }),
@@ -20,6 +23,7 @@ export const measureApi = apiSlice.injectEndpoints({
       ],
     }),
   }),
-})
+});
 
-export const { useGetMeasuresQuery, useRegisterUpdateMeasureMutation } = measureApi
+export const { useGetMeasuresQuery, useRegisterUpdateMeasureMutation } =
+  measureApi;

@@ -1,94 +1,115 @@
-import React, { useCallback, useEffect, useState } from "react"
-import { BsEye, BsEyeSlash } from "react-icons/bs"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useCallback, useEffect, useState } from "react";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Toggle } from "../../components"
-import { useRegisterUpdateUserMutation } from "../../features/user/userApi"
-import { userClearInit, userToggleChecked } from "../../features/user/userSlice"
+import { Toggle } from "../../components";
+import { useRegisterUpdateUserMutation } from "../../features/user/userApi";
+import {
+  userClearInit,
+  userToggleChecked,
+} from "../../features/user/userSlice";
 
-const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput, toast }) => {
+const UserModal = ({
+  open,
+  setOpened,
+  control,
+  user,
+  typeAction,
+  setDataInput,
+  toast,
+}) => {
+  const id = user?.id || null;
 
-  const id = user?.id || null
+  const { currentColor } = useSelector((state) => state?.theme);
+  const { page, limit, toggle } = useSelector((state) => state?.user);
 
-  const { currentColor } = useSelector((state) => state?.theme)
+  const dispatch = useDispatch();
 
-  const { page, limit, toggle } = useSelector((state) => state?.user)
-
-  const dispatch = useDispatch()
-
-  const [show, setShow] = useState(true)
+  const [show, setShow] = useState(true);
 
   // data to save
-  const [email, setEmail] = useState("")
-  const [pass, setPass] = useState("")
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
 
-  const [registerUpdateUser, { data, isLoading, error: responseError }] = useRegisterUpdateUserMutation()
+  const [registerUpdateUser, { data, isLoading, error: responseError }] =
+    useRegisterUpdateUserMutation();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    let state = toggle?.state
-    let isAdmin = toggle?.isAdmin
-    let password = pass === "" ? user?.password : pass
+    e.preventDefault();
+    let state = toggle?.state;
+    let isAdmin = toggle?.isAdmin;
+    let password = pass === "" ? user?.password : pass;
     try {
-      await registerUpdateUser({ id, email, password, state, isAdmin, page, limit, typeAction })
-      setDataInput("")
+      await registerUpdateUser({
+        id,
+        email,
+        password,
+        state,
+        isAdmin,
+        page,
+        limit,
+        typeAction,
+      });
+      setDataInput("");
     } catch (error) {
-      toast.error(error)
+      toast.error(error);
     }
-  }
+  };
 
   const changeIconPassword = () => {
-    let x = document.getElementById("password")
+    let x = document.getElementById("password");
 
     if (x.type === "password") {
-      x.type = "text"
-      setShow(false)
+      x.type = "text";
+      setShow(false);
     } else {
-      x.type = "password"
-      setShow(true)
+      x.type = "password";
+      setShow(true);
     }
-  }
+  };
 
   const getValueToggle = (type, value) => {
     if (type === "state") {
-      dispatch(userToggleChecked({ type: "state", value: !value }))
+      dispatch(userToggleChecked({ type: "state", value: !value }));
     } else {
-      dispatch(userToggleChecked({ type: "isAdmin", value: !value }))
+      dispatch(userToggleChecked({ type: "isAdmin", value: !value }));
     }
-  }
+  };
 
   const changeTypeAction = useCallback(() => {
     if (typeAction === "edit") {
-      setEmail(user?.email)
-      dispatch(userToggleChecked({ type: "state", value: user?.state }))
-      dispatch(userToggleChecked({ type: "isAdmin", value: user?.isAdmin }))
+      setEmail(user?.email);
+      dispatch(userToggleChecked({ type: "state", value: user?.state }));
+      dispatch(userToggleChecked({ type: "isAdmin", value: user?.isAdmin }));
     } else {
-      setEmail("")
-      setPass("")
-      dispatch(userToggleChecked({ type: "state", value: false }))
-      dispatch(userToggleChecked({ type: "isAdmin", value: false }))
+      setEmail("");
+      setPass("");
+      dispatch(userToggleChecked({ type: "state", value: false }));
+      dispatch(userToggleChecked({ type: "isAdmin", value: false }));
     }
-  }, [typeAction, data, user, dispatch])
+  }, [typeAction, user, dispatch]);
 
   useEffect(() => {
-    changeTypeAction()
-  }, [changeTypeAction])
+    changeTypeAction();
+  }, [changeTypeAction]);
 
   useEffect(() => {
     if (responseError) {
       if (responseError?.data?.errors)
-        toast.error(JSON.stringify(responseError?.data?.errors))
-      else
-        toast.error(JSON.stringify(responseError?.data?.message))
+        toast.error(JSON.stringify(responseError?.data?.errors));
+      else toast.error(JSON.stringify(responseError?.data?.message));
     } else if (data) {
-      if (typeAction === "edit")
-        toast.success("Usuario editado correctamente!")
-      else {
-        toast.success("Usuario creado correctamente!")
-        dispatch(userClearInit())
+      if (typeAction === "edit") {
+        setEmail(data?.email);
+        dispatch(userToggleChecked({ type: "state", value: data?.state }));
+        dispatch(userToggleChecked({ type: "isAdmin", value: data?.isAdmin }));
+        toast.success("Usuario editado correctamente!");
+      } else {
+        toast.success("Usuario creado correctamente!");
+        dispatch(userClearInit());
       }
     }
-  }, [data, responseError])
+  }, [data, responseError]);
 
   return (
     open && (
@@ -114,7 +135,6 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput, t
                   name="email"
                   autoComplete="email"
                   required
-                  placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -129,7 +149,6 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput, t
                   name="password"
                   autoComplete="current-password"
                   required={typeAction === "edit" ? false : true}
-                  placeholder="Enter your password"
                   value={pass}
                   onChange={(e) => setPass(e.target.value)}
                 />
@@ -182,7 +201,7 @@ const UserModal = ({ open, setOpened, control, user, typeAction, setDataInput, t
         </div>
       </>
     )
-  )
-}
+  );
+};
 
-export default UserModal
+export default UserModal;

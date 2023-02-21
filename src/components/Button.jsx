@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 const Button = ({
   icon,
@@ -20,7 +20,7 @@ const Button = ({
     >
       {icon} {text}
     </button>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;

@@ -1,44 +1,49 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import toast, { Toaster } from "react-hot-toast"
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 
-import { Header, Modal, Table } from "../components"
-import { useGetBrandsQuery, useRegisterUpdateBrandMutation } from "../features/brand/brandApi"
-import { brandChangeCurrentPage, brandClearInit, brandSearch } from "../features/brand/brandSlice"
+import { Header, Modal, Table } from "../components";
+import {
+  useGetBrandsQuery,
+  useRegisterUpdateBrandMutation,
+} from "../features/brand/brandApi";
+import {
+  brandChangeCurrentPage,
+  brandClearInit,
+  brandSearch,
+} from "../features/brand/brandSlice";
 
 const Brands = () => {
+  const { currentColor } = useSelector((state) => state?.theme);
+  const { page, limit, search } = useSelector((state) => state?.area);
 
-  const { currentColor } = useSelector((state) => state?.theme)
-  const { page, limit, search } = useSelector((state) => state?.area)
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+  const [dataInput, setDataInput] = useState("");
+  const [opened, setOpened] = useState(false);
+  const [brand, setBrand] = useState({});
+  const [typeAction, setTypeAction] = useState("");
 
-  const [dataInput, setDataInput] = useState("")
-  const [opened, setOpened] = useState(false)
-  const [brand, setBrand] = useState({})
-  const [typeAction, setTypeAction] = useState("")
-
-  const { data, isLoading, error } = useGetBrandsQuery({ page, limit, search })
+  const { data, isLoading, error } = useGetBrandsQuery({ page, limit, search });
 
   const getBrandSearch = () => {
-    dispatch(brandChangeCurrentPage(1))
-    dispatch(brandSearch(dataInput))
-  }
+    dispatch(brandChangeCurrentPage(1));
+    dispatch(brandSearch(dataInput));
+  };
 
   const controlModal = (dataBrand, acction) => {
-    setBrand(dataBrand)
-    setTypeAction(acction)
-    setOpened((prevState) => !prevState)
-  }
+    setBrand(dataBrand);
+    setTypeAction(acction);
+    setOpened((prevState) => !prevState);
+  };
 
   useEffect(() => {
-    if (error)
-      toast.error(error)
-  }, [data, error])
+    if (error) toast.error(error);
+  }, [data, error]);
 
   useEffect(() => {
-    dispatch(brandClearInit())
-  }, [])
+    dispatch(brandClearInit());
+  }, []);
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -78,7 +83,12 @@ const Brands = () => {
         </div>
       </div>
       {/* Table */}
-      <Table data={data} isLoading={isLoading} controlModal={controlModal} changeCurrentPage={brandChangeCurrentPage} />
+      <Table
+        data={data}
+        isLoading={isLoading}
+        controlModal={controlModal}
+        changeCurrentPage={brandChangeCurrentPage}
+      />
       {/* Modal */}
       <Modal
         open={opened}
@@ -92,9 +102,9 @@ const Brands = () => {
         toast={toast}
       />
       {/* Toast */}
-      <Toaster />
+      <Toaster position="top-right" />
     </div>
-  )
-}
+  );
+};
 
-export default Brands
+export default Brands;

@@ -1,8 +1,7 @@
-import { apiSlice } from "../api/apiSlice"
+import { apiSlice } from "../api/apiSlice";
 
 export const areaApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-
     getAreas: builder.query({
       query: ({ page, limit, search }) =>
         `/api/areas?page=${page}&limit=${limit}&querySearch=${search}`,
@@ -11,7 +10,9 @@ export const areaApi = apiSlice.injectEndpoints({
 
     registerUpdateArea: builder.mutation({
       query: (data) => ({
-        url: `${data?.typeAction === "new" ? "/api/areas" : `/api/areas/${data?.id}`}`,
+        url: `${
+          data?.typeAction === "new" ? "/api/areas" : `/api/areas/${data?.id}`
+        }`,
         method: `${data?.typeAction === "new" ? "POST" : "PUT"}`,
         body: data,
       }),
@@ -20,6 +21,6 @@ export const areaApi = apiSlice.injectEndpoints({
       ],
     }),
   }),
-})
+});
 
-export const { useGetAreasQuery, useRegisterUpdateAreaMutation } = areaApi
+export const { useGetAreasQuery, useRegisterUpdateAreaMutation } = areaApi;

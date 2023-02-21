@@ -1,44 +1,49 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import toast, { Toaster } from "react-hot-toast"
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 
-import { Header, Modal, Table } from "../components"
-import { useGetPlacesQuery, useRegisterUpdatePlaceMutation } from "../features/place/placeApi"
-import { placeChangeCurrentPage, placeClearInit, placeSearch } from "../features/place/placeSlice"
+import { Header, Modal, Table } from "../components";
+import {
+  useGetPlacesQuery,
+  useRegisterUpdatePlaceMutation,
+} from "../features/place/placeApi";
+import {
+  placeChangeCurrentPage,
+  placeClearInit,
+  placeSearch,
+} from "../features/place/placeSlice";
 
 const Places = () => {
+  const { currentColor } = useSelector((state) => state?.theme);
+  const { page, limit, search } = useSelector((state) => state?.area);
 
-  const { currentColor } = useSelector((state) => state?.theme)
-  const { page, limit, search } = useSelector((state) => state?.area)
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+  const [dataInput, setDataInput] = useState("");
+  const [opened, setOpened] = useState(false);
+  const [place, setPlace] = useState({});
+  const [typeAction, setTypeAction] = useState("");
 
-  const [dataInput, setDataInput] = useState("")
-  const [opened, setOpened] = useState(false)
-  const [place, setPlace] = useState({})
-  const [typeAction, setTypeAction] = useState("")
-
-  const { data, isLoading, error } = useGetPlacesQuery({ page, limit, search })
+  const { data, isLoading, error } = useGetPlacesQuery({ page, limit, search });
 
   const getPlaceSearch = () => {
-    dispatch(placeChangeCurrentPage(1))
-    dispatch(placeSearch(dataInput))
-  }
+    dispatch(placeChangeCurrentPage(1));
+    dispatch(placeSearch(dataInput));
+  };
 
   const controlModal = (dataPlace, acction) => {
-    setPlace(dataPlace)
-    setTypeAction(acction)
-    setOpened((prevState) => !prevState)
-  }
+    setPlace(dataPlace);
+    setTypeAction(acction);
+    setOpened((prevState) => !prevState);
+  };
 
   useEffect(() => {
-    if (error)
-      toast.error(error)
-  }, [data, error])
+    if (error) toast.error(error);
+  }, [data, error]);
 
   useEffect(() => {
-    dispatch(placeClearInit())
-  }, [])
+    dispatch(placeClearInit());
+  }, []);
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -78,7 +83,12 @@ const Places = () => {
         </div>
       </div>
       {/* Table */}
-      <Table data={data} isLoading={isLoading} controlModal={controlModal} changeCurrentPage={placeChangeCurrentPage} />
+      <Table
+        data={data}
+        isLoading={isLoading}
+        controlModal={controlModal}
+        changeCurrentPage={placeChangeCurrentPage}
+      />
       {/* Modal */}
       <Modal
         open={opened}
@@ -92,9 +102,9 @@ const Places = () => {
         toast={toast}
       />
       {/* Toast */}
-      <Toaster />
+      <Toaster position="top-right" />
     </div>
-  )
-}
+  );
+};
 
-export default Places
+export default Places;

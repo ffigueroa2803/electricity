@@ -1,29 +1,30 @@
-import React from "react"
-import { Link, NavLink } from "react-router-dom"
-import { SiSupabase } from "react-icons/si"
-import { MdOutlineCancel } from "react-icons/md"
-import { TooltipComponent } from "@syncfusion/ej2-react-popups"
-import { useDispatch, useSelector } from "react-redux"
+import React from "react";
+import { Link, NavLink } from "react-router-dom";
+import { MdOutlineCancel } from "react-icons/md";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import { useDispatch, useSelector } from "react-redux";
 
-import foco from "../assets/foco.png"
-import logo from "../assets/logo.png"
-import { links } from "../data/dummy"
-import { themeSetActiveMenu } from "../features/theme/themeSlice"
+import logo from "../assets/logo.png";
+import { links } from "../data/dummy";
+import { themeSetActiveMenu } from "../features/theme/themeSlice";
 
 const Sidebar = () => {
+  const { screenSize, currentColor, activeMenu } = useSelector(
+    (state) => state?.theme
+  );
 
-  const { screenSize, currentColor, activeMenu } = useSelector((state) => state?.theme)
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleCloseSideBar = (e) => {
     if (activeMenu !== undefined && screenSize <= 900) {
-      dispatch(themeSetActiveMenu(false))
+      dispatch(themeSetActiveMenu(false));
     }
-  }
+  };
 
-  const activeLink = "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-white text-md m-2"
-  const normalLink = "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2"
+  const activeLink =
+    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-white text-md m-2";
+  const normalLink =
+    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2";
 
   return (
     <div className="ml-3 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10">
@@ -36,13 +37,10 @@ const Sidebar = () => {
               className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
             >
               <img
-                className="w-[90] h-[90px] object-cover items-center"
-                src={foco}
+                className="w-[351px] h-[121px] object-cover items-center"
+                src={logo}
                 alt="electro"
               />
-              {/* w-[351px] h-[121px] */}
-              {/* w-16 h-16 foco */}
-              {/* <span>Electro</span> */}
             </Link>
             <TooltipComponent content="Menu" position="BottomCenter">
               <button
@@ -66,8 +64,12 @@ const Sidebar = () => {
                     to={`/${link.route}`}
                     key={link.route}
                     onClick={(e) => handleCloseSideBar(e)}
-                    style={({ isActive }) => ({ backgroundColor: isActive ? currentColor : "" })}
-                    className={({ isActive }) => isActive ? activeLink : normalLink}
+                    style={({ isActive }) => ({
+                      backgroundColor: isActive ? currentColor : "",
+                    })}
+                    className={({ isActive }) =>
+                      isActive ? activeLink : normalLink
+                    }
                   >
                     {link.icon}
                     <span className="capitalize">{link.name}</span>
@@ -79,7 +81,7 @@ const Sidebar = () => {
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

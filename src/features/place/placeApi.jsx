@@ -1,8 +1,7 @@
-import { apiSlice } from "../api/apiSlice"
+import { apiSlice } from "../api/apiSlice";
 
 export const placeApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-
     getPlaces: builder.query({
       query: ({ page, limit, search }) =>
         `/api/lugares?page=${page}&limit=${limit}&querySearch=${search}`,
@@ -11,7 +10,11 @@ export const placeApi = apiSlice.injectEndpoints({
 
     registerUpdatePlace: builder.mutation({
       query: (data) => ({
-        url: `${data?.typeAction === "new" ? "/api/lugares" : `/api/lugares/${data?.id}`}`,
+        url: `${
+          data?.typeAction === "new"
+            ? "/api/lugares"
+            : `/api/lugares/${data?.id}`
+        }`,
         method: `${data?.typeAction === "new" ? "POST" : "PUT"}`,
         body: data,
       }),
@@ -20,6 +23,6 @@ export const placeApi = apiSlice.injectEndpoints({
       ],
     }),
   }),
-})
+});
 
-export const { useGetPlacesQuery, useRegisterUpdatePlaceMutation } = placeApi
+export const { useGetPlacesQuery, useRegisterUpdatePlaceMutation } = placeApi;

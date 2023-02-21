@@ -1,44 +1,49 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import toast, { Toaster } from "react-hot-toast"
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 
-import { Header, Modal, Table } from "../components"
-import { useGetAreasQuery, useRegisterUpdateAreaMutation } from "../features/area/areaApi"
-import { areaChangeCurrentPage, areaClearInit, areaSearch } from "../features/area/areaSlice"
+import { Header, Modal, Table } from "../components";
+import {
+  useGetAreasQuery,
+  useRegisterUpdateAreaMutation,
+} from "../features/area/areaApi";
+import {
+  areaChangeCurrentPage,
+  areaClearInit,
+  areaSearch,
+} from "../features/area/areaSlice";
 
 const Areas = () => {
+  const { currentColor } = useSelector((state) => state?.theme);
+  const { page, limit, search } = useSelector((state) => state?.area);
 
-  const { currentColor } = useSelector((state) => state?.theme)
-  const { page, limit, search } = useSelector((state) => state?.area)
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+  const [dataInput, setDataInput] = useState("");
+  const [opened, setOpened] = useState(false);
+  const [area, setArea] = useState({});
+  const [typeAction, setTypeAction] = useState("");
 
-  const [dataInput, setDataInput] = useState("")
-  const [opened, setOpened] = useState(false)
-  const [area, setArea] = useState({})
-  const [typeAction, setTypeAction] = useState("")
-
-  const { data, isLoading, error } = useGetAreasQuery({ page, limit, search })
+  const { data, isLoading, error } = useGetAreasQuery({ page, limit, search });
 
   const getAreaSearch = () => {
-    dispatch(areaChangeCurrentPage(1))
-    dispatch(areaSearch(dataInput))
-  }
+    dispatch(areaChangeCurrentPage(1));
+    dispatch(areaSearch(dataInput));
+  };
 
   const controlModal = (dataArea, acction) => {
-    setArea(dataArea)
-    setTypeAction(acction)
-    setOpened((prevState) => !prevState)
-  }
+    setArea(dataArea);
+    setTypeAction(acction);
+    setOpened((prevState) => !prevState);
+  };
 
   useEffect(() => {
-    if (error)
-      toast.error(error)
-  }, [data, error])
+    if (error) toast.error(error);
+  }, [data, error]);
 
   useEffect(() => {
-    dispatch(areaClearInit())
-  }, [])
+    dispatch(areaClearInit());
+  }, []);
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -78,7 +83,12 @@ const Areas = () => {
         </div>
       </div>
       {/* Table */}
-      <Table data={data} isLoading={isLoading} controlModal={controlModal} changeCurrentPage={areaChangeCurrentPage} />
+      <Table
+        data={data}
+        isLoading={isLoading}
+        controlModal={controlModal}
+        changeCurrentPage={areaChangeCurrentPage}
+      />
       {/* Modal */}
       <Modal
         open={opened}
@@ -92,9 +102,9 @@ const Areas = () => {
         toast={toast}
       />
       {/* Toast */}
-      <Toaster />
+      <Toaster position="top-right" />
     </div>
-  )
-}
+  );
+};
 
-export default Areas
+export default Areas;

@@ -1,16 +1,17 @@
-import React from "react"
-import { Outlet } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
+import React from "react";
+import { Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import { FiSettings } from "react-icons/fi"
-import { themeSetThemeSettings } from "../features/theme/themeSlice"
-import { Footer, Navbar, Sidebar, ThemeSettings } from "../components"
+import { FiSettings } from "react-icons/fi";
+import { themeSetThemeSettings } from "../features/theme/themeSlice";
+import { Footer, Navbar, Sidebar, ThemeSettings } from "../components";
 
 const RootLayout = () => {
+  const { currentColor, themeSettings, activeMenu } = useSelector(
+    (state) => state?.theme
+  );
 
-  const { currentColor, themeSettings, activeMenu } = useSelector((state) => state?.theme)
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   return (
     <div className="flex relative dark:bg-main-dark-bg">
@@ -47,12 +48,11 @@ const RootLayout = () => {
           {themeSettings && <ThemeSettings />}
 
           <Outlet />
-
         </div>
         <Footer />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default RootLayout
+export default RootLayout;

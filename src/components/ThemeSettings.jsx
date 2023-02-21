@@ -1,17 +1,20 @@
-import React from "react"
-import { MdOutlineCancel } from "react-icons/md"
-import { BsCheck } from "react-icons/bs"
-import { TooltipComponent } from "@syncfusion/ej2-react-popups"
+import React from "react";
+import { MdOutlineCancel } from "react-icons/md";
+import { BsCheck } from "react-icons/bs";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
-import { themeColors } from "../data/dummy"
-import { useDispatch, useSelector } from "react-redux"
-import { themeSetColor, themeSetMode, themeSetThemeSettings } from "../features/theme/themeSlice"
+import { themeColors } from "../data/dummy";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  themeSetColor,
+  themeSetMode,
+  themeSetThemeSettings,
+} from "../features/theme/themeSlice";
 
 const ThemeSettings = () => {
+  const { currentColor, currentMode } = useSelector((state) => state?.theme);
 
-  const { currentColor, currentMode } = useSelector((state) => state?.theme)
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   return (
     <div className="bg-half-transparent w-screen fixed nav-item top-0 right-0">
@@ -80,8 +83,9 @@ const ThemeSettings = () => {
                     onClick={() => dispatch(themeSetColor(item.color))}
                   >
                     <BsCheck
-                      className={`ml-2 text-2xl text-white ${item.color === currentColor ? "block" : "hidden"
-                        }`}
+                      className={`ml-2 text-2xl text-white ${
+                        item.color === currentColor ? "block" : "hidden"
+                      }`}
                     />
                   </button>
                 </div>
@@ -91,7 +95,7 @@ const ThemeSettings = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ThemeSettings
+export default ThemeSettings;

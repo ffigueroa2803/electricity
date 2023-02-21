@@ -1,9 +1,8 @@
-import { apiSlice } from "../api/apiSlice"
-import { userLoggedIn, userProfile } from "./authSlice"
+import { apiSlice } from "../api/apiSlice";
+import { userLoggedIn, userProfile } from "./authSlice";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-
     login: builder.mutation({
       query: (data) => ({
         url: "/api/login",
@@ -13,7 +12,7 @@ export const authApi = apiSlice.injectEndpoints({
 
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
-          const result = await queryFulfilled
+          const result = await queryFulfilled;
 
           // when fulfilled set data to localstorage
           localStorage.setItem(
@@ -21,15 +20,15 @@ export const authApi = apiSlice.injectEndpoints({
             JSON.stringify({
               accessToken: result.data.accessToken,
             })
-          )
+          );
 
           // dispatch those data to redux store
           dispatch(
             userLoggedIn({
               accessToken: result.data.accessToken,
             })
-          )
-        } catch (err) { }
+          );
+        } catch (err) {}
       },
     }),
 
@@ -38,20 +37,19 @@ export const authApi = apiSlice.injectEndpoints({
 
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
-          const result = await queryFulfilled
+          const result = await queryFulfilled;
           // dispatch those data to redux store
           dispatch(
             userProfile({
               user: result.data,
             })
-          )
+          );
         } catch (err) {
-          console.log("error... ", err)
+          console.log("error... ", err);
         }
       },
     }),
-
   }),
-})
+});
 
-export const { useLoginMutation, useProfileQuery } = authApi
+export const { useLoginMutation, useProfileQuery } = authApi;

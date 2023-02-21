@@ -1,42 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RiPencilLine, RiDeleteBinLine } from "react-icons/ri";
 import toast, { Toaster } from "react-hot-toast";
+import { RiDeleteBin2Line, RiPencilLine } from "react-icons/ri";
 
 import {
   Header,
   LoadingCircle,
   NotFound,
   Pagination,
-  UserModal,
+  ProductModal,
 } from "../components";
-import { useGetUsersQuery } from "../features/user/userApi";
+import { useGetProductsQuery } from "../features/product/productApi";
 import {
-  userChangeCurrentPage,
-  userClearInit,
-  userSearch,
-} from "../features/user/userSlice";
+  productChangeCurrentPage,
+  productClearInit,
+  productSearch,
+} from "../features/product/productSlice";
 
-const Users = () => {
+const Products = () => {
   const { currentColor } = useSelector((state) => state?.theme);
-  const { page, limit, search } = useSelector((state) => state?.user);
+  const { page, limit, search } = useSelector((state) => state?.product);
 
   const dispatch = useDispatch();
 
   const [dataInput, setDataInput] = useState("");
   const [opened, setOpened] = useState(false);
-  const [user, setUser] = useState({});
+  const [product, setProduct] = useState({});
   const [typeAction, setTypeAction] = useState("");
 
-  const { data, isLoading, error } = useGetUsersQuery({ page, limit, search });
+  const { data, isLoading, error } = useGetProductsQuery({
+    page,
+    limit,
+    search,
+  });
 
-  const getUserSearch = () => {
-    dispatch(userChangeCurrentPage(1));
-    dispatch(userSearch(dataInput));
+  const getProductSearch = () => {
+    dispatch(productChangeCurrentPage(1));
+    dispatch(productSearch(dataInput));
   };
 
-  const controlModal = (dataUser, acction) => {
-    setUser(dataUser);
+  const controlModal = (dataProduct, acction) => {
+    setProduct(dataProduct);
     setTypeAction(acction);
     setOpened((prevState) => !prevState);
   };
@@ -46,13 +50,13 @@ const Users = () => {
   }, [data, error]);
 
   useEffect(() => {
-    dispatch(userClearInit());
+    dispatch(productClearInit());
   }, []);
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       {/* Header */}
-      <Header title="Usuarios" />
+      <Header title="Productos" />
       {/* Search && New */}
       <div className="flex flex-col md:flex-row justify-between w-full mb-1 sm:mb-2 ml-0 lg:ml-12">
         <div className="text-end mb-3">
@@ -62,13 +66,13 @@ const Users = () => {
                 type="text"
                 id='"form-subscribe-Filter'
                 className="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent lg:w-96"
-                placeholder="Ingrese correo"
+                placeholder="Ingrese producto"
                 value={dataInput}
                 onChange={(e) => setDataInput(e.target.value)}
               />
             </div>
             <button
-              onClick={() => getUserSearch()}
+              onClick={() => getProductSearch()}
               style={{ backgroundColor: currentColor }}
               className="flex-shrink-0 px-4 py-2 text-base font-semibold text-white rounded-lg shadow-md lg:mr-9"
             >
@@ -91,45 +95,49 @@ const Users = () => {
         <table className="mx-auto max-w-full w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden lg:table-fixed lg:w-[100%]">
           <thead style={{ background: currentColor }}>
             <tr className="text-white text-left">
-              <th className="font-semibold text-sm uppercase px-6 py-4 w-[25%]">
-                Id
+              <th className="font-semibold text-sm uppercase px-6 py-4 w-[20%]">
+                Code
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 truncate">
-                Email
+                Nombre
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
-                {" "}
-                Estado{" "}
+                Descripción
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
-                {" "}
-                Rol{" "}
+                Stock
+              </th>
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
+                Marca
+              </th>
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
+                Medida
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
             {isLoading ? (
-              <LoadingCircle width="48" color={currentColor} colSpan="5" />
+              <LoadingCircle width="48" color={currentColor} colSpan="6" />
             ) : data?.items.length === 0 ? (
-              <NotFound title="No hay datos" colSpan="5" />
+              <NotFound title="No hay datos" colSpan="6" />
             ) : (
-              data?.items.map((user) => (
-                <tr key={user?.id}>
-                  <td className="px-6 py-4">{user?.id}</td>
-                  <td className="px-6 py-4">{user?.email}</td>
+              data?.items.map((value) => (
+                <tr key={value?.id}>
+                  <td className="px-6 py-4">{value?.code}</td>
+                  <td className="px-6 py-4">{value?.name}</td>
+                  <td className="px-6 py-4 truncate">{value?.description}</td>
+                  <td className="px-6 py-4 text-center">{value?.stock}</td>
                   <td className="px-6 py-4 text-center">
-                    <span>
-                      {user?.state === true ? "Activo" : "Desactivado"}
-                    </span>
+                    {value?.marca?.name}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    {user?.isAdmin === true ? "Administrador" : "Colaborador"}
+                    {value?.medida?.name}
                   </td>
                   <td className="px-6 py-4 text-center">
                     {" "}
                     <button
-                      onClick={() => controlModal(user, "edit")}
+                      onClick={() => controlModal(value, "edit")}
                       style={{ color: currentColor }}
                       className="text-gray-500 text-xl hover:underline"
                     >
@@ -140,7 +148,7 @@ const Users = () => {
                       style={{ color: currentColor }}
                       className="text-gray-500 text-xl hover:underline ml-3"
                     >
-                      <RiDeleteBinLine />
+                      <RiDeleteBin2Line />
                     </button>{" "}
                   </td>
                 </tr>
@@ -151,16 +159,16 @@ const Users = () => {
         {isLoading ? null : (
           <Pagination
             {...data?.meta}
-            changeCurrentPage={userChangeCurrentPage}
+            changeCurrentPage={productChangeCurrentPage}
           />
         )}
       </div>
       {/* Modal */}
-      <UserModal
+      <ProductModal
         open={opened}
         setOpened={setOpened}
         control={controlModal}
-        user={user}
+        product={product}
         typeAction={typeAction}
         setDataInput={setDataInput}
         toast={toast}
@@ -171,4 +179,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Products;

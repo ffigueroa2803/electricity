@@ -1,29 +1,34 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   page: 1,
   limit: 8,
   search: "",
-  modal: false
-}
+  modal: false,
+};
 
 const placeSlice = createSlice({
   name: "place",
   initialState,
   reducers: {
     placeChangeCurrentPage: (state, action) => {
-      state.page = action.payload
+      state.page = action.payload;
     },
     placeSearch: (state, action) => {
-      state.search = action.payload
+      state.search = action.payload;
     },
     placeClearInit: (state) => {
       state.page = 1;
       state.limit = 8;
-      state.search = ""
+      state.search = "";
     },
   },
-})
+});
 
-export const { placeChangeCurrentPage, placeSearch, placeClearSearch, placeClearInit } = placeSlice.actions
-export default placeSlice.reducer
+export const {
+  placeChangeCurrentPage,
+  placeSearch,
+  placeClearSearch,
+  placeClearInit,
+} = placeSlice.actions;
+export default placeSlice.reducer;

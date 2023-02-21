@@ -1,29 +1,34 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   page: 1,
   limit: 8,
   search: "",
-  modal: false
-}
+  modal: false,
+};
 
 const measureSlice = createSlice({
   name: "measure",
   initialState,
   reducers: {
     measureChangeCurrentPage: (state, action) => {
-      state.page = action.payload
+      state.page = action.payload;
     },
     measureSearch: (state, action) => {
-      state.search = action.payload
+      state.search = action.payload;
     },
     measureClearInit: (state) => {
       state.page = 1;
       state.limit = 8;
-      state.search = ""
+      state.search = "";
     },
   },
-})
+});
 
-export const { measureChangeCurrentPage, measureSearch, measureClearSearch, measureClearInit } = measureSlice.actions
-export default measureSlice.reducer
+export const {
+  measureChangeCurrentPage,
+  measureSearch,
+  measureClearSearch,
+  measureClearInit,
+} = measureSlice.actions;
+export default measureSlice.reducer;

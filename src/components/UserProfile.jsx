@@ -1,26 +1,25 @@
-import React from "react"
-import { MdOutlineCancel } from "react-icons/md"
-import { useDispatch, useSelector } from "react-redux"
+import React from "react";
+import { MdOutlineCancel } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Button } from "."
-import { userProfileData } from "../data/dummy"
-import { userLoggedOut } from "../features/auth/authSlice"
-import avatar5 from "../assets/avatar5.png"
-import { themeSetIsClicked } from "../features/theme/themeSlice"
-import { NavLink } from "react-router-dom"
+import { Button } from ".";
+import { userProfileData } from "../data/dummy";
+import { userLoggedOut } from "../features/auth/authSlice";
+import avatar5 from "../assets/avatar5.png";
+import { themeSetIsClicked } from "../features/theme/themeSlice";
+import { NavLink } from "react-router-dom";
 
 const UserProfile = () => {
+  const { currentColor } = useSelector((state) => state?.theme);
 
-  const { currentColor } = useSelector((state) => state?.theme)
+  const user = useSelector((state) => state?.auth?.user);
 
-  const user = useSelector((state) => state?.auth?.user)
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const logout = () => {
-    dispatch(userLoggedOut())
-    localStorage.clear()
-  }
+    dispatch(userLoggedOut());
+    localStorage.clear();
+  };
 
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
@@ -88,7 +87,7 @@ const UserProfile = () => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default UserProfile
+export default UserProfile;

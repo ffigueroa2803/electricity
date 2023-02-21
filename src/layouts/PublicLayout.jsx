@@ -1,7 +1,7 @@
-import React from "react"
-import { Outlet } from "react-router-dom"
+import React from "react";
+import { Outlet } from "react-router-dom";
 
-import LogoImage from "../assets/inicio.png"
+import LogoImage from "../assets/inicio.png";
 
 const PublicLayout = () => {
   return (
@@ -13,7 +13,7 @@ const PublicLayout = () => {
         <Outlet />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PublicLayout
+export default PublicLayout;

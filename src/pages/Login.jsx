@@ -1,74 +1,75 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { NavLink, useNavigate } from "react-router-dom"
-import { BsEyeSlash, BsEye } from "react-icons/bs"
-import toast, { Toaster } from "react-hot-toast"
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { BsEyeSlash, BsEye } from "react-icons/bs";
+import toast, { Toaster } from "react-hot-toast";
 
-import { useLoginMutation } from "../features/auth/authApi"
-import { themeSetIsClicked } from "../features/theme/themeSlice"
+import { useLoginMutation } from "../features/auth/authApi";
+import { themeSetIsClicked } from "../features/theme/themeSlice";
 
 const Login = () => {
+  const { currentColor } = useSelector((state) => state?.theme);
 
-  const { currentColor } = useSelector((state) => state?.theme)
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [show, setShow] = useState(true);
 
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const [show, setShow] = useState(true)
+  const [login, { data, isLoading, error: responseError }] = useLoginMutation();
 
-  const [login, { data, isLoading, error: responseError }] = useLoginMutation()
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    setError("")
+    e.preventDefault();
+    setError("");
     login({
       username,
       password,
-    })
-  }
+    });
+  };
 
   const changeIconPassword = () => {
-    let x = document.getElementById("password")
+    let x = document.getElementById("password");
 
     if (x.type === "password") {
-      x.type = "text"
-      setShow(false)
+      x.type = "text";
+      setShow(false);
     } else {
-      x.type = "password"
-      setShow(true)
+      x.type = "password";
+      setShow(true);
     }
-  }
+  };
 
   useEffect(() => {
     if (responseError) {
       if (responseError?.data?.errors)
-        toast.error(JSON.stringify(responseError?.data?.errors))
-      else
-        toast.error(JSON.stringify(responseError?.data?.message))
+        toast.error(JSON.stringify(responseError?.data?.errors));
+      else toast.error(JSON.stringify(responseError?.data?.message));
     }
 
     if (data?.accessToken) {
-      dispatch(themeSetIsClicked())
-      navigate("/dashboard")
+      dispatch(themeSetIsClicked());
+      navigate("/dashboard");
     }
-  }, [data, responseError, navigate])
+  }, [data, responseError, navigate]);
 
   return (
     <div className="max-w-[650px] px-10 py-20 rounded-2xl">
       <h1 className="text-3xl font-semibold">Inicio de sessión</h1>
       <p className="font-medium text-base text-gray-500 mt-4">
-        ¡Bienvenido de nuevo! Por favor, ingrese la dirección de correo electrónico asociada con su cuenta.
+        ¡Bienvenido de nuevo! Por favor, ingrese la dirección de correo
+        electrónico asociada con su cuenta.
       </p>
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="mt-8">
           {/* Email */}
           <div>
-            <label className="font-medium text-base">Dirección de correo electrónico</label>
+            <label className="font-medium text-base">
+              Dirección de correo electrónico
+            </label>
             <input
               id="email"
               className="w-full border-2 border-gray-100 rounded-md p-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
@@ -162,10 +163,10 @@ const Login = () => {
           </div>
         </div>
         {/* Toast */}
-        <Toaster />
+        <Toaster position="top-right" />
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

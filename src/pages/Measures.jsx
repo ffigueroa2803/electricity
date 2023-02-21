@@ -1,44 +1,53 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import toast, { Toaster } from "react-hot-toast"
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 
-import { Header, Modal, Table } from "../components"
-import { useGetMeasuresQuery, useRegisterUpdateMeasureMutation } from "../features/measure/measureApi"
-import { measureChangeCurrentPage, measureClearInit, measureSearch } from "../features/measure/measureSlice"
+import { Header, Modal, Table } from "../components";
+import {
+  useGetMeasuresQuery,
+  useRegisterUpdateMeasureMutation,
+} from "../features/measure/measureApi";
+import {
+  measureChangeCurrentPage,
+  measureClearInit,
+  measureSearch,
+} from "../features/measure/measureSlice";
 
 const Measures = () => {
+  const { currentColor } = useSelector((state) => state?.theme);
+  const { page, limit, search } = useSelector((state) => state?.measure);
 
-  const { currentColor } = useSelector((state) => state?.theme)
-  const { page, limit, search } = useSelector((state) => state?.measure)
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+  const [dataInput, setDataInput] = useState("");
+  const [opened, setOpened] = useState(false);
+  const [measure, setMeasure] = useState({});
+  const [typeAction, setTypeAction] = useState("");
 
-  const [dataInput, setDataInput] = useState("")
-  const [opened, setOpened] = useState(false)
-  const [measure, setMeasure] = useState({})
-  const [typeAction, setTypeAction] = useState("")
-
-  const { data, isLoading, error } = useGetMeasuresQuery({ page, limit, search })
+  const { data, isLoading, error } = useGetMeasuresQuery({
+    page,
+    limit,
+    search,
+  });
 
   const getMeasureSearch = () => {
-    dispatch(measureChangeCurrentPage(1))
-    dispatch(measureSearch(dataInput))
-  }
+    dispatch(measureChangeCurrentPage(1));
+    dispatch(measureSearch(dataInput));
+  };
 
   const controlModal = (dataMesure, acction) => {
-    setMeasure(dataMesure)
-    setTypeAction(acction)
-    setOpened((prevState) => !prevState)
-  }
+    setMeasure(dataMesure);
+    setTypeAction(acction);
+    setOpened((prevState) => !prevState);
+  };
 
   useEffect(() => {
-    if (error)
-      toast.error(error)
-  }, [data, error])
+    if (error) toast.error(error);
+  }, [data, error]);
 
   useEffect(() => {
-    dispatch(measureClearInit())
-  }, [])
+    dispatch(measureClearInit());
+  }, []);
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -78,7 +87,12 @@ const Measures = () => {
         </div>
       </div>
       {/* Table */}
-      <Table data={data} isLoading={isLoading} controlModal={controlModal} changeCurrentPage={measureChangeCurrentPage} />
+      <Table
+        data={data}
+        isLoading={isLoading}
+        controlModal={controlModal}
+        changeCurrentPage={measureChangeCurrentPage}
+      />
       {/* Modal */}
       <Modal
         open={opened}
@@ -92,9 +106,9 @@ const Measures = () => {
         toast={toast}
       />
       {/* Toast */}
-      <Toaster />
+      <Toaster position="top-right" />
     </div>
-  )
-}
+  );
+};
 
-export default Measures
+export default Measures;

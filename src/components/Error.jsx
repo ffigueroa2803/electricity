@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 const Error = ({ message }) => {
   return (
@@ -7,7 +7,7 @@ const Error = ({ message }) => {
         <span className="block text-sm">{message}</span>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Error
+export default Error;

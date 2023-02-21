@@ -1,4 +1,4 @@
-import PublicLayout from "./PublicLayout"
-import RootLayout from "./RootLayout"
+import PublicLayout from "./PublicLayout";
+import RootLayout from "./RootLayout";
 
-export { PublicLayout, RootLayout } 
+export { PublicLayout, RootLayout };

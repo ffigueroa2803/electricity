@@ -1,15 +1,11 @@
-import React from "react"
-import { Switch } from "@headlessui/react"
+import React from "react";
+import { Switch } from "@headlessui/react";
 
 const Toggle = ({ conditional, type, getValueToggle, currentColor }) => {
+  let content;
 
-  let content
-
-  if (type === "state")
-    content = <p>{conditional ? "Activo" : "Inactivo"}</p>
-  else
-    content = <p>{conditional ? "Administrator" : "Colaborador"}</p>
-
+  if (type === "state") content = <p>{conditional ? "Activo" : "Inactivo"}</p>;
+  else content = <p>{conditional ? "Administrator" : "Colaborador"}</p>;
 
   return (
     <div className="flex flex-row py-2 items-center gap-x-4">
@@ -30,7 +26,7 @@ const Toggle = ({ conditional, type, getValueToggle, currentColor }) => {
       </Switch>
       {content}
     </div>
-  )
-}
+  );
+};
 
-export default Toggle
+export default Toggle;

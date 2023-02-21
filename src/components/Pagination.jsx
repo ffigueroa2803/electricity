@@ -1,33 +1,36 @@
-import React from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const Pagination = ({ totalPages, currentPage, totalItems, changeCurrentPage }) => {
+const Pagination = ({
+  totalPages,
+  currentPage,
+  totalItems,
+  changeCurrentPage,
+}) => {
+  const { currentColor } = useSelector((state) => state?.theme);
 
-  const { currentColor } = useSelector((state) => state?.theme)
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const changeCurrentPageNumberInc = (currentPage) => {
     if (Number(currentPage) < Number(totalPages)) {
-      dispatch(changeCurrentPage(currentPage + 1))
+      dispatch(changeCurrentPage(currentPage + 1));
     } else if (Number(currentPage) === Number(totalPages)) {
-      alert("cannot increase more")
+      alert("cannot increase more");
     }
-  }
+  };
 
   const changeCurrentPageNumberDec = (currentPage) => {
     if (Number(currentPage) === 1) {
-      alert("No puede volver a su página 1")
+      alert("No puede volver a su página 1");
     } else {
-      dispatch(changeCurrentPage(currentPage - 1))
+      dispatch(changeCurrentPage(currentPage - 1));
     }
-  }
+  };
 
   return (
     <div className="bg-white">
       <div className="container flex flex-col items-center px-6 py-5 mx-auto space-y-6 sm:flex-row sm:justify-between sm:space-y-0 ">
         <div className="flex flex-row -mx-2">
-
           {/* Previous */}
           <button
             disabled={Number(currentPage) === 1}
@@ -55,14 +58,18 @@ const Pagination = ({ totalPages, currentPage, totalItems, changeCurrentPage }) 
               <span className="mx-1">Anterior</span>
             </div>
           </button>
-
           {/* Next */}
           <button
-            disabled={Number(totalPages === 0 ? 1 : totalPages) === Number(currentPage)}
+            disabled={
+              Number(totalPages === 0 ? 1 : totalPages) === Number(currentPage)
+            }
             onClick={() => changeCurrentPageNumberInc(currentPage)}
             style={{
               background:
-                Number(totalPages === 0 ? 1 : totalPages) === Number(currentPage) ? "" : currentColor,
+                Number(totalPages === 0 ? 1 : totalPages) ===
+                Number(currentPage)
+                  ? ""
+                  : currentColor,
             }}
             className="px-4 py-2 mx-1 transition-colors duration-300 transform rounded-md text-white disabled:bg-gray-200"
           >
@@ -92,7 +99,7 @@ const Pagination = ({ totalPages, currentPage, totalItems, changeCurrentPage }) 
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Pagination
+export default Pagination;

@@ -1,8 +1,7 @@
-import { apiSlice } from "../api/apiSlice"
+import { apiSlice } from "../api/apiSlice";
 
 export const brandApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-
     getBrands: builder.query({
       query: ({ page, limit, search }) =>
         `/api/marcas?page=${page}&limit=${limit}&querySearch=${search}`,
@@ -11,7 +10,9 @@ export const brandApi = apiSlice.injectEndpoints({
 
     registerUpdateBrand: builder.mutation({
       query: (data) => ({
-        url: `${data?.typeAction === "new" ? "/api/marcas" : `/api/marcas/${data?.id}`}`,
+        url: `${
+          data?.typeAction === "new" ? "/api/marcas" : `/api/marcas/${data?.id}`
+        }`,
         method: `${data?.typeAction === "new" ? "POST" : "PUT"}`,
         body: data,
       }),
@@ -20,6 +21,6 @@ export const brandApi = apiSlice.injectEndpoints({
       ],
     }),
   }),
-})
+});
 
-export const { useGetBrandsQuery, useRegisterUpdateBrandMutation } = brandApi
+export const { useGetBrandsQuery, useRegisterUpdateBrandMutation } = brandApi;

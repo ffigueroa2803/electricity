@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 const NotFound = ({ title, colSpan }) => {
   return (
@@ -9,8 +9,7 @@ const NotFound = ({ title, colSpan }) => {
         </td>
       </tr>
     </>
+  );
+};
 
-  )
-}
-
-export default NotFound
+export default NotFound;

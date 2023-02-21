@@ -1,21 +1,20 @@
-import Button from "./Button"
-import Error from "./Error"
-import Footer from "./Footer"
-import Header from "./Header"
-import LoadingCircle from "./LoadingCircle"
-import Modal from "./Modal"
-import Navbar from "./Navbar"
-import Notification from "./Notification"
-import NotFound from "./NotFound"
-import Pagination from "./Pagination"
-import Private from "./Private"
-import Public from "./Public"
-import Sidebar from "./Sidebar"
-import Table from "./Table"
-import Toggle from "./user/Toggle"
-import ThemeSettings from "./ThemeSettings"
-import UserModal from "./user/UserModal"
-import UserProfile from "./UserProfile"
+import Button from "./Button";
+import Error from "./Error";
+import Footer from "./Footer";
+import Header from "./Header";
+import LoadingCircle from "./LoadingCircle";
+import Modal from "./Modal";
+import Navbar from "./Navbar";
+import Notification from "./Notification";
+import NotFound from "./NotFound";
+import Pagination from "./Pagination";
+import ProductModal from "./product/ProductModal";
+import Sidebar from "./Sidebar";
+import Table from "./Table";
+import Toggle from "./user/Toggle";
+import ThemeSettings from "./ThemeSettings";
+import UserModal from "./user/UserModal";
+import UserProfile from "./UserProfile";
 
 export {
   Button,
@@ -28,12 +27,11 @@ export {
   Notification,
   NotFound,
   Pagination,
-  Private,
-  Public,
+  ProductModal,
   Sidebar,
   Table,
   Toggle,
   ThemeSettings,
   UserModal,
-  UserProfile
-}
+  UserProfile,
+};
