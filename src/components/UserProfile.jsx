@@ -56,7 +56,7 @@ const UserProfile = () => {
       <div>
         {userProfileData.map((item, index) => (
           <NavLink
-            to={`/${item.route}`}
+            to={`/authorized/${item.route}`}
             key={index}
             className="flex gap-5 border-b-1 border-color p-4 hover:bg-light-gray cursor-pointer  dark:hover:bg-[#42464D]"
           >
