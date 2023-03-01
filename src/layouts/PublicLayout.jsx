@@ -3,9 +3,11 @@ import { Navigate, Outlet } from "react-router-dom";
 
 import LogoImage from "../assets/inicio.png";
 import { useAuth } from "../hooks/useAuth";
+import { useAuthCheck } from "../hooks/useAuthCheck";
 
 const PublicLayout = () => {
   const isLoggedIn = useAuth();
+  const authChecked = useAuthCheck();
 
   if (isLoggedIn) {
     return <Navigate to="/authorized/profile" />;

@@ -18,7 +18,11 @@ const PrivateLayout = () => {
 
   const dispatch = useDispatch();
 
-  if (!isLoggedIn) {
+  if (!authChecked) {
+    return <h1 className="text-4xl font-bold">Cargando....</h1>;
+  }
+
+  if (!isLoggedIn || !authChecked) {
     return <Navigate to="/" />;
   }
 
