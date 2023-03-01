@@ -98,7 +98,8 @@ const Areas = () => {
         typeAction={typeAction}
         setDataInput={setDataInput}
         title="Area"
-        Mutation={useRegisterUpdateAreaMutation}
+        mutation={useRegisterUpdateAreaMutation}
+        clearInit={areaClearInit}
         toast={toast}
       />
       {/* Toast */}

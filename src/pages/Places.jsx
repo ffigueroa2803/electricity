@@ -98,7 +98,8 @@ const Places = () => {
         typeAction={typeAction}
         setDataInput={setDataInput}
         title="Lugar"
-        Mutation={useRegisterUpdatePlaceMutation}
+        mutation={useRegisterUpdatePlaceMutation}
+        clearInit={placeClearInit}
         toast={toast}
       />
       {/* Toast */}

@@ -102,7 +102,8 @@ const Measures = () => {
         typeAction={typeAction}
         setDataInput={setDataInput}
         title="Medida"
-        Mutation={useRegisterUpdateMeasureMutation}
+        mutation={useRegisterUpdateMeasureMutation}
+        clearInit={measureClearInit}
         toast={toast}
       />
       {/* Toast */}

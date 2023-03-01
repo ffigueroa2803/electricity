@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { placeClearInit } from "../features/place/placeSlice";
-
 const Modal = ({
   open,
   setOpened,
@@ -11,7 +9,8 @@ const Modal = ({
   typeAction,
   setDataInput,
   title,
-  Mutation,
+  mutation,
+  clearInit,
   toast,
 }) => {
   const id = items?.id || null;
@@ -25,13 +24,13 @@ const Modal = ({
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
-  const [registerUpdatePlace, { data, isLoading, error: responseError }] =
-    Mutation();
+  const [registerUpdate, { data, isLoading, error: responseError }] =
+    mutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await registerUpdatePlace({
+      await registerUpdate({
         id,
         name,
         description,
@@ -71,7 +70,7 @@ const Modal = ({
         toast.success("Editado correctamente!");
       } else {
         toast.success("Creado correctamente!");
-        dispatch(placeClearInit());
+        dispatch(clearInit());
       }
     }
   }, [data, responseError]);

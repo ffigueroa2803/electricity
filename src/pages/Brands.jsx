@@ -98,7 +98,8 @@ const Brands = () => {
         typeAction={typeAction}
         setDataInput={setDataInput}
         title="Marca"
-        Mutation={useRegisterUpdateBrandMutation}
+        mutation={useRegisterUpdateBrandMutation}
+        clearInit={brandClearInit}
         toast={toast}
       />
       {/* Toast */}
