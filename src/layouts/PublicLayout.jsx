@@ -1,9 +1,16 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 import LogoImage from "../assets/inicio.png";
+import { useAuth } from "../hooks/useAuth";
 
 const PublicLayout = () => {
+  const isLoggedIn = useAuth();
+
+  if (isLoggedIn) {
+    return <Navigate to="/authorized/profile" />;
+  }
+
   return (
     <div className="flex w-full h-screen">
       <div className="hidden relative lg:flex h-full w-1/2 items-center justify-center">

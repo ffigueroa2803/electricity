@@ -1,17 +1,26 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FiSettings } from "react-icons/fi";
 import { themeSetThemeSettings } from "../features/theme/themeSlice";
 import { Footer, Navbar, Sidebar, ThemeSettings } from "../components";
+import { useAuth } from "./../hooks/useAuth";
+import { useAuthCheck } from "./../hooks/useAuthCheck";
 
-const RootLayout = () => {
+const PrivateLayout = () => {
   const { currentColor, themeSettings, activeMenu } = useSelector(
     (state) => state?.theme
   );
 
+  const isLoggedIn = useAuth();
+  const authChecked = useAuthCheck();
+
   const dispatch = useDispatch();
+
+  if (!isLoggedIn) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="flex relative dark:bg-main-dark-bg">
@@ -46,7 +55,6 @@ const RootLayout = () => {
         </div>
         <div>
           {themeSettings && <ThemeSettings />}
-
           <Outlet />
         </div>
         <Footer />
@@ -55,4 +63,4 @@ const RootLayout = () => {
   );
 };
 
-export default RootLayout;
+export default PrivateLayout;

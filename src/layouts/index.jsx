@@ -1,4 +1,5 @@
 import PublicLayout from "./PublicLayout";
-import RootLayout from "./RootLayout";
+import AuthLayout from "./AuthLayout";
+import PrivateLayout from "./PrivateLayout";
 
-export { PublicLayout, RootLayout };
+export { AuthLayout, PublicLayout, PrivateLayout };

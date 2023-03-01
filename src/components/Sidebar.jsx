@@ -61,7 +61,7 @@ const Sidebar = () => {
                 </p>
                 {item.links.map((link) => (
                   <NavLink
-                    to={`/${link.route}`}
+                    to={`/authorized/${link.route}`}
                     key={link.route}
                     onClick={(e) => handleCloseSideBar(e)}
                     style={({ isActive }) => ({

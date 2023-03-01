@@ -24,10 +24,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
-    login({
-      username,
-      password,
-    });
+    login({ username, password });
   };
 
   const changeIconPassword = () => {
@@ -44,14 +41,16 @@ const Login = () => {
 
   useEffect(() => {
     if (responseError) {
-      if (responseError?.data?.errors)
+      if (responseError?.data?.errors) {
         toast.error(JSON.stringify(responseError?.data?.errors));
-      else toast.error(JSON.stringify(responseError?.data?.message));
+      } else {
+        toast.error(JSON.stringify(responseError?.data?.message));
+      }
     }
 
     if (data?.accessToken) {
       dispatch(themeSetIsClicked());
-      navigate("/dashboard");
+      navigate("/authorized/profile", { replace: true });
     }
   }, [data, responseError, navigate]);
 
