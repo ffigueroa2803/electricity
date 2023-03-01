@@ -102,7 +102,7 @@ const Products = () => {
                 Nombre
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
-                Descripción
+                Descripcion
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
                 Stock
