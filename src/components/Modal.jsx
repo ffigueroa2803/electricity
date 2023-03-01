@@ -105,7 +105,7 @@ const Modal = ({
               </div>
               {/* Description */}
               <div className="mt-4">
-                <label className="font-medium text-lg">Nombre</label>
+                <label className="font-medium text-lg">Descripción</label>
                 <textarea
                   id="description"
                   className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
