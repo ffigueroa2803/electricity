@@ -9,7 +9,7 @@ const PublicLayout = () => {
   const isLoggedIn = useAuth();
   const authChecked = useAuthCheck();
 
-  if (isLoggedIn) {
+  if (isLoggedIn && authChecked) {
     return <Navigate to="/authorized/profile" />;
   }
 
