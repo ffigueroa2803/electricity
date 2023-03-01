@@ -17,7 +17,7 @@ const Table = ({ data, isLoading, controlModal, changeCurrentPage }) => {
                 Id
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4">
-                Name
+                Nombre
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
                 Descripcion
