@@ -4,7 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { FiSettings } from "react-icons/fi";
 import { themeSetThemeSettings } from "../features/theme/themeSlice";
-import { Footer, Navbar, Sidebar, ThemeSettings } from "../components";
+import {
+  Footer,
+  LoadingPage,
+  Navbar,
+  Sidebar,
+  ThemeSettings,
+} from "../components";
 import { useAuth } from "./../hooks/useAuth";
 import { useAuthCheck } from "./../hooks/useAuthCheck";
 
@@ -19,7 +25,7 @@ const PrivateLayout = () => {
   const dispatch = useDispatch();
 
   if (!authChecked) {
-    return <h1 className="text-4xl font-bold">Cargando....</h1>;
+    return <LoadingPage />;
   }
 
   if (!isLoggedIn || !authChecked) {

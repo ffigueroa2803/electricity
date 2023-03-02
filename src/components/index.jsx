@@ -3,6 +3,7 @@ import Error from "./Error";
 import Footer from "./Footer";
 import Header from "./Header";
 import LoadingCircle from "./LoadingCircle";
+import LoadingPage from "./LoadingPage";
 import Modal from "./Modal";
 import Navbar from "./Navbar";
 import Notification from "./Notification";
@@ -22,6 +23,7 @@ export {
   Footer,
   Header,
   LoadingCircle,
+  LoadingPage,
   Navbar,
   Modal,
   Notification,

@@ -1,5 +1,7 @@
-import PublicLayout from "./PublicLayout";
-import AuthLayout from "./AuthLayout";
-import PrivateLayout from "./PrivateLayout";
+import { lazy } from "react";
+
+const PublicLayout = lazy(() => import("./PublicLayout"));
+const AuthLayout = lazy(() => import("./AuthLayout"));
+const PrivateLayout = lazy(() => import("./PrivateLayout"));
 
 export { AuthLayout, PublicLayout, PrivateLayout };

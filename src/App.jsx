@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 
@@ -22,7 +22,9 @@ const App = () => {
 
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
-      <RouterProvider router={RootRouter} />
+      <Suspense>
+        <RouterProvider router={RootRouter} />
+      </Suspense>
     </div>
   );
 };

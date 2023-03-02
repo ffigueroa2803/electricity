@@ -1,13 +1,15 @@
-import Areas from "./Areas";
-import Brands from "./Brands";
-import Dashboard from "./Dashboard";
-import Forgot from "./Forgot";
-import Login from "./Login";
-import Measures from "./Measures";
-import Places from "./Places";
-import Products from "./Products";
-import Profile from "./Profile";
-import Users from "./Users";
+import { lazy } from "react";
+
+const Areas = lazy(() => import("./Areas"));
+const Brands = lazy(() => import("./Brands"));
+const Dashboard = lazy(() => import("./Dashboard"));
+const Forgot = lazy(() => import("./Forgot"));
+const Login = lazy(() => import("./Login"));
+const Measures = lazy(() => import("./Measures"));
+const Places = lazy(() => import("./Places"));
+const Products = lazy(() => import("./Products"));
+const Profile = lazy(() => import("./Profile"));
+const Users = lazy(() => import("./Users"));
 
 export {
   Areas,
