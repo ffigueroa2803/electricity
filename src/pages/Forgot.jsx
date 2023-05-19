@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 import { Error } from "../components";
 
-const Forgot = () => {
+export const Forgot = () => {
   const { currentColor } = useSelector((state) => state?.theme);
 
   const [username, setUsername] = useState("");
@@ -68,5 +68,3 @@ const Forgot = () => {
     </div>
   );
 };
-
-export default Forgot;

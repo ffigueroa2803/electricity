@@ -4,11 +4,11 @@ import { BsBoxSeam, BsFilePerson } from "react-icons/bs";
 import { TfiRuler } from "react-icons/tfi";
 import { HiOutlineRefresh, HiOutlineUsers } from "react-icons/hi";
 import { BiWorld, BiSpreadsheet, BiBadgeCheck } from "react-icons/bi";
-import { RiProductHuntLine } from "react-icons/ri";
+import { RiProductHuntLine, RiStackLine } from "react-icons/ri";
 
-import avatar5 from "../assets/avatar5.png";
 import { MdOutlineSupervisorAccount } from "react-icons/md";
 import { FiBarChart } from "react-icons/fi";
+import avatar5 from "../assets/avatar5.png";
 
 export const links = [
   {
@@ -53,6 +53,11 @@ export const links = [
         route: "products",
         name: "productos",
         icon: <RiProductHuntLine />,
+      },
+      {
+        route: "nota-pedido",
+        name: "nota pedido",
+        icon: <RiStackLine />,
       },
     ],
   },

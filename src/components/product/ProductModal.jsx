@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useRegisterUpdateProductMutation } from "../../features/product/productApi";
+import { useBrands, useMeasures } from "../../hooks";
+import { MdOutlineCancel } from "react-icons/md";
+import { productClearInit } from "../../features/product/productSlice";
 
 const ProductModal = ({
   open,
@@ -17,31 +20,115 @@ const ProductModal = ({
   const { currentColor } = useSelector((state) => state?.theme);
   const { page, limit } = useSelector((state) => state?.product);
 
+  const [code, setCode] = useState("");
+  const [codePatrimonial, setCodePatrimonial] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [stock, setStock] = useState(0);
+  const [selectBrand, setSelectBrand] = useState({});
+  const [selectMeasure, setSelectMeasure] = useState({});
+
   const dispatch = useDispatch();
 
   const [registerUpdateProduct, { data, isLoading, error: responseError }] =
     useRegisterUpdateProductMutation();
 
+  const { dataBrand, isLoadingBrand, errorBrand } = useBrands();
+  const { dataMeasure, isLoadingMeasure, errorMeasure } = useMeasures();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
+      await registerUpdateProduct({
+        id,
+        code,
+        codePatrimonial,
+        name,
+        description,
+        stock: parseInt(stock),
+        attributos: [],
+        marcaId: `${selectBrand?.id}`,
+        medidaId: `${selectMeasure?.id}`,
+        page,
+        limit,
+        typeAction,
+      });
+      setDataInput("");
     } catch (error) {
       toast.error(error);
     }
   };
 
+  const onChange = (e) => {
+    if (e.target.name == "brand") setSelectBrand({ name: e.target.value });
+    else setSelectMeasure({ name: e.target.value });
+  };
+
+  const onSearch = (type, item) => {
+    if (type == "brand") setSelectBrand({ id: item?.id, name: item?.name });
+    else setSelectMeasure({ id: item?.id, name: item?.name });
+  };
+
+  const changeTypeAction = useCallback(() => {
+    if (typeAction === "edit") {
+      setCode(product?.code);
+      setCodePatrimonial(product?.codePatrimonial);
+      setName(product?.name);
+      setDescription(product?.description);
+      setStock(product?.stock);
+      setSelectBrand({ id: product?.marca?.id, name: product?.marca?.name });
+      setSelectMeasure({
+        id: product?.medida?.id,
+        name: product?.medida?.name,
+      });
+    } else {
+      setCode("");
+      setCodePatrimonial("");
+      setName("");
+      setDescription("");
+      setStock(0);
+      setSelectBrand({});
+      setSelectMeasure({});
+    }
+  }, [typeAction, product, dispatch]);
+
+  useEffect(() => {
+    changeTypeAction();
+  }, [changeTypeAction]);
+
+  useEffect(() => {
+    if (responseError) {
+      if (responseError?.data?.errors)
+        toast.error(JSON.stringify(responseError?.data?.errors));
+      else toast.error(JSON.stringify(responseError?.data?.message));
+    } else if (data) {
+      if (typeAction === "edit") {
+        toast.success("Producto editado correctamente!");
+      } else {
+        toast.success("Producto creado correctamente!");
+        dispatch(productClearInit());
+      }
+    }
+  }, [data, responseError]);
+
   return (
     open && (
       <>
-        <div
-          onClick={control}
-          className="fixed w-full h-full inset-0 z-10 bg-black/50 cursor-pointer"
-        />
+        <div className="fixed w-full h-full inset-0 z-10 bg-half-transparent cursor-pointer" />
         <div className="rounded w-[400px] lg:w-[900px] space-y-8 bg-white p-10 absolute top-1/3 left-1/2 z-20 -translate-x-1/2 -translate-y-1/3 overflow-auto lg:mt-0 mt-52">
-          <h1 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
-            {typeAction === "edit" ? "Editar" : "Nuevo"}
-          </h1>
+          <div className="flex justify-between items-center">
+            <h1 className="text-center text-3xl font-extrabold text-gray-900">
+              {typeAction === "edit" ? "EDITAR PRODUCTO" : "NUEVO PRODUCTO"}
+            </h1>
+            <button
+              type="button"
+              onClick={control}
+              style={{ color: "rgb(153, 171, 180)", borderRadius: "50%" }}
+              className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
+            >
+              <MdOutlineCancel />
+            </button>
+          </div>
           {/* Form */}
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             {/* Nombre del producto */}
@@ -51,10 +138,12 @@ const ProductModal = ({
                   Nombre del producto
                 </label>
                 <input
-                  id="code"
+                  id="name"
                   className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                   type="text"
                   name="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   required
                 />
               </div>
@@ -71,10 +160,12 @@ const ProductModal = ({
                   className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                   type="text"
                   name="code"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
                   required
                 />
               </div>
-              {/* Name */}
+              {/* Code Patrimonial */}
               <div className="w-full md:w-1/2 px-3">
                 <label className="font-medium text-lg">
                   Codigo Patrimonial
@@ -84,53 +175,21 @@ const ProductModal = ({
                   className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                   type="text"
                   name="codepa"
+                  value={codePatrimonial}
+                  onChange={(e) => setCodePatrimonial(e.target.value)}
                   required
                 />
               </div>
               {/* Stock */}
-              <div class="w-full md:w-1/2 px-3 mt-6 lg:mt-0">
+              <div className="w-full md:w-1/2 px-3 mt-6 lg:mt-0">
                 <label className="font-medium text-lg">Stock</label>
                 <input
                   id="stock"
                   className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                   type="text"
                   name="stock"
-                  required
-                />
-              </div>
-            </div>
-            {/* Serie, Potencia, Año */}
-            <div className="flex flex-col lg:flex-row -mx-3 mb-6">
-              {/* Code */}
-              <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label className="font-medium text-lg">Serie</label>
-                <input
-                  id="serie"
-                  className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-                  type="text"
-                  name="serie"
-                  required
-                />
-              </div>
-              {/* Potencia */}
-              <div className="w-full md:w-1/2 px-3">
-                <label className="font-medium text-lg">Potencia</label>
-                <input
-                  id="potencia"
-                  className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-                  type="text"
-                  name="potencia"
-                  required
-                />
-              </div>
-              {/* Año */}
-              <div className="w-full md:w-1/2 px-3 mt-6 lg:mt-0">
-                <label className="font-medium text-lg">Año</label>
-                <input
-                  id="anio"
-                  className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-                  type="text"
-                  name="anio"
+                  value={stock}
+                  onChange={(e) => setStock(e.target.value)}
                   required
                 />
               </div>
@@ -145,6 +204,8 @@ const ProductModal = ({
                   name="description"
                   cols="20"
                   rows="5"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                   required
                 />
               </div>
@@ -155,47 +216,103 @@ const ProductModal = ({
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label className="font-medium text-lg">Marca</label>
                 <div className="relative">
-                  <select
-                    className="block appearance-none w-full bg-gray-200 border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-                    id="grid-state"
-                  >
-                    <option>New Mexico</option>
-                    <option>Missouri</option>
-                    <option>Texas</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg
-                      className="fill-current h-4 w-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  </div>
+                  <input
+                    className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+                    type="text"
+                    name="brand"
+                    value={selectBrand?.name || ""}
+                    onChange={(e) => onChange(e)}
+                    required
+                  />
                 </div>
+                {!selectBrand?.name?.length == 0 ? (
+                  <ul className="bg-white border border-gray-100 w-full mt-2">
+                    {dataBrand?.items
+                      .filter((item) => {
+                        const searchTerm = selectBrand?.name?.toLowerCase();
+                        const fullName = item?.name.toLowerCase();
+
+                        return (
+                          searchTerm &&
+                          fullName.startsWith(searchTerm) &&
+                          fullName !== searchTerm
+                        );
+                      })
+                      .slice(0, 10)
+                      .map((item) => (
+                        <li
+                          onClick={() => onSearch("brand", item)}
+                          className="pl-8 pr-2 py-1 border-b-2 border-gray-100 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900"
+                          key={item?.name}
+                        >
+                          <svg
+                            className="absolute w-4 h-4 left-2 top-2"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                          {item?.name}
+                        </li>
+                      ))}
+                  </ul>
+                ) : null}
               </div>
               {/* Medida */}
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label className="font-medium text-lg">Medida</label>
                 <div className="relative">
-                  <select
-                    className="block appearance-none w-full bg-gray-200 border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-                    id="grid-state"
-                  >
-                    <option>New Mexico</option>
-                    <option>Missouri</option>
-                    <option>Texas</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg
-                      className="fill-current h-4 w-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  </div>
+                  <input
+                    className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+                    name="measure"
+                    type="text"
+                    value={selectMeasure?.name || ""}
+                    onChange={(e) => onChange(e)}
+                    required
+                  />
                 </div>
+                {!selectMeasure?.name?.length == 0 ? (
+                  <ul className="bg-white border border-gray-100 w-full mt-2">
+                    {dataMeasure?.items
+                      .filter((item) => {
+                        const searchTerm = selectMeasure?.name?.toLowerCase();
+                        const fullName = item?.name.toLowerCase();
+
+                        return (
+                          searchTerm &&
+                          fullName.startsWith(searchTerm) &&
+                          fullName !== searchTerm
+                        );
+                      })
+                      .slice(0, 10)
+                      .map((item) => (
+                        <li
+                          onClick={() => onSearch("measure", item)}
+                          className="pl-8 pr-2 py-1 border-b-2 border-gray-100 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900"
+                          key={item?.name}
+                        >
+                          <svg
+                            className="absolute w-4 h-4 left-2 top-2"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                          {item?.name}
+                        </li>
+                      ))}
+                  </ul>
+                ) : null}
               </div>
             </div>
             {/* Button */}

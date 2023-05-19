@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { MdOutlineCancel } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 
 const Modal = ({
@@ -78,14 +79,21 @@ const Modal = ({
   return (
     open && (
       <>
-        <div
-          onClick={control}
-          className="fixed w-full h-full inset-0 z-10 bg-black/50 cursor-pointer"
-        />
+        <div className="fixed w-full h-full inset-0 z-10 bg-black/50 cursor-pointer" />
         <div className="rounded w-[400px] lg:w-[600px] space-y-8 bg-white p-10 absolute top-1/3 left-1/2 z-20 -translate-x-1/2 -translate-y-1/3">
-          <h1 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
-            {typeAction === "edit" ? `Editar` : `Nuevo`}
-          </h1>
+          <div className="flex justify-between items-center">
+            <h1 className="text-center text-3xl font-extrabold text-gray-900 align-middle">
+              {typeAction === "edit" ? "EDITAR" : "NUEVO"}
+            </h1>
+            <button
+              type="button"
+              onClick={control}
+              style={{ color: "rgb(153, 171, 180)", borderRadius: "50%" }}
+              className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
+            >
+              <MdOutlineCancel />
+            </button>
+          </div>
           {/* Form */}
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <div>

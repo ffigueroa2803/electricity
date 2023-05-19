@@ -1,25 +1,13 @@
-import { lazy } from "react";
-
-const Areas = lazy(() => import("./Areas"));
-const Brands = lazy(() => import("./Brands"));
-const Dashboard = lazy(() => import("./Dashboard"));
-const Forgot = lazy(() => import("./Forgot"));
-const Login = lazy(() => import("./Login"));
-const Measures = lazy(() => import("./Measures"));
-const Places = lazy(() => import("./Places"));
-const Products = lazy(() => import("./Products"));
-const Profile = lazy(() => import("./Profile"));
-const Users = lazy(() => import("./Users"));
-
-export {
-  Areas,
-  Brands,
-  Dashboard,
-  Forgot,
-  Login,
-  Measures,
-  Places,
-  Products,
-  Profile,
-  Users,
-};
+export * from "./Areas";
+export * from "./Brands";
+export * from "./Dashboard";
+export * from "./ErrorPage";
+export * from "./Forgot";
+export * from "./Login";
+export * from "./Measures";
+export * from "./Places";
+export * from "./Products";
+export * from "./Profile";
+export * from "./Users";
+export * from "./Order";
+export * from "./OrderAction";

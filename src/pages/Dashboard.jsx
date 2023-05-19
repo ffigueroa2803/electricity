@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { Button, Header } from "../components";
 import { earningData } from "../data/dummy";
 
-const Dashboard = () => {
+export const Dashboard = () => {
   const { currentColor } = useSelector((state) => state?.theme);
 
   return (
@@ -16,5 +16,3 @@ const Dashboard = () => {
     </div>
   );
 };
-
-export default Dashboard;

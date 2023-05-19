@@ -7,7 +7,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { useLoginMutation } from "../features/auth/authApi";
 import { themeSetIsClicked } from "../features/theme/themeSlice";
 
-const Login = () => {
+export const Login = () => {
+  const navigate = useNavigate();
   const { currentColor } = useSelector((state) => state?.theme);
 
   const dispatch = useDispatch();
@@ -18,8 +19,6 @@ const Login = () => {
   const [show, setShow] = useState(true);
 
   const [login, { data, isLoading, error: responseError }] = useLoginMutation();
-
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -167,5 +166,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;
