@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Select from "react-select";
+import markerAnimate from "react-select/animated";
 
 import { useRegisterUpdateProductMutation } from "../../features/product/productApi";
 import { useBrands, useMeasures } from "../../hooks";
@@ -26,6 +28,7 @@ const ProductModal = ({
   const [description, setDescription] = useState("");
   const [stock, setStock] = useState(0);
   const [selectBrand, setSelectBrand] = useState({});
+  const [isClearableBrand, setIsClearableBrand] = useState(true);
   const [selectMeasure, setSelectMeasure] = useState({});
 
   const dispatch = useDispatch();
@@ -59,14 +62,21 @@ const ProductModal = ({
     }
   };
 
-  const onChange = (e) => {
-    if (e.target.name == "brand") setSelectBrand({ name: e.target.value });
-    else setSelectMeasure({ name: e.target.value });
+  const handleSelectChange = (e, type) => {
+    if (e == null) return;
+    if (type == "brand") setSelectBrand({ id: e.value, name: e.label });
+    else setSelectMeasure({ id: e.value, name: e.label });
   };
 
-  const onSearch = (type, item) => {
-    if (type == "brand") setSelectBrand({ id: item?.id, name: item?.name });
-    else setSelectMeasure({ id: item?.id, name: item?.name });
+  const customTheme = (theme) => {
+    return {
+      ...theme,
+      colors: {
+        ...theme.colors,
+        primary25: "orange",
+        primary: "green",
+      },
+    };
   };
 
   const changeTypeAction = useCallback(() => {
@@ -177,7 +187,6 @@ const ProductModal = ({
                   name="codepa"
                   value={codePatrimonial}
                   onChange={(e) => setCodePatrimonial(e.target.value)}
-                  required
                 />
               </div>
               {/* Stock */}
@@ -215,104 +224,35 @@ const ProductModal = ({
               {/* Marca */}
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label className="font-medium text-lg">Marca</label>
-                <div className="relative">
-                  <input
-                    className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-                    type="text"
-                    name="brand"
-                    value={selectBrand?.name || ""}
-                    onChange={(e) => onChange(e)}
-                    required
+                <div className="relative mt-1">
+                  <Select
+                    components={markerAnimate()}
+                    theme={customTheme}
+                    isClearable
+                    isSearchable
+                    options={dataBrand?.items?.map((item) => ({
+                      label: item?.name,
+                      value: item?.id,
+                    }))}
+                    onChange={(e) => handleSelectChange(e, "brand")}
                   />
                 </div>
-                {!selectBrand?.name?.length == 0 ? (
-                  <ul className="bg-white border border-gray-100 w-full mt-2">
-                    {dataBrand?.items
-                      .filter((item) => {
-                        const searchTerm = selectBrand?.name?.toLowerCase();
-                        const fullName = item?.name.toLowerCase();
-
-                        return (
-                          searchTerm &&
-                          fullName.startsWith(searchTerm) &&
-                          fullName !== searchTerm
-                        );
-                      })
-                      .slice(0, 10)
-                      .map((item) => (
-                        <li
-                          onClick={() => onSearch("brand", item)}
-                          className="pl-8 pr-2 py-1 border-b-2 border-gray-100 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900"
-                          key={item?.name}
-                        >
-                          <svg
-                            className="absolute w-4 h-4 left-2 top-2"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          {item?.name}
-                        </li>
-                      ))}
-                  </ul>
-                ) : null}
               </div>
               {/* Medida */}
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label className="font-medium text-lg">Medida</label>
-                <div className="relative">
-                  <input
-                    className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-                    name="measure"
-                    type="text"
-                    value={selectMeasure?.name || ""}
-                    onChange={(e) => onChange(e)}
-                    required
+                <div className="relative mt-1">
+                  <Select
+                    components={markerAnimate()}
+                    isClearable
+                    isSearchable
+                    options={dataMeasure?.items?.map((item) => ({
+                      label: item?.name,
+                      value: item?.id,
+                    }))}
+                    onChange={(e) => handleSelectChange(e, "measure")}
                   />
                 </div>
-                {!selectMeasure?.name?.length == 0 ? (
-                  <ul className="bg-white border border-gray-100 w-full mt-2">
-                    {dataMeasure?.items
-                      .filter((item) => {
-                        const searchTerm = selectMeasure?.name?.toLowerCase();
-                        const fullName = item?.name.toLowerCase();
-
-                        return (
-                          searchTerm &&
-                          fullName.startsWith(searchTerm) &&
-                          fullName !== searchTerm
-                        );
-                      })
-                      .slice(0, 10)
-                      .map((item) => (
-                        <li
-                          onClick={() => onSearch("measure", item)}
-                          className="pl-8 pr-2 py-1 border-b-2 border-gray-100 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900"
-                          key={item?.name}
-                        >
-                          <svg
-                            className="absolute w-4 h-4 left-2 top-2"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          {item?.name}
-                        </li>
-                      ))}
-                  </ul>
-                ) : null}
               </div>
             </div>
             {/* Button */}
