@@ -1,19 +1,35 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { Button, Header } from "../components";
+import { useNavigate, useParams } from "react-router-dom";
+import { Header, MasterSelect } from "../components";
 import { useSelector } from "react-redux";
-import { RiDeleteBin2Line } from "react-icons/ri";
+import { RiArrowGoBackLine, RiDeleteBin2Line } from "react-icons/ri";
 import { MdAddCircleOutline } from "react-icons/md";
+import Select from "react-select";
+import { situation, typeDocument } from "../data/dummy";
 
 export const OrderAction = () => {
+  const navigate = useNavigate();
+
   const { currentColor } = useSelector((state) => state?.theme);
+  const { productSelected } = useSelector((state) => state?.product);
+
   let { notaId } = useParams();
-  console.log(notaId);
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       {/* Header */}
-      <Header title="Nueva nota de pedido" />
+      <div className="flex justify-between items-center">
+        <Header title={`CREAR NOTA DE PEDIDO`} />
+        <button
+          type="button"
+          onClick={() => navigate("/authorized/nota-pedido", { replace: true })}
+          style={{ color: `${currentColor}`, borderRadius: "50%" }}
+          className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
+          title="Regresar a la lista"
+        >
+          <RiArrowGoBackLine />
+        </button>
+      </div>
       {/* Form */}
       <form>
         {/* Codigo Area - Solicitante - Destino y/o Actividad */}
@@ -48,6 +64,7 @@ export const OrderAction = () => {
         </div>
         {/* CRP - Fecha - Situación */}
         <div className="flex flex-col lg:flex-row -mx-3 mb-6">
+          {/* CRP */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className="font-medium text-lg">CRP</label>
             <input
@@ -57,6 +74,7 @@ export const OrderAction = () => {
               name="crp"
             />
           </div>
+          {/* Fecha */}
           <div className="w-full md:w-1/2 px-3">
             <label className="font-medium text-lg">Fecha</label>
             <input
@@ -66,28 +84,32 @@ export const OrderAction = () => {
               name="fecha"
             />
           </div>
-          <div className="w-full md:w-1/2 px-3 mt-6 lg:mt-0">
-            <label className="font-medium text-lg">Situación</label>
-            <input
-              id="situacion"
-              className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-              type="text"
-              name="situacion"
-            />
+          {/* Tipo documento */}
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className="font-medium text-lg">Tipo documento</label>
+            <div className="relative mt-1">
+              <Select isClearable isSearchable options={typeDocument} />
+            </div>
           </div>
         </div>
-        {/* Producto */}
+        {/* Situacion - Producto - Boton */}
         <div className="flex flex-col lg:flex-row -mx-3 mb-6">
-          <div className="w-full md:w-2/3 px-3 mb-6 md:mb-0">
-            <label className="font-medium text-lg">Producto</label>
-            <input
-              id="producto"
-              className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-              type="text"
-              name="producto"
-            />
+          {/* Situacion */}
+          <div className="w-full md:w-1/2 px-3 mt-6 lg:mt-0">
+            <label className="font-medium text-lg">Situación</label>
+            <div className="mt-1">
+              <Select isClearable isSearchable options={situation} />
+            </div>
           </div>
-          <div className="w-full md:w-1/3 px-0 mt-6 lg:items-center">
+          {/* Lista Producto */}
+          <div className="w-full md:w-1/2 px-3">
+            <label className="font-medium text-lg">Producto</label>
+            <div className="relative mt-1">
+              <MasterSelect selected={productSelected} maintainer="productos" />
+            </div>
+          </div>
+          {/* Boton */}
+          <div className="w-full md:w-1/2 px-0 mt-5 lg:items-center">
             <label className="font-medium text-lg"></label>
             <button
               type="button"
@@ -105,13 +127,13 @@ export const OrderAction = () => {
           <table className="mx-auto max-w-full w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden lg:table-fixed lg:w-[100%]">
             <thead style={{ background: currentColor }}>
               <tr className="text-white text-left">
-                <th className="font-semibold text-sm uppercase px-6 py-4 w-[20%]">
+                <th className="font-semibold text-sm uppercase px-6 py-4 w-[5%]">
                   Item
                 </th>
                 <th className="font-semibold text-sm uppercase px-6 py-4 truncate">
                   Código
                 </th>
-                <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
+                <th className="font-semibold text-sm uppercase px-6 py-4 text-center w-[20%]">
                   Descripción del material
                 </th>
                 <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
@@ -129,7 +151,15 @@ export const OrderAction = () => {
                 <td className="px-6 py-4">56545</td>
                 <td className="px-6 py-4 truncate">Transformador Trifasico</td>
                 <td className="px-6 py-4 text-center">UND</td>
-                <td className="px-6 py-4 text-center">1</td>
+                <td className="px-6 py-4 text-center">
+                  <input
+                    id="cantidad"
+                    className="w-20 border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent text-center"
+                    type="number"
+                    name="cantidad"
+                    defaultValue={1}
+                  />
+                </td>
                 <td className="px-6 py-4 text-center">
                   {" "}
                   <button
@@ -147,7 +177,15 @@ export const OrderAction = () => {
                 <td className="px-6 py-4">56545</td>
                 <td className="px-6 py-4 truncate">Transformador Trifasico</td>
                 <td className="px-6 py-4 text-center">UND</td>
-                <td className="px-6 py-4 text-center">1</td>
+                <td className="px-6 py-4 text-center">
+                  <input
+                    id="cantidad"
+                    className="w-20 border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent text-center"
+                    type="number"
+                    name="cantidad"
+                    defaultValue={1}
+                  />
+                </td>
                 <td className="px-6 py-4 text-center">
                   {" "}
                   <button

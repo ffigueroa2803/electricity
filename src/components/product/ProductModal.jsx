@@ -1,16 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Select from "react-select";
-import markerAnimate from "react-select/animated";
-
 import { useRegisterUpdateProductMutation } from "../../features/product/productApi";
-import { useBrands, useMeasures } from "../../hooks";
 import { MdOutlineCancel } from "react-icons/md";
 import { productClearInit } from "../../features/product/productSlice";
+import { MasterSelect } from "..";
 
 const ProductModal = ({
   open,
-  setOpened,
   control,
   product,
   typeAction,
@@ -21,6 +17,8 @@ const ProductModal = ({
 
   const { currentColor } = useSelector((state) => state?.theme);
   const { page, limit } = useSelector((state) => state?.product);
+  const { brandSelected } = useSelector((state) => state?.brand);
+  const { measureSelected } = useSelector((state) => state?.measure);
 
   const [code, setCode] = useState("");
   const [codePatrimonial, setCodePatrimonial] = useState("");
@@ -28,16 +26,12 @@ const ProductModal = ({
   const [description, setDescription] = useState("");
   const [stock, setStock] = useState(0);
   const [selectBrand, setSelectBrand] = useState({});
-  const [isClearableBrand, setIsClearableBrand] = useState(true);
   const [selectMeasure, setSelectMeasure] = useState({});
 
   const dispatch = useDispatch();
 
   const [registerUpdateProduct, { data, isLoading, error: responseError }] =
     useRegisterUpdateProductMutation();
-
-  const { dataBrand, isLoadingBrand, errorBrand } = useBrands();
-  const { dataMeasure, isLoadingMeasure, errorMeasure } = useMeasures();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,23 +54,6 @@ const ProductModal = ({
     } catch (error) {
       toast.error(error);
     }
-  };
-
-  const handleSelectChange = (e, type) => {
-    if (e == null) return;
-    if (type == "brand") setSelectBrand({ id: e.value, name: e.label });
-    else setSelectMeasure({ id: e.value, name: e.label });
-  };
-
-  const customTheme = (theme) => {
-    return {
-      ...theme,
-      colors: {
-        ...theme.colors,
-        primary25: "orange",
-        primary: "green",
-      },
-    };
   };
 
   const changeTypeAction = useCallback(() => {
@@ -225,32 +202,16 @@ const ProductModal = ({
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label className="font-medium text-lg">Marca</label>
                 <div className="relative mt-1">
-                  <Select
-                    components={markerAnimate()}
-                    theme={customTheme}
-                    isClearable
-                    isSearchable
-                    options={dataBrand?.items?.map((item) => ({
-                      label: item?.name,
-                      value: item?.id,
-                    }))}
-                    onChange={(e) => handleSelectChange(e, "brand")}
-                  />
+                  <MasterSelect selected={brandSelected} maintainer="marcas" />
                 </div>
               </div>
               {/* Medida */}
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label className="font-medium text-lg">Medida</label>
                 <div className="relative mt-1">
-                  <Select
-                    components={markerAnimate()}
-                    isClearable
-                    isSearchable
-                    options={dataMeasure?.items?.map((item) => ({
-                      label: item?.name,
-                      value: item?.id,
-                    }))}
-                    onChange={(e) => handleSelectChange(e, "measure")}
+                  <MasterSelect
+                    selected={measureSelected}
+                    maintainer="medidas"
                   />
                 </div>
               </div>

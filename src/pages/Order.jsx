@@ -11,7 +11,7 @@ export const Order = () => {
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       {/* Header */}
-      <Header title="Nota de pedido" />
+      <Header title="LISTA DE NOTA DE PEDIDOS" />
       {/* Search && New */}
       <div className="flex flex-col md:flex-row justify-between w-full mb-1 sm:mb-2 ml-0 lg:ml-12">
         <div className="text-end mb-3">
@@ -52,7 +52,7 @@ export const Order = () => {
         <table className="mx-auto max-w-full w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden lg:table-fixed lg:w-[100%]">
           <thead style={{ background: currentColor }}>
             <tr className="text-white text-left">
-              <th className="font-semibold text-sm uppercase px-6 py-4 w-[20%]">
+              <th className="font-semibold text-sm uppercase px-6 py-4 w-[15%]">
                 Code
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 truncate">
@@ -68,6 +68,9 @@ export const Order = () => {
                 Destino
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
+                Tipo
+              </th>
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
                 Situación
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4"></th>
@@ -80,6 +83,7 @@ export const Order = () => {
               <td className="px-6 py-4 truncate">Distribución</td>
               <td className="px-6 py-4 text-center">101913000</td>
               <td className="px-6 py-4 text-center">SE 788 los tuneles</td>
+              <td className="px-6 py-4 text-center">Entrada</td>
               <td className="px-6 py-4 text-center">Recuperado</td>
               <td className="px-6 py-4 text-center">
                 {" "}

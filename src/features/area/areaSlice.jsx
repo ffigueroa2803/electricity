@@ -5,6 +5,7 @@ const initialState = {
   limit: 8,
   search: "",
   modal: false,
+  areaSelected: null,
 };
 
 const areaSlice = createSlice({
@@ -22,6 +23,9 @@ const areaSlice = createSlice({
       state.limit = 8;
       state.search = "";
     },
+    setAreaSelected: (state, action) => {
+      state.areaSelected = action.payload;
+    },
   },
 });
 
@@ -30,5 +34,6 @@ export const {
   areaSearch,
   areaClearSearch,
   areaClearInit,
+  setAreaSelected,
 } = areaSlice.actions;
 export default areaSlice.reducer;

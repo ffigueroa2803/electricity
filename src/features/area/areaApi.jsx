@@ -23,4 +23,8 @@ export const areaApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetAreasQuery, useRegisterUpdateAreaMutation } = areaApi;
+export const {
+  useGetAreasQuery,
+  useLazyGetAreasQuery,
+  useRegisterUpdateAreaMutation,
+} = areaApi;

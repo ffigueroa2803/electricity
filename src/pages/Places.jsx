@@ -48,7 +48,7 @@ export const Places = () => {
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       {/* Header */}
-      <Header title="Lugares" />
+      <Header title="LISTA DE LUGARES" />
       {/* Search && New */}
       <div className="flex flex-col md:flex-row justify-between w-full mb-1 sm:mb-2 ml-0 lg:ml-12">
         <div className="text-end mb-3">

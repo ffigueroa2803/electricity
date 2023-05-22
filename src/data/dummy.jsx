@@ -150,6 +150,17 @@ export const earningData = [
   },
 ];
 
+export const situation = [
+  { value: "nuevo", label: "Nuevo" },
+  { value: "segundo", label: "Segundo uso" },
+  { value: "recuperado", label: "Recuperado" },
+];
+
+export const typeDocument = [
+  { value: "ENTRY", label: "Entrada" },
+  { value: "EXIT", label: "Salida" },
+];
+
 export const LoadingCircle = () => {
   return (
     <svg

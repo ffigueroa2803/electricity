@@ -5,6 +5,7 @@ const initialState = {
   limit: 8,
   search: "",
   modal: false,
+  productSelected: null,
 };
 
 const productSlice = createSlice({
@@ -22,6 +23,9 @@ const productSlice = createSlice({
       state.limit = 8;
       state.search = "";
     },
+    setProductSelected: (state, action) => {
+      state.productSelected = action.payload;
+    },
   },
 });
 
@@ -31,5 +35,6 @@ export const {
   productClearSearch,
   productToggleChecked,
   productClearInit,
+  setProductSelected,
 } = productSlice.actions;
 export default productSlice.reducer;

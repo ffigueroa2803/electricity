@@ -5,6 +5,7 @@ const initialState = {
   limit: 8,
   search: "",
   modal: false,
+  measureSelected: null,
 };
 
 const measureSlice = createSlice({
@@ -22,6 +23,9 @@ const measureSlice = createSlice({
       state.limit = 8;
       state.search = "";
     },
+    setMeasureSelected: (state, action) => {
+      state.measureSelected = action.payload;
+    },
   },
 });
 
@@ -30,5 +34,6 @@ export const {
   measureSearch,
   measureClearSearch,
   measureClearInit,
+  setMeasureSelected,
 } = measureSlice.actions;
 export default measureSlice.reducer;

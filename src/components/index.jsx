@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import LoadingCircle from "./LoadingCircle";
 import LoadingPage from "./LoadingPage";
+import MasterSelect from "./MasterSelect";
 import Modal from "./Modal";
 import Navbar from "./Navbar";
 import Notification from "./Notification";
@@ -24,6 +25,7 @@ export {
   Header,
   LoadingCircle,
   LoadingPage,
+  MasterSelect,
   Navbar,
   Modal,
   Notification,
