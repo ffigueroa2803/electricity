@@ -4,6 +4,8 @@ import { useRegisterUpdateProductMutation } from "../../features/product/product
 import { MdOutlineCancel } from "react-icons/md";
 import { productClearInit } from "../../features/product/productSlice";
 import { MasterSelect } from "..";
+import { setBrandSelected } from "../../features/brand/brandSlice";
+import { setMeasureSelected } from "../../features/measure/measureSlice";
 
 const ProductModal = ({
   open,
@@ -25,8 +27,6 @@ const ProductModal = ({
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [stock, setStock] = useState(0);
-  const [selectBrand, setSelectBrand] = useState({});
-  const [selectMeasure, setSelectMeasure] = useState({});
 
   const dispatch = useDispatch();
 
@@ -44,8 +44,8 @@ const ProductModal = ({
         description,
         stock: parseInt(stock),
         attributos: [],
-        marcaId: `${selectBrand?.id}`,
-        medidaId: `${selectMeasure?.id}`,
+        marcaId: `${brandSelected?.id}`,
+        medidaId: `${measureSelected?.id}`,
         page,
         limit,
         typeAction,
@@ -63,19 +63,16 @@ const ProductModal = ({
       setName(product?.name);
       setDescription(product?.description);
       setStock(product?.stock);
-      setSelectBrand({ id: product?.marca?.id, name: product?.marca?.name });
-      setSelectMeasure({
-        id: product?.medida?.id,
-        name: product?.medida?.name,
-      });
+      dispatch(setBrandSelected(product?.marca || null));
+      dispatch(setMeasureSelected(product?.medida || null));
     } else {
       setCode("");
       setCodePatrimonial("");
       setName("");
       setDescription("");
       setStock(0);
-      setSelectBrand({});
-      setSelectMeasure({});
+      dispatch(setBrandSelected(null));
+      dispatch(setMeasureSelected(null));
     }
   }, [typeAction, product, dispatch]);
 
