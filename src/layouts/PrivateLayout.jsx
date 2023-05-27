@@ -19,8 +19,6 @@ const PrivateLayout = () => {
     (state) => state?.theme
   );
 
-  const user = useSelector((state) => state?.auth?.user);
-
   const isLoggedIn = useAuth();
   const authChecked = useAuthCheck();
 
@@ -34,7 +32,7 @@ const PrivateLayout = () => {
     return <Navigate to="/" />;
   }
 
-  return (
+  return isLoggedIn ? (
     <div className="flex relative dark:bg-main-dark-bg">
       {/* Button Settings */}
       <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
@@ -73,6 +71,8 @@ const PrivateLayout = () => {
         <Footer />
       </div>
     </div>
+  ) : (
+    <LoadingPage />
   );
 };
 

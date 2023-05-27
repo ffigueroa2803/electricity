@@ -45,7 +45,11 @@ export const authApi = apiSlice.injectEndpoints({
             })
           );
         } catch (err) {
-          console.log("error... ", err);
+          dispatch(
+            userProfile({
+              user: undefined,
+            })
+          );
         }
       },
     }),
