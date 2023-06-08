@@ -130,17 +130,10 @@ export const Users = () => {
                     {" "}
                     <button
                       onClick={() => controlModal(user, "edit")}
-                      style={{ color: currentColor }}
-                      className="text-gray-500 text-xl hover:underline"
+                      style={{ color: currentColor, borderRadius: "50%" }}
+                      className="text-gray-500 text-xl hover:drop-shadow-xl hover:bg-light-gray p-2"
                     >
                       <RiPencilLine />
-                    </button>{" "}
-                    <button
-                      onClick={() => console.log("remove")}
-                      style={{ color: currentColor }}
-                      className="text-gray-500 text-xl hover:underline ml-3"
-                    >
-                      <RiDeleteBinLine />
                     </button>{" "}
                   </td>
                 </tr>

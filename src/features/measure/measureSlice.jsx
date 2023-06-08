@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   page: 1,
-  limit: 8,
+  limit: 7,
   search: "",
   modal: false,
   measureSelected: null,
@@ -20,7 +20,7 @@ const measureSlice = createSlice({
     },
     measureClearInit: (state) => {
       state.page = 1;
-      state.limit = 8;
+      state.limit = 7;
       state.search = "";
     },
     setMeasureSelected: (state, action) => {

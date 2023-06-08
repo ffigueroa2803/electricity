@@ -9,5 +9,5 @@ export * from "./Places";
 export * from "./Products";
 export * from "./Profile";
 export * from "./Users";
-export * from "./Order";
-export * from "./OrderAction";
+export * from "./Nota";
+export * from "./NotaAction";

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   page: 1,
-  limit: 8,
+  limit: 7,
   search: "",
   modal: false,
 };
@@ -19,7 +19,7 @@ const placeSlice = createSlice({
     },
     placeClearInit: (state) => {
       state.page = 1;
-      state.limit = 8;
+      state.limit = 7;
       state.search = "";
     },
   },

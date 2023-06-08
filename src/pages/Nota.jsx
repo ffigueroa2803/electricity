@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { RiDeleteBin2Line, RiPencilLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 
-export const Order = () => {
+export const Nota = () => {
   const navigate = useNavigate();
   const { currentColor } = useSelector((state) => state?.theme);
 

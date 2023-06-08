@@ -95,13 +95,13 @@ export const Products = () => {
         <table className="mx-auto max-w-full w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden lg:table-fixed lg:w-[100%]">
           <thead style={{ background: currentColor }}>
             <tr className="text-white text-left">
-              <th className="font-semibold text-sm uppercase px-6 py-4 w-[20%]">
-                Code
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center w-[10%]">
+                Code Mat.
               </th>
-              <th className="font-semibold text-sm uppercase px-6 py-4 truncate">
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center w-[25%]">
                 Nombre
               </th>
-              <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center w-[25%]">
                 Descripcion
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
@@ -124,7 +124,7 @@ export const Products = () => {
             ) : (
               data?.items.map((value) => (
                 <tr key={value?.id}>
-                  <td className="px-6 py-4">{value?.code}</td>
+                  <td className="px-6 py-4 text-center">{value?.code}</td>
                   <td className="px-6 py-4">{value?.name}</td>
                   <td className="px-6 py-4 truncate">{value?.description}</td>
                   <td className="px-6 py-4 text-center">{value?.stock}</td>
@@ -138,17 +138,10 @@ export const Products = () => {
                     {" "}
                     <button
                       onClick={() => controlModal(value, "edit")}
-                      style={{ color: currentColor }}
-                      className="text-gray-500 text-xl hover:underline"
+                      style={{ color: currentColor, borderRadius: "50%" }}
+                      className="text-gray-500 text-xl hover:drop-shadow-xl hover:bg-light-gray p-2"
                     >
                       <RiPencilLine />
-                    </button>{" "}
-                    <button
-                      onClick={() => console.log("remove")}
-                      style={{ color: currentColor }}
-                      className="text-gray-500 text-xl hover:underline ml-3"
-                    >
-                      <RiDeleteBin2Line />
                     </button>{" "}
                   </td>
                 </tr>

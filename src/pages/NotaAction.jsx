@@ -3,11 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Header, MasterSelect } from "../components";
 import { useSelector } from "react-redux";
 import { RiArrowGoBackLine, RiDeleteBin2Line } from "react-icons/ri";
-import { MdAddCircleOutline } from "react-icons/md";
 import Select from "react-select";
-import { situation, typeDocument } from "../data/dummy";
+import { motivo, situation, typeDocument } from "../data/dummy";
 
-export const OrderAction = () => {
+export const NotaAction = () => {
   const navigate = useNavigate();
 
   const { currentColor } = useSelector((state) => state?.theme);
@@ -32,8 +31,9 @@ export const OrderAction = () => {
       </div>
       {/* Form */}
       <form>
-        {/* Codigo Area - Solicitante - Destino y/o Actividad */}
+        {/* Codigo - Tipo documento - Fecha */}
         <div className="flex flex-col lg:flex-row -mx-3 mb-6">
+          {/* Codigo */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className="font-medium text-lg">Codigo</label>
             <input
@@ -41,38 +41,16 @@ export const OrderAction = () => {
               className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
               type="text"
               name="code"
+              placeholder="AUTOGENERADO"
+              disabled
             />
           </div>
-          <div className="w-full md:w-1/2 px-3">
-            <label className="font-medium text-lg">Area Solicitante</label>
-            <input
-              id="area"
-              className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-              type="text"
-              name="area"
-            />
-          </div>
-          <div className="w-full md:w-1/2 px-3 mt-6 lg:mt-0">
-            <label className="font-medium text-lg">Destino y/o Actividad</label>
-            <input
-              id="destino"
-              className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-              type="text"
-              name="destino"
-            />
-          </div>
-        </div>
-        {/* CRP - Fecha - Situación */}
-        <div className="flex flex-col lg:flex-row -mx-3 mb-6">
-          {/* CRP */}
+          {/* Tipo documento */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className="font-medium text-lg">CRP</label>
-            <input
-              id="crp"
-              className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-              type="text"
-              name="crp"
-            />
+            <label className="font-medium text-lg">Tipo documento</label>
+            <div className="relative mt-1">
+              <Select isClearable isSearchable options={typeDocument} />
+            </div>
           </div>
           {/* Fecha */}
           <div className="w-full md:w-1/2 px-3">
@@ -84,12 +62,38 @@ export const OrderAction = () => {
               name="fecha"
             />
           </div>
-          {/* Tipo documento */}
+        </div>
+        {/* Area Solicitante - CRP - Destino y/o Actividad */}
+        <div className="flex flex-col lg:flex-row -mx-3 mb-6">
+          {/* Area Solicitante */}
+          <div className="w-full md:w-1/2 px-3">
+            <label className="font-medium text-lg">Area Solicitante</label>
+            <input
+              id="area"
+              className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+              type="text"
+              name="area"
+            />
+          </div>
+          {/* CRP */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className="font-medium text-lg">Tipo documento</label>
-            <div className="relative mt-1">
-              <Select isClearable isSearchable options={typeDocument} />
-            </div>
+            <label className="font-medium text-lg">CRP</label>
+            <input
+              id="crp"
+              className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+              type="text"
+              name="crp"
+            />
+          </div>
+          {/* Destino y/o Actividad */}
+          <div className="w-full md:w-1/2 px-3 mt-6 lg:mt-0">
+            <label className="font-medium text-lg">Destino y/o Actividad</label>
+            <input
+              id="destino"
+              className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+              type="text"
+              name="destino"
+            />
           </div>
         </div>
         {/* Situacion - Producto - Boton */}
@@ -108,18 +112,12 @@ export const OrderAction = () => {
               <MasterSelect selected={productSelected} maintainer="productos" />
             </div>
           </div>
-          {/* Boton */}
-          <div className="w-full md:w-1/2 px-0 mt-5 lg:items-center">
-            <label className="font-medium text-lg"></label>
-            <button
-              type="button"
-              onClick={() => console.log("Agregar")}
-              style={{ color: currentColor, borderRadius: "50%" }}
-              className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray mt-1"
-              title="Agregar producto"
-            >
-              <MdAddCircleOutline />
-            </button>
+          {/* Motivo */}
+          <div className="w-full md:w-1/2 px-3 mt-6 lg:mt-0">
+            <label className="font-medium text-lg">Motivo</label>
+            <div className="mt-1">
+              <Select isClearable isSearchable options={motivo} />
+            </div>
           </div>
         </div>
         {/* Table */}

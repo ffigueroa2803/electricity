@@ -161,6 +161,13 @@ export const typeDocument = [
   { value: "EXIT", label: "Salida" },
 ];
 
+export const motivo = [
+  { value: "compra", label: "Compra" },
+  { value: "devolucion", label: "Devolución" },
+  { value: "sobrante", label: "Sobrante" },
+  { value: "desmontaje", label: "Desmontaje" },
+];
+
 export const LoadingCircle = () => {
   return (
     <svg

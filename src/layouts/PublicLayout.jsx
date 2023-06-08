@@ -6,7 +6,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useAuthCheck } from "../hooks/useAuthCheck";
 import { LoadingPage } from "../components";
 
-const PublicLayout = () => {
+export const PublicLayout = () => {
   const isLoggedIn = useAuth();
   const authChecked = useAuthCheck();
 
@@ -14,7 +14,7 @@ const PublicLayout = () => {
     return <LoadingPage />;
   }
 
-  if (isLoggedIn && authChecked) {
+  if (isLoggedIn) {
     return <Navigate to="/authorized/profile" />;
   }
 
@@ -29,5 +29,3 @@ const PublicLayout = () => {
     </div>
   );
 };
-
-export default PublicLayout;

@@ -16,7 +16,7 @@ export const useAuthCheck = () => {
       }
     }
     setAuthChecked(true);
-  }, [dispatch, setAuthChecked]);
+  }, [dispatch]);
 
   return authChecked;
 };

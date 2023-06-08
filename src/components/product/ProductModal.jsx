@@ -28,6 +28,10 @@ const ProductModal = ({
   const [description, setDescription] = useState("");
   const [stock, setStock] = useState(0);
 
+  const [serie, setSerie] = useState("");
+  const [potencia, setPotencia] = useState("");
+  const [year, setYear] = useState("");
+
   const dispatch = useDispatch();
 
   const [registerUpdateProduct, { data, isLoading, error: responseError }] =
@@ -43,6 +47,9 @@ const ProductModal = ({
         name,
         description,
         stock: parseInt(stock),
+        serie,
+        potencia,
+        year: parseInt(year),
         attributos: [],
         marcaId: `${brandSelected?.id}`,
         medidaId: `${measureSelected?.id}`,
@@ -63,6 +70,9 @@ const ProductModal = ({
       setName(product?.name);
       setDescription(product?.description);
       setStock(product?.stock);
+      setSerie(product?.serie);
+      setPotencia(product?.potencia);
+      setYear(product?.anio);
       dispatch(setBrandSelected(product?.marca || null));
       dispatch(setMeasureSelected(product?.medida || null));
     } else {
@@ -71,6 +81,9 @@ const ProductModal = ({
       setName("");
       setDescription("");
       setStock(0);
+      setSerie("");
+      setPotencia("");
+      setYear("");
       dispatch(setBrandSelected(null));
       dispatch(setMeasureSelected(null));
     }
@@ -132,7 +145,7 @@ const ProductModal = ({
                 />
               </div>
             </div>
-            {/* Codigo, Nombre, Stock */}
+            {/* Codigo Material, Codigo Patrimonial, Stock */}
             <div className="flex flex-col lg:flex-row -mx-3 mb-6">
               {/* Codigo de Material */}
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -177,6 +190,45 @@ const ProductModal = ({
                 />
               </div>
             </div>
+            {/* Serie, Potencia, Año */}
+            <div className="flex flex-col lg:flex-row -mx-3 mb-6">
+              {/* Serie */}
+              <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <label className="font-medium text-lg">Serie</label>
+                <input
+                  id="serie"
+                  className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+                  type="text"
+                  name="serie"
+                  value={serie}
+                  onChange={(e) => setSerie(e.target.value)}
+                />
+              </div>
+              {/* Potencia */}
+              <div className="w-full md:w-1/2 px-3">
+                <label className="font-medium text-lg">Potencia</label>
+                <input
+                  id="potencia"
+                  className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+                  type="text"
+                  name="potencia"
+                  value={potencia}
+                  onChange={(e) => setPotencia(e.target.value)}
+                />
+              </div>
+              {/* Año */}
+              <div className="w-full md:w-1/2 px-3 mt-6 lg:mt-0">
+                <label className="font-medium text-lg">Año</label>
+                <input
+                  id="anio"
+                  className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+                  type="text"
+                  name="year"
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
+                />
+              </div>
+            </div>
             {/* Description */}
             <div className="flex flex-wrap -mx-3 mb-6">
               <div className="w-full px-3">
@@ -189,7 +241,6 @@ const ProductModal = ({
                   rows="5"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  required
                 />
               </div>
             </div>

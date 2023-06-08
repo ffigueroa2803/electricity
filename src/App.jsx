@@ -22,9 +22,7 @@ const App = () => {
 
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
-      <Suspense>
-        <RouterProvider router={RootRouter} />
-      </Suspense>
+      <RouterProvider router={RootRouter} />
     </div>
   );
 };

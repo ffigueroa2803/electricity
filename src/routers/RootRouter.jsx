@@ -11,8 +11,8 @@ import {
   Forgot,
   Login,
   Measures,
-  Order,
-  OrderAction,
+  Nota,
+  NotaAction,
   Places,
   Products,
   Profile,
@@ -37,8 +37,8 @@ export const RootRouter = createBrowserRouter(
         <Route path="measures" element={<Measures />} />
         <Route path="places" element={<Places />} />
         <Route path="products" element={<Products />} />
-        <Route path="nota-pedido" element={<Order />} />
-        <Route path="nota-pedido/:notaId" element={<OrderAction />} />
+        <Route path="nota-pedido" element={<Nota />} />
+        <Route path="nota-pedido/:notaId" element={<NotaAction />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Route>
