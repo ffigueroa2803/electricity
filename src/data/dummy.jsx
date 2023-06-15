@@ -1,13 +1,12 @@
-import React from "react";
 import { AiOutlineDashboard } from "react-icons/ai";
-import { BsBoxSeam, BsFilePerson } from "react-icons/bs";
+import { BsCurrencyDollar, BsFilePerson, BsShield } from "react-icons/bs";
 import { TfiRuler } from "react-icons/tfi";
-import { HiOutlineRefresh, HiOutlineUsers } from "react-icons/hi";
+import { HiOutlineUsers } from "react-icons/hi";
 import { BiWorld, BiSpreadsheet, BiBadgeCheck } from "react-icons/bi";
 import { RiProductHuntLine, RiStackLine } from "react-icons/ri";
+import { TiTick } from "react-icons/ti";
+import { FiCreditCard } from "react-icons/fi";
 
-import { MdOutlineSupervisorAccount } from "react-icons/md";
-import { FiBarChart } from "react-icons/fi";
 import avatar5 from "../assets/avatar5.png";
 
 export const links = [
@@ -81,6 +80,20 @@ export const userProfileData = [
     iconBg: "#E5FAFB",
     route: "profile",
   },
+  {
+    icon: <BsShield />,
+    title: "Mi bandeja de entrada",
+    desc: "Mensajes & Correos electrónicos",
+    iconColor: "rgb(0, 194, 146)",
+    iconBg: "rgb(235, 250, 242)",
+  },
+  {
+    icon: <FiCreditCard />,
+    title: "Mis tareas",
+    desc: "Tareas pendientes y diarias",
+    iconColor: "rgb(255, 244, 229)",
+    iconBg: "rgb(254, 201, 15)",
+  },
 ];
 
 export const themeColors = [
@@ -110,46 +123,6 @@ export const themeColors = [
   },
 ];
 
-export const earningData = [
-  {
-    icon: <MdOutlineSupervisorAccount />,
-    amount: "39,354",
-    percentage: "-4%",
-    title: "Customers",
-    iconColor: "#03C9D7",
-    iconBg: "#E5FAFB",
-    pcColor: "red-600",
-  },
-  {
-    icon: <BsBoxSeam />,
-    amount: "4,396",
-    percentage: "+23%",
-    title: "Products",
-    iconColor: "rgb(255, 244, 229)",
-    iconBg: "rgb(254, 201, 15)",
-    pcColor: "green-600",
-  },
-  {
-    icon: <FiBarChart />,
-    amount: "423,39",
-    percentage: "+38%",
-    title: "Sales",
-    iconColor: "rgb(228, 106, 118)",
-    iconBg: "rgb(255, 244, 229)",
-
-    pcColor: "green-600",
-  },
-  {
-    icon: <HiOutlineRefresh />,
-    amount: "39,354",
-    percentage: "-12%",
-    title: "Refunds",
-    iconColor: "rgb(0, 194, 146)",
-    iconBg: "rgb(235, 250, 242)",
-    pcColor: "red-600",
-  },
-];
-
 export const situation = [
   { value: "nuevo", label: "Nuevo" },
   { value: "segundo", label: "Segundo uso" },
@@ -166,6 +139,140 @@ export const motivo = [
   { value: "devolucion", label: "Devolución" },
   { value: "sobrante", label: "Sobrante" },
   { value: "desmontaje", label: "Desmontaje" },
+];
+
+export const lineChartData = [
+  [
+    { x: new Date(2005, 0, 1), y: 21 },
+    { x: new Date(2006, 0, 1), y: 24 },
+    { x: new Date(2007, 0, 1), y: 36 },
+    { x: new Date(2008, 0, 1), y: 38 },
+    { x: new Date(2009, 0, 1), y: 54 },
+    { x: new Date(2010, 0, 1), y: 57 },
+    { x: new Date(2011, 0, 1), y: 70 },
+  ],
+  [
+    { x: new Date(2005, 0, 1), y: 28 },
+    { x: new Date(2006, 0, 1), y: 44 },
+    { x: new Date(2007, 0, 1), y: 48 },
+    { x: new Date(2008, 0, 1), y: 50 },
+    { x: new Date(2009, 0, 1), y: 66 },
+    { x: new Date(2010, 0, 1), y: 78 },
+    { x: new Date(2011, 0, 1), y: 84 },
+  ],
+
+  [
+    { x: new Date(2005, 0, 1), y: 10 },
+    { x: new Date(2006, 0, 1), y: 20 },
+    { x: new Date(2007, 0, 1), y: 30 },
+    { x: new Date(2008, 0, 1), y: 39 },
+    { x: new Date(2009, 0, 1), y: 50 },
+    { x: new Date(2010, 0, 1), y: 70 },
+    { x: new Date(2011, 0, 1), y: 100 },
+  ],
+];
+
+export const lineCustomSeries = [
+  {
+    dataSource: lineChartData[0],
+    xName: "x",
+    yName: "y",
+    name: "Germany",
+    width: "2",
+    marker: { visible: true, width: 10, height: 10 },
+    type: "Line",
+  },
+
+  {
+    dataSource: lineChartData[1],
+    xName: "x",
+    yName: "y",
+    name: "England",
+    width: "2",
+    marker: { visible: true, width: 10, height: 10 },
+    type: "Line",
+  },
+
+  {
+    dataSource: lineChartData[2],
+    xName: "x",
+    yName: "y",
+    name: "India",
+    width: "2",
+    marker: { visible: true, width: 10, height: 10 },
+    type: "Line",
+  },
+];
+
+export const LinePrimaryXAxis = {
+  valueType: "DateTime",
+  labelFormat: "y",
+  intervalType: "Years",
+  edgeLabelPlacement: "Shift",
+  majorGridLines: { width: 0 },
+  background: "white",
+};
+
+export const LinePrimaryYAxis = {
+  labelFormat: "{value}%",
+  rangePadding: "None",
+  minimum: 0,
+  maximum: 100,
+  interval: 20,
+  lineStyle: { width: 0 },
+  majorTickLines: { width: 0 },
+  minorTickLines: { width: 0 },
+};
+
+export const recentTransactions = [
+  {
+    icon: <BsCurrencyDollar />,
+    amount: "+$350",
+    title: "Paypal Transfer",
+    desc: "Money Added",
+    iconColor: "#03C9D7",
+    iconBg: "#E5FAFB",
+    pcColor: "green-600",
+  },
+  {
+    icon: <BsShield />,
+    amount: "-$560",
+    desc: "Bill Payment",
+    title: "Wallet",
+    iconColor: "rgb(0, 194, 146)",
+    iconBg: "rgb(235, 250, 242)",
+    pcColor: "red-600",
+  },
+  {
+    icon: <FiCreditCard />,
+    amount: "+$350",
+    title: "Credit Card",
+    desc: "Money reversed",
+    iconColor: "rgb(255, 244, 229)",
+    iconBg: "rgb(254, 201, 15)",
+
+    pcColor: "green-600",
+  },
+  {
+    icon: <TiTick />,
+    amount: "+$350",
+    title: "Bank Transfer",
+    desc: "Money Added",
+
+    iconColor: "rgb(228, 106, 118)",
+    iconBg: "rgb(255, 244, 229)",
+    pcColor: "green-600",
+  },
+  {
+    icon: <BsCurrencyDollar />,
+    amount: "-$50",
+    percentage: "+38%",
+    title: "Refund",
+    desc: "Payment Sent",
+    iconColor: "#03C9D7",
+    iconBg: "#E5FAFB",
+    pcColor: "red-600",
+  },
 ];
 
 export const LoadingCircle = () => {

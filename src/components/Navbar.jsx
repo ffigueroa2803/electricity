@@ -93,7 +93,7 @@ const Navbar = () => {
               />
               <p>
                 <span className="text-gray-400 text-14">Hola,</span>{" "}
-                <span className="text-gray-900 ml-1 text-14">
+                <span className="text-gray-400 font-bold ml-1 text-14">
                   {data?.email}
                 </span>
               </p>
