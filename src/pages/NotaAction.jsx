@@ -156,6 +156,7 @@ export const NotaAction = () => {
                     type="number"
                     name="cantidad"
                     defaultValue={1}
+                    min={0}
                   />
                 </td>
                 <td className="px-6 py-4 text-center">
