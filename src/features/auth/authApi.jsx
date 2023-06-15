@@ -29,8 +29,14 @@ export const authApi = apiSlice.injectEndpoints({
               accessToken: result.data.accessToken,
             })
           );
-          dispatch(themeSetMode("Light"));
-        } catch (err) {}
+
+          // we validate if themeMode exists
+          const themeMode = localStorage.getItem("themeMode");
+          if (themeMode) dispatch(themeSetMode(themeMode));
+          else dispatch(themeSetMode("Light"));
+        } catch (err) {
+          console.log(err);
+        }
       },
     }),
 

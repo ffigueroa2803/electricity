@@ -216,7 +216,7 @@ export const NotaAction = () => {
         {/* Button */}
         <div className="mt-1 flex justify-start gap-y-4">
           <button
-            className="w-1/6 active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-md text-white font-bold mt-0"
+            className="w-1/2 lg:w-1/6 active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-md text-white font-bold mt-0"
             style={{ backgroundColor: currentColor }}
           >
             Guardar pedido

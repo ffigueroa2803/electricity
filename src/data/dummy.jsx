@@ -228,8 +228,8 @@ export const recentTransactions = [
   {
     icon: <BsCurrencyDollar />,
     amount: "+$350",
-    title: "Paypal Transfer",
-    desc: "Money Added",
+    title: "Transferencia de PayPal",
+    desc: "Dinero agredado",
     iconColor: "#03C9D7",
     iconBg: "#E5FAFB",
     pcColor: "green-600",
@@ -237,8 +237,8 @@ export const recentTransactions = [
   {
     icon: <BsShield />,
     amount: "-$560",
-    desc: "Bill Payment",
-    title: "Wallet",
+    desc: "Pago de la factura",
+    title: "Billetera",
     iconColor: "rgb(0, 194, 146)",
     iconBg: "rgb(235, 250, 242)",
     pcColor: "red-600",
@@ -246,8 +246,8 @@ export const recentTransactions = [
   {
     icon: <FiCreditCard />,
     amount: "+$350",
-    title: "Credit Card",
-    desc: "Money reversed",
+    title: "Tarjeta de crédito",
+    desc: "Dinero invertido",
     iconColor: "rgb(255, 244, 229)",
     iconBg: "rgb(254, 201, 15)",
 
@@ -256,9 +256,8 @@ export const recentTransactions = [
   {
     icon: <TiTick />,
     amount: "+$350",
-    title: "Bank Transfer",
-    desc: "Money Added",
-
+    title: "Transferencia bancaria",
+    desc: "Dinero agredado",
     iconColor: "rgb(228, 106, 118)",
     iconBg: "rgb(255, 244, 229)",
     pcColor: "green-600",
@@ -267,8 +266,8 @@ export const recentTransactions = [
     icon: <BsCurrencyDollar />,
     amount: "-$50",
     percentage: "+38%",
-    title: "Refund",
-    desc: "Payment Sent",
+    title: "Reembolso",
+    desc: "Pago enviado",
     iconColor: "#03C9D7",
     iconBg: "#E5FAFB",
     pcColor: "red-600",
