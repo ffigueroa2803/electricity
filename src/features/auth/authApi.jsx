@@ -1,4 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
+import { themeSetMode } from "../theme/themeSlice";
 import { userLoggedIn, userProfile } from "./authSlice";
 
 export const authApi = apiSlice.injectEndpoints({
@@ -28,6 +29,7 @@ export const authApi = apiSlice.injectEndpoints({
               accessToken: result.data.accessToken,
             })
           );
+          dispatch(themeSetMode("Light"));
         } catch (err) {}
       },
     }),

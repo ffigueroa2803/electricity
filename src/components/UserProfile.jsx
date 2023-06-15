@@ -18,7 +18,6 @@ const UserProfile = () => {
 
   const logout = () => {
     dispatch(userLoggedOut());
-    localStorage.clear();
   };
 
   return (
