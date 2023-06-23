@@ -98,28 +98,28 @@ export const userProfileData = [
 
 export const themeColors = [
   {
-    name: "blue-theme",
+    name: "tema-azul",
     color: "#1A97F5",
   },
   {
-    name: "green-theme",
+    name: "tema-verde",
     color: "#03C9D7",
   },
   {
-    name: "purple-theme",
+    name: "tema-morado",
     color: "#7352FF",
   },
   {
-    name: "red-theme",
+    name: "tema-rojo",
     color: "#FF5C8E",
   },
   {
-    name: "indigo-theme",
+    name: "tema-indigo",
     color: "#1E4DB7",
   },
   {
     color: "#FB9678",
-    name: "orange-theme",
+    name: "tema-naranja",
   },
 ];
 

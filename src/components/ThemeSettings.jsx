@@ -44,7 +44,7 @@ const ThemeSettings = () => {
             />
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="light" className="ml-2 text-md cursor-pointer">
-              Light
+              Claro
             </label>
           </div>
           <div className="mt-2">
@@ -59,7 +59,7 @@ const ThemeSettings = () => {
             />
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="dark" className="ml-2 text-md cursor-pointer">
-              Dark
+              Oscuro
             </label>
           </div>
         </div>
