@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Header, MasterSelect } from "../components";
 import { useSelector } from "react-redux";
-import { RiArrowGoBackLine, RiDeleteBin2Line } from "react-icons/ri";
+import { RiArrowGoBackLine, RiDeleteBin2Line, RiAddLine } from "react-icons/ri";
 import Select from "react-select";
 import { motivo, situation, typeDocument } from "../data/dummy";
 
@@ -11,6 +11,18 @@ export const NotaAction = () => {
 
   const { currentColor } = useSelector((state) => state?.theme);
   const { productSelected } = useSelector((state) => state?.product);
+  const { areaSelected } = useSelector((state) => state?.area);
+  const { placeSelected } = useSelector((state) => state?.place);
+
+  const [typeSelected, setTypeSelected] = useState(null);
+
+  const handleChangeType = (selectedOption) => {
+    setTypeSelected(selectedOption);
+  };
+
+  const handleSubmit = () => {};
+
+  const handleAdd = () => {};
 
   let { notaId } = useParams();
 
@@ -19,18 +31,31 @@ export const NotaAction = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <Header title={`CREAR NOTA DE PEDIDO`} />
-        <button
-          type="button"
-          onClick={() => navigate("/authorized/nota-pedido", { replace: true })}
-          style={{ color: `${currentColor}`, borderRadius: "50%" }}
-          className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
-          title="Regresar a la lista"
-        >
-          <RiArrowGoBackLine />
-        </button>
+        <div className="flex flex-row">
+          <button
+            type="button"
+            onClick={handleAdd}
+            style={{ color: `${currentColor}`, borderRadius: "50%" }}
+            className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
+            title="Agregar Item"
+          >
+            <RiAddLine />
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              navigate("/authorized/nota-pedido", { replace: true })
+            }
+            style={{ color: `${currentColor}`, borderRadius: "50%" }}
+            className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
+            title="Regresar a la lista"
+          >
+            <RiArrowGoBackLine />
+          </button>
+        </div>
       </div>
       {/* Form */}
-      <form>
+      <form onSubmit={handleSubmit}>
         {/* Codigo - Tipo documento - Fecha */}
         <div className="flex flex-col lg:flex-row -mx-3 mb-6">
           {/* Codigo */}
@@ -49,7 +74,12 @@ export const NotaAction = () => {
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className="font-medium text-lg">Tipo documento</label>
             <div className="relative mt-1">
-              <Select isClearable isSearchable options={typeDocument} />
+              <Select
+                isClearable
+                isSearchable
+                options={typeDocument}
+                onChange={handleChangeType}
+              />
             </div>
           </div>
           {/* Fecha */}
@@ -68,12 +98,9 @@ export const NotaAction = () => {
           {/* Area Solicitante */}
           <div className="w-full md:w-1/2 px-3">
             <label className="font-medium text-lg">Area Solicitante</label>
-            <input
-              id="area"
-              className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-              type="text"
-              name="area"
-            />
+            <div className="relative mt-1">
+              <MasterSelect selected={areaSelected} maintainer="areas" />
+            </div>
           </div>
           {/* CRP */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -87,13 +114,14 @@ export const NotaAction = () => {
           </div>
           {/* Destino y/o Actividad */}
           <div className="w-full md:w-1/2 px-3 mt-6 lg:mt-0">
-            <label className="font-medium text-lg">Destino y/o Actividad</label>
-            <input
-              id="destino"
-              className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-              type="text"
-              name="destino"
-            />
+            <label className="font-medium text-lg">
+              {typeSelected?.value == "ENTRY"
+                ? "Lugar de desmontaje"
+                : "Destino y/o Actividad"}
+            </label>
+            <div className="relative mt-1">
+              <MasterSelect selected={placeSelected} maintainer="lugares" />
+            </div>
           </div>
         </div>
         {/* Situacion - Producto - Boton */}
@@ -172,7 +200,7 @@ export const NotaAction = () => {
                 </td>
               </tr>
               <tr>
-                <td className="px-6 py-4">1</td>
+                <td className="px-6 py-4">2</td>
                 <td className="px-6 py-4">56545</td>
                 <td className="px-6 py-4 truncate">Transformador Trifasico</td>
                 <td className="px-6 py-4 text-center">UND</td>
@@ -200,27 +228,27 @@ export const NotaAction = () => {
             </tbody>
           </table>
         </div>
-        {/* Observación */}
-        <div className="flex flex-wrap -mx-3 mb-3 mt-5">
-          <div className="w-full px-3">
-            <label className="font-medium text-lg">Observación</label>
-            <textarea
-              id="observation"
-              className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-              name="description"
-              cols="20"
-              rows="3"
-            />
+        {/* Buttons */}
+        <div className="flex justify-start gap-y-4 mt-5">
+          <div className="">
+            <button
+              type="button"
+              className="w-400 active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-md text-white font-bold mt-0"
+              style={{ backgroundColor: currentColor }}
+              onClick={() => alert("Hola")}
+            >
+              Observación
+            </button>
           </div>
-        </div>
-        {/* Button */}
-        <div className="mt-1 flex justify-start gap-y-4">
-          <button
-            className="w-1/2 lg:w-1/6 active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-md text-white font-bold mt-0"
-            style={{ backgroundColor: currentColor }}
-          >
-            Guardar pedido
-          </button>
+          <div className="ml-4">
+            <button
+              type="submit"
+              className="w-400 active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-md text-white font-bold mt-0"
+              style={{ backgroundColor: currentColor }}
+            >
+              Guardar pedido
+            </button>
+          </div>
         </div>
       </form>
     </div>

@@ -5,6 +5,7 @@ const initialState = {
   limit: 7,
   search: "",
   modal: false,
+  placeSelected: null,
 };
 
 const placeSlice = createSlice({
@@ -22,6 +23,9 @@ const placeSlice = createSlice({
       state.limit = 7;
       state.search = "";
     },
+    setPlaceSelected: (state, action) => {
+      state.placeSelected = action.payload;
+    },
   },
 });
 
@@ -30,5 +34,6 @@ export const {
   placeSearch,
   placeClearSearch,
   placeClearInit,
+  setPlaceSelected,
 } = placeSlice.actions;
 export default placeSlice.reducer;

@@ -2,6 +2,12 @@ import { apiSlice } from "../api/apiSlice";
 
 export const notaApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getNotas: builder.query({
+      query: ({ page, limit, search }) =>
+        `/api/notas?page=${page}&limit=${limit}&querySearch=${search}`,
+      providesTags: ["Notas"],
+    }),
+
     registerUpdateNota: builder.mutation({
       query: (data) => ({
         url: `${
@@ -17,4 +23,4 @@ export const notaApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useRegisterUpdateNotaMutation } = notaApi;
+export const { useGetNotasQuery, useRegisterUpdateNotaMutation } = notaApi;

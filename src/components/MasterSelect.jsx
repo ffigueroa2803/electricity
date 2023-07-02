@@ -6,6 +6,7 @@ import { setBrandSelected } from "../features/brand/brandSlice";
 import { setMeasureSelected } from "../features/measure/measureSlice";
 import { setAreaSelected } from "../features/area/areaSlice";
 import { setProductSelected } from "../features/product/productSlice";
+import { setPlaceSelected } from "../features/place/placeSlice";
 
 const MasterSelect = ({ selected, maintainer }) => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const MasterSelect = ({ selected, maintainer }) => {
     if (maintainer == "medidas") dispatch(setMeasureSelected(e?.obj || null));
     if (maintainer == "areas") dispatch(setAreaSelected(e?.obj || null));
     if (maintainer == "productos") dispatch(setProductSelected(e?.obj || null));
+    if (maintainer == "lugares") dispatch(setPlaceSelected(e?.obj || null));
   };
 
   const loadValue = () => {
