@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,7 @@ const NotaItems = ({ notaItems, setNotaDeleteItem, notaId, action }) => {
   const dispatch = useDispatch();
 
   const { currentColor } = useSelector((state) => state?.theme);
+  const [amount, setAmount] = useState(null);
 
   const {
     data,
@@ -36,7 +37,7 @@ const NotaItems = ({ notaItems, setNotaDeleteItem, notaId, action }) => {
               Item
             </th>
             <th className="font-semibold text-sm uppercase px-6 py-4 truncate">
-              Código
+              Código del material
             </th>
             <th className="font-semibold text-sm uppercase px-6 py-4 text-center w-[20%]">
               Descripción del material
@@ -63,7 +64,8 @@ const NotaItems = ({ notaItems, setNotaDeleteItem, notaId, action }) => {
                   className="w-20 border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent text-center"
                   type="number"
                   name="cantidad"
-                  defaultValue={1}
+                  value={action == "edit" ? item?.amount : amount || 1}
+                  onChange={(e) => setAmount(e.target.value)}
                 />
               </td>
               <td className="px-6 py-4 text-center">

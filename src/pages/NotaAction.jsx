@@ -53,6 +53,7 @@ export const NotaAction = () => {
         code: productSelected?.code,
         nombre: productSelected?.name,
         medida: productSelected?.medida?.name,
+        amount: 1,
       })
     );
     console.log(notaItems);
