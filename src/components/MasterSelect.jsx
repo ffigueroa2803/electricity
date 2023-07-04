@@ -8,7 +8,7 @@ import { setAreaSelected } from "../features/area/areaSlice";
 import { setProductSelected } from "../features/product/productSlice";
 import { setPlaceSelected } from "../features/place/placeSlice";
 
-const MasterSelect = ({ selected, maintainer }) => {
+const MasterSelect = ({ selected, maintainer, required = true }) => {
   const dispatch = useDispatch();
   const { currentColor } = useSelector((state) => state?.theme);
 
@@ -79,7 +79,7 @@ const MasterSelect = ({ selected, maintainer }) => {
       loadOptions={promiseOptions}
       onChange={(e) => handleSelectChange(e)}
       value={loadValue()}
-      required
+      required={required}
     />
   ) : null;
 };

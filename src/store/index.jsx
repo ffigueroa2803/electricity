@@ -9,6 +9,7 @@ import areaReducer from "../features/area/areaSlice";
 import brandReducer from "../features/brand/brandSlice";
 import placeReducer from "../features/place/placeSlice";
 import productReducer from "../features/product/productSlice";
+import notaReducer from "../features/nota/notaSlice";
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ export const store = configureStore({
     brand: brandReducer,
     place: placeReducer,
     product: productReducer,
+    nota: notaReducer,
   },
 
   middleware: (getDefaultMiddlewares) =>

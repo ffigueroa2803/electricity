@@ -1,4 +1,4 @@
-const detailsModal = () => {
+const DetailsModal = () => {
   return (
     <div className="flex flex-wrap -mx-3 mb-3 mt-5">
       <div className="w-full px-3">
@@ -15,4 +15,4 @@ const detailsModal = () => {
   );
 };
 
-export default detailsModal;
+export default DetailsModal;

@@ -1,12 +1,34 @@
-import React from "react";
-import { Header } from "../components";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { Header, LoadingCircle, NotFound, Pagination } from "../components";
+import { useDispatch, useSelector } from "react-redux";
 import { RiDeleteBin2Line, RiPencilLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { useGetNotasQuery } from "../features/nota/notaApi";
+import {
+  notaChangeCurrentPage,
+  notaClearInit,
+} from "../features/nota/notaSlice";
 
 export const Nota = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const { currentColor } = useSelector((state) => state?.theme);
+  const { page, limit, search } = useSelector((state) => state?.nota);
+
+  const { data, isLoading, error } = useGetNotasQuery({
+    page,
+    limit,
+    search,
+  });
+
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [data, error]);
+
+  useEffect(() => {
+    dispatch(notaClearInit());
+  }, []);
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -40,7 +62,9 @@ export const Nota = () => {
             style={{ backgroundColor: currentColor }}
             className="flex-shrink-0 px-4 py-2 mb-3 text-base font-semibold text-white rounded-lg shadow-md w-3/4 lg:w-20 md:w-20"
             onClick={() =>
-              navigate("/authorized/nota-pedido/create", { replace: true })
+              navigate(`/authorized/nota-pedido/${null}/create`, {
+                replace: true,
+              })
             }
           >
             Nuevo
@@ -52,19 +76,19 @@ export const Nota = () => {
         <table className="mx-auto max-w-full w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden lg:table-fixed lg:w-[100%]">
           <thead style={{ background: currentColor }}>
             <tr className="text-white text-left">
-              <th className="font-semibold text-sm uppercase px-6 py-4 w-[15%]">
+              <th className="font-semibold text-sm uppercase px-6 py-4 w-[10%]">
                 Code
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 truncate">
                 Fecha
               </th>
-              <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center w-[20%]">
                 Area
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
                 Crp
               </th>
-              <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center w-[30%]">
                 Destino
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
@@ -77,34 +101,61 @@ export const Nota = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            <tr>
-              <td className="px-6 py-4">0017578</td>
-              <td className="px-6 py-4">03-09-2022</td>
-              <td className="px-6 py-4 truncate">Distribución</td>
-              <td className="px-6 py-4 text-center">101913000</td>
-              <td className="px-6 py-4 text-center">SE 788 los tuneles</td>
-              <td className="px-6 py-4 text-center">Entrada</td>
-              <td className="px-6 py-4 text-center">Recuperado</td>
-              <td className="px-6 py-4 text-center">
-                {" "}
-                <button
-                  onClick={() => console.log("edit")}
-                  style={{ color: currentColor }}
-                  className="text-gray-500 text-xl hover:underline"
-                >
-                  <RiPencilLine />
-                </button>{" "}
-                <button
-                  onClick={() => console.log("remove")}
-                  style={{ color: currentColor }}
-                  className="text-gray-500 text-xl hover:underline ml-3"
-                >
-                  <RiDeleteBin2Line />
-                </button>{" "}
-              </td>
-            </tr>
+            {isLoading ? (
+              <LoadingCircle width="48" color={currentColor} colSpan="8" />
+            ) : data?.items.length === 0 ? (
+              <NotFound title="No hay datos" colSpan="8" />
+            ) : (
+              data?.items.map((value) => (
+                <tr key={value?.id}>
+                  <td className="px-6 py-4">{value?.code}</td>
+                  <td className="px-6 py-4">{value?.date}</td>
+                  <td className="px-6 py-4">{value?.area?.name}</td>
+                  <td className="px-6 py-4 text-center">
+                    {value?.documentCrp}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {value?.lugar?.name}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {value?.type == "ENTRY" ? "ENTRADA" : "SALIDA"}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {value?.situacion?.name}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {" "}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        navigate(`/authorized/nota-pedido/${value?.id}/edit`, {
+                          replace: true,
+                        })
+                      }
+                      style={{ color: currentColor }}
+                      className="text-gray-500 text-xl hover:underline"
+                    >
+                      <RiPencilLine />
+                    </button>{" "}
+                    <button
+                      onClick={() => console.log("remove")}
+                      style={{ color: currentColor }}
+                      className="text-gray-500 text-xl hover:underline ml-3"
+                    >
+                      <RiDeleteBin2Line />
+                    </button>{" "}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
+        {isLoading ? null : (
+          <Pagination
+            {...data?.meta}
+            changeCurrentPage={notaChangeCurrentPage}
+          />
+        )}
       </div>
     </div>
   );

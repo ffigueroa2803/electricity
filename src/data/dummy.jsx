@@ -124,21 +124,21 @@ export const themeColors = [
 ];
 
 export const situation = [
-  { value: "nuevo", label: "Nuevo" },
-  { value: "segundo", label: "Segundo uso" },
-  { value: "recuperado", label: "Recuperado" },
+  { value: "nuevo", label: "Nuevo", name: "situacion" },
+  { value: "segundo", label: "Segundo uso", name: "situacion" },
+  { value: "recuperado", label: "Recuperado", name: "situacion" },
 ];
 
 export const typeDocument = [
-  { value: "ENTRY", label: "Entrada" },
-  { value: "EXIT", label: "Salida" },
+  { value: "ENTRY", label: "Entrada", name: "typeDocument" },
+  { value: "EXIT", label: "Salida", name: "typeDocument" },
 ];
 
 export const motivo = [
-  { value: "compra", label: "Compra" },
-  { value: "devolucion", label: "Devolución" },
-  { value: "sobrante", label: "Sobrante" },
-  { value: "desmontaje", label: "Desmontaje" },
+  { value: "compra", label: "Compra", name: "motivo" },
+  { value: "devolucion", label: "Devolución", name: "motivo" },
+  { value: "sobrante", label: "Sobrante", name: "motivo" },
+  { value: "desmontaje", label: "Desmontaje", name: "motivo" },
 ];
 
 export const lineChartData = [

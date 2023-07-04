@@ -118,9 +118,9 @@ export const Products = () => {
           </thead>
           <tbody className="divide-y divide-gray-200">
             {isLoading ? (
-              <LoadingCircle width="48" color={currentColor} colSpan="6" />
+              <LoadingCircle width="48" color={currentColor} colSpan="7" />
             ) : data?.items.length === 0 ? (
-              <NotFound title="No hay datos" colSpan="6" />
+              <NotFound title="No hay datos" colSpan="7" />
             ) : (
               data?.items.map((value) => (
                 <tr key={value?.id}>

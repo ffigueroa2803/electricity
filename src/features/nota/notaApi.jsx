@@ -8,6 +8,15 @@ export const notaApi = apiSlice.injectEndpoints({
       providesTags: ["Notas"],
     }),
 
+    getNotaIdItems: builder.query({
+      query: (data) =>
+        `${
+          data?.typeAction === "header"
+            ? `/api/notas/${data?.id}`
+            : `/api/notas/${data?.id}/items`
+        }`,
+    }),
+
     registerUpdateNota: builder.mutation({
       query: (data) => ({
         url: `${
@@ -23,4 +32,8 @@ export const notaApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetNotasQuery, useRegisterUpdateNotaMutation } = notaApi;
+export const {
+  useGetNotasQuery,
+  useGetNotaIdItemsQuery,
+  useRegisterUpdateNotaMutation,
+} = notaApi;

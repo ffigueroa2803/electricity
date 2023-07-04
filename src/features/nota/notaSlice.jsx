@@ -5,7 +5,7 @@ const initialState = {
   limit: 7,
   search: "",
   modal: false,
-  notaSelected: null,
+  notaItems: [],
 };
 
 const notaSlice = createSlice({
@@ -23,8 +23,20 @@ const notaSlice = createSlice({
       state.limit = 7;
       state.search = "";
     },
-    setNotaSelected: (state, action) => {
-      state.notaSelected = action.payload;
+    setNotaItems: (state, action) => {
+      state.notaItems = action.payload;
+    },
+    setNotaAddItem: (state, action) => {
+      state.notaItems = [...state.notaItems, action.payload];
+    },
+    setNotaDeleteItem: (state, action) => {
+      console.log(action.payload);
+      const foundItem = state.notaItems.find(
+        (item) => item.id === action.payload
+      );
+      if (foundItem) {
+        state.notaItems.splice(state.notaItems.indexOf(foundItem), 1);
+      }
     },
   },
 });
@@ -35,6 +47,8 @@ export const {
   notaClearSearch,
   notaToggleChecked,
   notaClearInit,
-  setNotaSelected,
+  setNotaItems,
+  setNotaAddItem,
+  setNotaDeleteItem,
 } = notaSlice.actions;
 export default notaSlice.reducer;

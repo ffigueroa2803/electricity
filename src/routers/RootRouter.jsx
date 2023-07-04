@@ -38,7 +38,7 @@ export const RootRouter = createBrowserRouter(
         <Route path="places" element={<Places />} />
         <Route path="products" element={<Products />} />
         <Route path="nota-pedido" element={<Nota />} />
-        <Route path="nota-pedido/:notaId" element={<NotaAction />} />
+        <Route path="nota-pedido/:notaId/:action" element={<NotaAction />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Route>

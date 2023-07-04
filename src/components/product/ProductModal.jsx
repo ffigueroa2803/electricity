@@ -71,8 +71,8 @@ const ProductModal = ({
       setDescription(product?.description);
       setStock(product?.stock);
       setSerie(product?.serie);
-      setPotencia(product?.potencia);
-      setYear(product?.anio);
+      setPotencia(product?.potencia || null);
+      setYear(product?.year);
       dispatch(setBrandSelected(product?.marca || null));
       dispatch(setMeasureSelected(product?.medida || null));
     } else {
@@ -200,7 +200,7 @@ const ProductModal = ({
                   className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                   type="text"
                   name="serie"
-                  value={serie}
+                  value={serie || ""}
                   onChange={(e) => setSerie(e.target.value)}
                 />
               </div>
@@ -212,7 +212,7 @@ const ProductModal = ({
                   className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                   type="text"
                   name="potencia"
-                  value={potencia}
+                  value={potencia || ""}
                   onChange={(e) => setPotencia(e.target.value)}
                 />
               </div>
@@ -224,7 +224,7 @@ const ProductModal = ({
                   className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                   type="text"
                   name="year"
-                  value={year}
+                  value={year || ""}
                   onChange={(e) => setYear(e.target.value)}
                 />
               </div>
