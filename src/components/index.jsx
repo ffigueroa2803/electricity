@@ -10,6 +10,7 @@ import Navbar from "./Navbar";
 import Notification from "./Notification";
 import NotFound from "./NotFound";
 import NotaItems from "./notas/NotaItems";
+import ObervationModal from "./notas/ObervationModal";
 import Pagination from "./Pagination";
 import ProductModal from "./product/ProductModal";
 import Sidebar from "./Sidebar";
@@ -32,6 +33,7 @@ export {
   Notification,
   NotFound,
   NotaItems,
+  ObervationModal,
   Pagination,
   ProductModal,
   Sidebar,
