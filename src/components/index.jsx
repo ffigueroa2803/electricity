@@ -1,6 +1,5 @@
 import Button from "./Button";
 import Error from "./Error";
-import DetailsModal from "./notas/DetailsModal";
 import Footer from "./Footer";
 import Header from "./Header";
 import LoadingCircle from "./LoadingCircle";
@@ -23,7 +22,6 @@ import UserProfile from "./UserProfile";
 export {
   Button,
   Error,
-  DetailsModal,
   Footer,
   Header,
   LoadingCircle,
