@@ -10,6 +10,8 @@ import brandReducer from "../features/brand/brandSlice";
 import placeReducer from "../features/place/placeSlice";
 import productReducer from "../features/product/productSlice";
 import notaReducer from "../features/nota/notaSlice";
+import situationReducer from "../features/situation/situationSlice";
+import reasonReducer from "../features/reason/reasonSlice";
 
 export const store = configureStore({
   reducer: {
@@ -23,6 +25,8 @@ export const store = configureStore({
     place: placeReducer,
     product: productReducer,
     nota: notaReducer,
+    situation: situationReducer,
+    reason: reasonReducer,
   },
 
   middleware: (getDefaultMiddlewares) =>

@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Header, LoadingCircle, NotFound, Pagination } from "../components";
 import { useDispatch, useSelector } from "react-redux";
-import { RiDeleteBin2Line, RiPencilLine } from "react-icons/ri";
+import { RiPencilLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { useGetNotasQuery } from "../features/nota/notaApi";
 import {
   notaChangeCurrentPage,
   notaClearInit,
+  notaSearch,
 } from "../features/nota/notaSlice";
 
 export const Nota = () => {
@@ -16,15 +17,26 @@ export const Nota = () => {
   const { currentColor } = useSelector((state) => state?.theme);
   const { page, limit, search } = useSelector((state) => state?.nota);
 
-  const { data, isLoading, error } = useGetNotasQuery({
+  const [dataInput, setDataInput] = useState("");
+
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useGetNotasQuery({
     page,
     limit,
     search,
   });
 
+  const getNotaSearch = () => {
+    dispatch(notaChangeCurrentPage(1));
+    dispatch(notaSearch(dataInput));
+  };
+
   useEffect(() => {
     if (error) toast.error(error);
-  }, [data, error]);
+  }, [error]);
 
   useEffect(() => {
     dispatch(notaClearInit());
@@ -44,12 +56,12 @@ export const Nota = () => {
                 id="form-subscribe-Filter"
                 className="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent lg:w-96"
                 placeholder="Ingrese nota de pedido"
-                // value={dataInput}
-                // onChange={(e) => setDataInput(e.target.value)}
+                value={dataInput}
+                onChange={(e) => setDataInput(e.target.value)}
               />
             </div>
             <button
-              // onClick={}
+              onClick={() => getNotaSearch()}
               style={{ backgroundColor: currentColor }}
               className="flex-shrink-0 px-4 py-2 text-base font-semibold text-white rounded-lg shadow-md lg:mr-9"
             >
@@ -62,8 +74,9 @@ export const Nota = () => {
             style={{ backgroundColor: currentColor }}
             className="flex-shrink-0 px-4 py-2 mb-3 text-base font-semibold text-white rounded-lg shadow-md w-3/4 lg:w-20 md:w-20"
             onClick={() =>
-              navigate(`/authorized/nota-pedido/${null}/create`, {
+              navigate(`/authorized/nota-pedido/create`, {
                 replace: true,
+                state: { action: "create" },
               })
             }
           >
@@ -76,7 +89,7 @@ export const Nota = () => {
         <table className="mx-auto max-w-full w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden lg:table-fixed lg:w-[100%]">
           <thead style={{ background: currentColor }}>
             <tr className="text-white text-left">
-              <th className="font-semibold text-sm uppercase px-6 py-4 w-[10%]">
+              <th className="font-semibold text-sm uppercase px-6 py-4 w-[8%]">
                 Code
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 truncate">
@@ -123,26 +136,20 @@ export const Nota = () => {
                   <td className="px-6 py-4 text-center">
                     {value?.situacion?.name}
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-6 py-4 text-right">
                     {" "}
                     <button
                       type="button"
                       onClick={() =>
-                        navigate(`/authorized/nota-pedido/${value?.id}/edit`, {
+                        navigate(`/authorized/nota-pedido/${value?.id}`, {
                           replace: true,
+                          state: { action: "edit" },
                         })
                       }
                       style={{ color: currentColor }}
                       className="text-gray-500 text-xl hover:underline"
                     >
                       <RiPencilLine />
-                    </button>{" "}
-                    <button
-                      onClick={() => console.log("remove")}
-                      style={{ color: currentColor }}
-                      className="text-gray-500 text-xl hover:underline ml-3"
-                    >
-                      <RiDeleteBin2Line />
                     </button>{" "}
                   </td>
                 </tr>

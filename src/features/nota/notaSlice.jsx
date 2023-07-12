@@ -22,6 +22,7 @@ const notaSlice = createSlice({
       state.page = 1;
       state.limit = 7;
       state.search = "";
+      state.notaItems = [];
     },
     setNotaItems: (state, action) => {
       state.notaItems = action.payload;
@@ -30,13 +31,18 @@ const notaSlice = createSlice({
       state.notaItems = [...state.notaItems, action.payload];
     },
     setNotaDeleteItem: (state, action) => {
-      console.log(action.payload);
       const foundItem = state.notaItems.find(
-        (item) => item.id === action.payload
+        (item) => item?.producto?.id === action.payload
       );
       if (foundItem) {
         state.notaItems.splice(state.notaItems.indexOf(foundItem), 1);
       }
+    },
+    setNotaEditItemAmount: (state, action) => {
+      const foundItemIndex = state.notaItems.findIndex(
+        (item) => item?.producto?.id === action.payload.id
+      );
+      state.notaItems[foundItemIndex].amount = action.payload.amount;
     },
   },
 });
@@ -50,5 +56,6 @@ export const {
   setNotaItems,
   setNotaAddItem,
   setNotaDeleteItem,
+  setNotaEditItemAmount,
 } = notaSlice.actions;
 export default notaSlice.reducer;

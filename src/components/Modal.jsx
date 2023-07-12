@@ -18,7 +18,8 @@ const Modal = ({
 
   const { currentColor } = useSelector((state) => state?.theme);
 
-  const { page, limit } = useSelector((state) => state?.place);
+  let page = 1;
+  let limit = 7;
 
   const dispatch = useDispatch();
 
@@ -38,7 +39,7 @@ const Modal = ({
         page,
         limit,
         typeAction,
-      });
+      }).unwrap();
       setDataInput("");
     } catch (error) {
       toast.error(error);
@@ -82,9 +83,14 @@ const Modal = ({
         <div className="fixed w-full h-full inset-0 z-10 bg-black/50 cursor-pointer" />
         <div className="rounded w-[400px] lg:w-[600px] space-y-8 bg-white p-10 absolute top-1/3 left-1/2 z-20 -translate-x-1/2 -translate-y-1/3">
           <div className="flex justify-between items-center">
-            <h1 className="text-center text-3xl font-extrabold text-gray-900 align-middle">
-              {typeAction === "edit" ? "EDITAR" : "NUEVO"}
-            </h1>
+            <div>
+              <h1 className="text-3xl font-extrabold text-gray-900 align-middle">
+                {typeAction === "edit" ? "EDITAR" : "NUEVO"}
+              </h1>
+              {typeAction === "edit" ? (
+                <p className="text-base">Id : {items?.id}</p>
+              ) : null}
+            </div>
             <button
               type="button"
               onClick={control}

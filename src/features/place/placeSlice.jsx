@@ -22,6 +22,7 @@ const placeSlice = createSlice({
       state.page = 1;
       state.limit = 7;
       state.search = "";
+      state.placeSelected = null;
     },
     setPlaceSelected: (state, action) => {
       state.placeSelected = action.payload;

@@ -22,6 +22,7 @@ const areaSlice = createSlice({
       state.page = 1;
       state.limit = 7;
       state.search = "";
+      state.areaSelected = null;
     },
     setAreaSelected: (state, action) => {
       state.areaSelected = action.payload;

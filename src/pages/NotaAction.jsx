@@ -1,34 +1,53 @@
 import React, { useCallback, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { useNavigate, useParams } from "react-router-dom";
-import { Header, MasterSelect, NotaItems } from "../components";
+import {
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+import { Header, MasterSelect, NotaTable } from "../components";
 import { useDispatch, useSelector } from "react-redux";
 import { RiArrowGoBackLine, RiAddLine } from "react-icons/ri";
 import Select from "react-select";
-import { motivo, situation, typeDocument } from "../data/dummy";
+import { typeDocument } from "../data/dummy";
+import { notaClearInit, setNotaAddItem } from "../features/nota/notaSlice";
 import {
-  notaClearInit,
-  setNotaAddItem,
-  setNotaDeleteItem,
-} from "../features/nota/notaSlice";
-import { useRegisterUpdateNotaMutation } from "../features/nota/notaApi";
+  useGetNotaIdItemsQuery,
+  useRegisterUpdateNotaMutation,
+} from "../features/nota/notaApi";
+import { areaClearInit } from "../features/area/areaSlice";
+import { placeClearInit } from "../features/place/placeSlice";
+import { situationClearInit } from "../features/situation/situationSlice";
+import { reasonClearInit } from "../features/reason/reasonSlice";
+import { productClearInit } from "../features/product/productSlice";
 
 export const NotaAction = () => {
-  let { notaId, action } = useParams();
+  const { id } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  let { action } = location?.state;
+
   const { currentColor } = useSelector((state) => state?.theme);
+  const { page, limit } = useSelector((state) => state?.nota);
   const { productSelected } = useSelector((state) => state?.product);
   const { areaSelected } = useSelector((state) => state?.area);
   const { placeSelected } = useSelector((state) => state?.place);
+  const { reasonSelected } = useSelector((state) => state?.reason);
+  const { situationSelected } = useSelector((state) => state?.situation);
   const { notaItems } = useSelector((state) => state?.nota);
 
   const [typeSelected, setTypeSelected] = useState(null);
-  const [situacionSelected, setSituacionSelected] = useState(null);
-  const [motivoSelected, setMotivoSelected] = useState(null);
   const [date, setDate] = useState(null);
   const [crp, setCRP] = useState("");
+
+  const {
+    data: dataHeader = [],
+    isLoading: isLoadingHeader,
+    error: responseErrorHeader,
+  } = useGetNotaIdItemsQuery({ typeAction: "header", id: id });
 
   const [registerUpdateNota, { data, isLoading, error: responseError }] =
     useRegisterUpdateNotaMutation();
@@ -44,19 +63,43 @@ export const NotaAction = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      await registerUpdateNota({
+        id: notaId,
+        date,
+        documentCrp: crp,
+        type: typeSelected,
+        observation: "",
+        areaId: `${areaSelected?.id}`,
+        lugarId: `${placeSelected?.id}`,
+        motivoId: `${reasonSelected?.id}`,
+        situacionId: `${situationSelected?.id}`,
+        items: notaItems,
+        page,
+        limit,
+        typeAction: action,
+      }).unwrap();
+      dispatch(areaClearInit());
+      dispatch(placeClearInit());
+      dispatch(situationClearInit());
+      dispatch(reasonClearInit());
+      dispatch(notaClearInit());
+      dispatch(productClearInit());
+      navigate(`/authorized/nota-pedido`, { replace: true });
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   const handleAdd = () => {
     dispatch(
       setNotaAddItem({
-        id: productSelected?.id,
-        code: productSelected?.code,
-        nombre: productSelected?.name,
-        medida: productSelected?.medida?.name,
         amount: 1,
+        productoId: productSelected?.id,
+        medidaId: productSelected?.medida?.id,
+        producto: productSelected,
       })
     );
-    console.log(notaItems);
   };
 
   const changeTypeAction = useCallback(() => {
@@ -69,28 +112,15 @@ export const NotaAction = () => {
     changeTypeAction();
   }, [changeTypeAction]);
 
-  useEffect(() => {
-    if (responseError) {
-      if (responseError?.data?.errors)
-        toast.error(JSON.stringify(responseError?.data?.errors));
-      else toast.error(JSON.stringify(responseError?.data?.message));
-    } else if (data) {
-      if (action === "edit") {
-        toast.success("Nota de pedido editado correctamente!");
-      } else {
-        toast.success("Nota de pedido creado correctamente!");
-        dispatch(notaClearInit());
-      }
-    }
-  }, [data, responseError]);
-
-  useEffect(() => {}, []);
+  useEffect(() => {}, [notaItems]);
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <Header title={`CREAR NOTA DE PEDIDO`} />
+        <Header
+          title={`${action === "edit" ? "EDITAR" : "CREAR"} NOTA DE PEDIDO`}
+        />
         <div className="flex flex-row">
           <button
             type="button"
@@ -206,13 +236,10 @@ export const NotaAction = () => {
           <div className="w-full md:w-1/2 px-3 mt-6 lg:mt-0">
             <label className="font-medium text-lg">Situación</label>
             <div className="mt-1">
-              <Select
-                name="situacion"
-                isClearable
-                isSearchable
-                options={situation}
-                onChange={handleChange}
-                required
+              <MasterSelect
+                selected={situationSelected}
+                maintainer="situaciones"
+                required={true}
               />
             </div>
           </div>
@@ -231,23 +258,16 @@ export const NotaAction = () => {
           <div className="w-full md:w-1/2 px-3 mt-6 lg:mt-0">
             <label className="font-medium text-lg">Motivo</label>
             <div className="mt-1">
-              <Select
-                name="motivo"
-                isClearable
-                isSearchable
-                options={motivo}
-                onChange={handleChange}
+              <MasterSelect
+                selected={reasonSelected}
+                maintainer="motivos"
+                required={true}
               />
             </div>
           </div>
         </div>
         {/* Table */}
-        <NotaItems
-          notaItems={notaItems}
-          setNotaDeleteItem={setNotaDeleteItem}
-          notaId={notaId}
-          action={action}
-        />
+        <NotaTable notaId={id} action={action} />
         {/* Buttons */}
         <div className="flex justify-start gap-y-4 mt-5">
           <div className="">

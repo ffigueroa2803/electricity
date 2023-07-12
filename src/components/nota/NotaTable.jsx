@@ -1,21 +1,20 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { RiDeleteBin2Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetNotaIdItemsQuery } from "../../features/nota/notaApi";
-import { setNotaItems } from "../../features/nota/notaSlice";
+import { notaClearInit, setNotaItems } from "../../features/nota/notaSlice";
+import NotaItems from "./NotaItems";
 
-const NotaItems = ({ notaItems, setNotaDeleteItem, notaId, action }) => {
+const NotaTable = ({ notaId, action }) => {
   const dispatch = useDispatch();
-
   const { currentColor } = useSelector((state) => state?.theme);
-  const [amount, setAmount] = useState(null);
+  const { notaItems } = useSelector((state) => state?.nota);
 
   const {
-    data,
+    data = [],
     isLoading,
     error: responseError,
-  } = useGetNotaIdItemsQuery({ typeAction: action, id: notaId }) || null;
+  } = useGetNotaIdItemsQuery({ typeAction: "items", id: notaId });
 
   useEffect(() => {
     if (responseError) {
@@ -23,10 +22,16 @@ const NotaItems = ({ notaItems, setNotaDeleteItem, notaId, action }) => {
         toast.error(JSON.stringify(responseError?.data?.errors));
       else toast.error(JSON.stringify(responseError?.data?.message));
     } else if (data) {
-      console.log(data);
-      // dispatch(setNotaItems(data));
+      // if (action === "edit") {
+      //   toast.success("Producto editado correctamente!");
+      // } else {
+      //   toast.success("Producto creado correctamente!");
+      // }
     }
-  }, [data, responseError]);
+    return () => {
+      dispatch(notaClearInit());
+    };
+  }, [notaId, action, dispatch]);
 
   return (
     <div className="overflow-x-auto w-full border-b-1 border-gray-200">
@@ -53,34 +58,7 @@ const NotaItems = ({ notaItems, setNotaDeleteItem, notaId, action }) => {
         </thead>
         <tbody className="divide-y divide-gray-200">
           {notaItems.map((item, index) => (
-            <tr key={index}>
-              <td className="px-6 py-4">{index + 1}</td>
-              <td className="px-6 py-4">{item?.code}</td>
-              <td className="px-6 py-4 truncate">{item?.nombre}</td>
-              <td className="px-6 py-4 text-center">{item?.medida}</td>
-              <td className="px-6 py-4 text-center">
-                <input
-                  id="cantidad"
-                  className="w-20 border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent text-center"
-                  type="number"
-                  name="cantidad"
-                  value={action == "edit" ? item?.amount : amount || 1}
-                  onChange={(e) => setAmount(e.target.value)}
-                />
-              </td>
-              <td className="px-6 py-4 text-center">
-                {" "}
-                <button
-                  type="button"
-                  onClick={() => dispatch(setNotaDeleteItem(item?.id))}
-                  style={{ color: currentColor, borderRadius: "50%" }}
-                  className="text-gray-500 text-xl hover:drop-shadow-xl hover:bg-light-gray p-2"
-                  title="Eliminar producto"
-                >
-                  <RiDeleteBin2Line />
-                </button>{" "}
-              </td>
-            </tr>
+            <NotaItems key={index} item={item} index={index} />
           ))}
         </tbody>
       </table>
@@ -90,4 +68,4 @@ const NotaItems = ({ notaItems, setNotaDeleteItem, notaId, action }) => {
   );
 };
 
-export default NotaItems;
+export default NotaTable;

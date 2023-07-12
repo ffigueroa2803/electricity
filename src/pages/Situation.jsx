@@ -1,37 +1,41 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import toast, { Toaster } from "react-hot-toast";
+import {
+  situationChangeCurrentPage,
+  situationClearInit,
+  situationSearch,
+} from "../features/situation/situationSlice";
+import {
+  useRegisterUpdateSituationMutation,
+  useGetSituationsQuery,
+} from "../features/situation/situationApi";
 import { Header, Modal, Table } from "../components";
-import {
-  useGetAreasQuery,
-  useRegisterUpdateAreaMutation,
-} from "../features/area/areaApi";
-import {
-  areaChangeCurrentPage,
-  areaClearInit,
-  areaSearch,
-} from "../features/area/areaSlice";
+import toast, { Toaster } from "react-hot-toast";
 
-export const Areas = () => {
+export const Situation = () => {
   const { currentColor } = useSelector((state) => state?.theme);
-  const { page, limit, search } = useSelector((state) => state?.area);
+  const { page, limit, search } = useSelector((state) => state?.situation);
 
   const dispatch = useDispatch();
 
   const [dataInput, setDataInput] = useState("");
   const [opened, setOpened] = useState(false);
-  const [area, setArea] = useState({});
+  const [situation, setSituation] = useState({});
   const [typeAction, setTypeAction] = useState("");
 
-  const { data, isLoading, error } = useGetAreasQuery({ page, limit, search });
+  const { data, isLoading, error } = useGetSituationsQuery({
+    page,
+    limit,
+    search,
+  });
 
-  const getAreaSearch = () => {
-    dispatch(areaChangeCurrentPage(1));
-    dispatch(areaSearch(dataInput));
+  const getSituationSearch = () => {
+    dispatch(situationChangeCurrentPage(1));
+    dispatch(situationSearch(dataInput));
   };
 
-  const controlModal = (dataArea, acction) => {
-    setArea(dataArea);
+  const controlModal = (dataSituation, acction) => {
+    setSituation(dataSituation);
     setTypeAction(acction);
     setOpened((prevState) => !prevState);
   };
@@ -41,13 +45,13 @@ export const Areas = () => {
   }, [data, error]);
 
   useEffect(() => {
-    dispatch(areaClearInit());
+    dispatch(situationClearInit());
   }, []);
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       {/* Header */}
-      <Header title="LISTA DE AREAS" />
+      <Header title="LISTA DE SITUACIONES" />
       {/* Search && New */}
       <div className="flex flex-col md:flex-row justify-between w-full mb-1 sm:mb-2 ml-0 lg:ml-12">
         <div className="text-end mb-3">
@@ -63,7 +67,7 @@ export const Areas = () => {
               />
             </div>
             <button
-              onClick={() => getAreaSearch()}
+              onClick={() => getSituationSearch()}
               style={{ backgroundColor: currentColor }}
               className="flex-shrink-0 px-4 py-2 text-base font-semibold text-white rounded-lg shadow-md lg:mr-9"
             >
@@ -86,19 +90,19 @@ export const Areas = () => {
         data={data}
         isLoading={isLoading}
         controlModal={controlModal}
-        changeCurrentPage={areaChangeCurrentPage}
+        changeCurrentPage={situationChangeCurrentPage}
       />
       {/* Modal */}
       <Modal
         open={opened}
         setOpened={setOpened}
         control={controlModal}
-        items={area}
+        items={situation}
         typeAction={typeAction}
         setDataInput={setDataInput}
-        title="Area"
-        mutation={useRegisterUpdateAreaMutation}
-        clearInit={areaClearInit}
+        title="Situacion"
+        mutation={useRegisterUpdateSituationMutation}
+        clearInit={situationClearInit}
         toast={toast}
       />
       {/* Toast */}

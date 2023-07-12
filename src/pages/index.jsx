@@ -11,3 +11,5 @@ export * from "./Profile";
 export * from "./Users";
 export * from "./Nota";
 export * from "./NotaAction";
+export * from "./Reason";
+export * from "./Situation";

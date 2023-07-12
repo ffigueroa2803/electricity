@@ -22,6 +22,7 @@ const productSlice = createSlice({
       state.page = 1;
       state.limit = 7;
       state.search = "";
+      state.productSelected = "";
     },
     setProductSelected: (state, action) => {
       state.productSelected = action.payload;
