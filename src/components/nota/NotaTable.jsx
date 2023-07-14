@@ -5,33 +5,9 @@ import { useGetNotaIdItemsQuery } from "../../features/nota/notaApi";
 import { notaClearInit, setNotaItems } from "../../features/nota/notaSlice";
 import NotaItems from "./NotaItems";
 
-const NotaTable = ({ notaId, action }) => {
-  const dispatch = useDispatch();
+const NotaTable = () => {
   const { currentColor } = useSelector((state) => state?.theme);
   const { notaItems } = useSelector((state) => state?.nota);
-
-  const {
-    data = [],
-    isLoading,
-    error: responseError,
-  } = useGetNotaIdItemsQuery({ typeAction: "items", id: notaId });
-
-  useEffect(() => {
-    if (responseError) {
-      if (responseError?.data?.errors)
-        toast.error(JSON.stringify(responseError?.data?.errors));
-      else toast.error(JSON.stringify(responseError?.data?.message));
-    } else if (data) {
-      // if (action === "edit") {
-      //   toast.success("Producto editado correctamente!");
-      // } else {
-      //   toast.success("Producto creado correctamente!");
-      // }
-    }
-    return () => {
-      dispatch(notaClearInit());
-    };
-  }, [notaId, action, dispatch]);
 
   return (
     <div className="overflow-x-auto w-full border-b-1 border-gray-200">
@@ -57,7 +33,7 @@ const NotaTable = ({ notaId, action }) => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {notaItems.map((item, index) => (
+          {notaItems?.map((item, index) => (
             <NotaItems key={index} item={item} index={index} />
           ))}
         </tbody>

@@ -119,7 +119,7 @@ export const Nota = () => {
             ) : data?.items.length === 0 ? (
               <NotFound title="No hay datos" colSpan="8" />
             ) : (
-              data?.items.map((value) => (
+              data?.items?.map((value) => (
                 <tr key={value?.id}>
                   <td className="px-6 py-4">{value?.code}</td>
                   <td className="px-6 py-4">{value?.date}</td>

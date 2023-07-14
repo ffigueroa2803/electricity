@@ -31,12 +31,14 @@ const notaSlice = createSlice({
       state.notaItems = [...state.notaItems, action.payload];
     },
     setNotaDeleteItem: (state, action) => {
+      console.log("antes : " + JSON.stringify(state.notaItems));
       const foundItem = state.notaItems.find(
         (item) => item?.producto?.id === action.payload
       );
       if (foundItem) {
         state.notaItems.splice(state.notaItems.indexOf(foundItem), 1);
       }
+      console.log(JSON.stringify(state.notaItems));
     },
     setNotaEditItemAmount: (state, action) => {
       const foundItemIndex = state.notaItems.findIndex(

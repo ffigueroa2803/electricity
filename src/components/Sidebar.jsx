@@ -34,7 +34,7 @@ const Sidebar = () => {
             <Link
               to="/"
               onClick={handleCloseSideBar}
-              className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
+              className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900 mr-6"
             >
               <img
                 className="w-[351px] h-[121px] object-cover items-center"
@@ -47,7 +47,7 @@ const Sidebar = () => {
                 type="button"
                 onClick={() => dispatch(themeSetActiveMenu(!activeMenu))}
                 style={{ color: currentColor }}
-                className="text-xl rounded-full p-3 hover:bg-light-gray mt-4 block md:hidden"
+                className="text-xl rounded-full p-3 hover:bg-light-gray mt-4 mr-2 block md:hidden"
               >
                 <MdOutlineCancel />
               </button>

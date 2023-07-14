@@ -20,7 +20,9 @@ const NotaItems = ({ item, index }) => {
     );
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setAmount(item?.amount);
+  }, [item]);
 
   return (
     <>
@@ -28,9 +30,7 @@ const NotaItems = ({ item, index }) => {
         <td className="px-6 py-4">{index + 1}</td>
         <td className="px-6 py-4">{item?.producto?.code}</td>
         <td className="px-6 py-4 truncate">{item?.producto?.name}</td>
-        <td className="px-6 py-4 text-center">
-          {item?.producto?.medida?.name}
-        </td>
+        <td className="px-6 py-4 text-center">{item?.medida?.name}</td>
         <td className="px-6 py-4 text-center">
           <input
             id="cantidad"

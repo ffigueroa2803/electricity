@@ -11,12 +11,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { RiArrowGoBackLine, RiAddLine } from "react-icons/ri";
 import Select from "react-select";
 import { typeDocument } from "../data/dummy";
-import { notaClearInit, setNotaAddItem } from "../features/nota/notaSlice";
+import {
+  notaClearInit,
+  setNotaAddItem,
+  setNotaItems,
+} from "../features/nota/notaSlice";
 import {
   useGetNotaIdItemsQuery,
   useRegisterUpdateNotaMutation,
 } from "../features/nota/notaApi";
-import { areaClearInit } from "../features/area/areaSlice";
+import { areaClearInit, setAreaSelected } from "../features/area/areaSlice";
 import { placeClearInit } from "../features/place/placeSlice";
 import { situationClearInit } from "../features/situation/situationSlice";
 import { reasonClearInit } from "../features/reason/reasonSlice";
@@ -39,36 +43,43 @@ export const NotaAction = () => {
   const { situationSelected } = useSelector((state) => state?.situation);
   const { notaItems } = useSelector((state) => state?.nota);
 
-  const [typeSelected, setTypeSelected] = useState(null);
-  const [date, setDate] = useState(null);
+  const [code, setCode] = useState("");
+  const [typeSelected, setTypeSelected] = useState({
+    value: "",
+    label: "Select...",
+    name: "",
+  });
+  const [date, setDate] = useState("");
   const [crp, setCRP] = useState("");
+  const [observation, setObservation] = useState("");
 
   const {
-    data: dataHeader = [],
+    data: dataHeader,
     isLoading: isLoadingHeader,
     error: responseErrorHeader,
   } = useGetNotaIdItemsQuery({ typeAction: "header", id: id });
+
+  const {
+    data: dataItems,
+    isLoading: isLoadingItems,
+    error: responseErrorItems,
+  } = useGetNotaIdItemsQuery({ typeAction: "items", id: id });
 
   const [registerUpdateNota, { data, isLoading, error: responseError }] =
     useRegisterUpdateNotaMutation();
 
   const handleChange = (selectedOption) => {
-    if (selectedOption?.name == "typeDocument")
-      setTypeSelected(selectedOption?.value);
-    if (selectedOption?.name == "situacion")
-      setSituacionSelected(selectedOption?.value);
-    if (selectedOption?.name == "motivo")
-      setMotivoSelected(selectedOption?.value);
+    setTypeSelected(selectedOption);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await registerUpdateNota({
-        id: notaId,
+        id: id,
         date,
         documentCrp: crp,
-        type: typeSelected,
+        type: typeSelected?.value,
         observation: "",
         areaId: `${areaSelected?.id}`,
         lugarId: `${placeSelected?.id}`,
@@ -103,16 +114,24 @@ export const NotaAction = () => {
   };
 
   const changeTypeAction = useCallback(() => {
-    if (action === "edit") {
+    if (dataHeader && action === "edit") {
+      setCode(dataHeader?.code);
+      setDate(dataHeader?.date);
+      setCRP(dataHeader?.documentCrp);
+      setTypeSelected({
+        value: dataHeader?.type,
+        label: `${dataHeader?.type == "EXIT" ? "Salida" : "Entrada"}`,
+        name: "typeDocument",
+      });
+      setObservation(dataHeader?.observation);
+      dispatch(setNotaItems(dataItems));
     } else {
     }
-  }, [action, dispatch]);
+  }, [dataHeader, action, dispatch]);
 
   useEffect(() => {
     changeTypeAction();
   }, [changeTypeAction]);
-
-  useEffect(() => {}, [notaItems]);
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -156,6 +175,7 @@ export const NotaAction = () => {
               className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
               type="text"
               name="code"
+              value={code || ""}
               placeholder="AUTOGENERADO"
               disabled
             />
@@ -170,6 +190,7 @@ export const NotaAction = () => {
                 isSearchable
                 options={typeDocument}
                 onChange={handleChange}
+                value={typeSelected || {}}
                 required
               />
             </div>
@@ -267,7 +288,7 @@ export const NotaAction = () => {
           </div>
         </div>
         {/* Table */}
-        <NotaTable notaId={id} action={action} />
+        <NotaTable />
         {/* Buttons */}
         <div className="flex justify-start gap-y-4 mt-5">
           <div className="">
