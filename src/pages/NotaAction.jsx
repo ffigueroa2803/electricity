@@ -1,14 +1,19 @@
 import React, { useCallback, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
-  Navigate,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
-import { Header, MasterSelect, NotaTable } from "../components";
+  Header,
+  MasterSelect,
+  NotaTable,
+  ObervationModal,
+} from "../components";
 import { useDispatch, useSelector } from "react-redux";
-import { RiArrowGoBackLine, RiAddLine } from "react-icons/ri";
+import {
+  RiArrowGoBackLine,
+  RiAddLine,
+  RiDiscussLine,
+  RiDiscussFill,
+} from "react-icons/ri";
 import Select from "react-select";
 import { typeDocument } from "../data/dummy";
 import {
@@ -20,7 +25,7 @@ import {
   useGetNotaIdItemsQuery,
   useRegisterUpdateNotaMutation,
 } from "../features/nota/notaApi";
-import { areaClearInit, setAreaSelected } from "../features/area/areaSlice";
+import { areaClearInit } from "../features/area/areaSlice";
 import { placeClearInit } from "../features/place/placeSlice";
 import { situationClearInit } from "../features/situation/situationSlice";
 import { reasonClearInit } from "../features/reason/reasonSlice";
@@ -52,6 +57,7 @@ export const NotaAction = () => {
   const [date, setDate] = useState("");
   const [crp, setCRP] = useState("");
   const [observation, setObservation] = useState("");
+  const [opened, setOpened] = useState(false);
 
   const {
     data: dataHeader,
@@ -80,7 +86,7 @@ export const NotaAction = () => {
         date,
         documentCrp: crp,
         type: typeSelected?.value,
-        observation: "",
+        observation: observation,
         areaId: `${areaSelected?.id}`,
         lugarId: `${placeSelected?.id}`,
         motivoId: `${reasonSelected?.id}`,
@@ -141,6 +147,15 @@ export const NotaAction = () => {
           title={`${action === "edit" ? "EDITAR" : "CREAR"} NOTA DE PEDIDO`}
         />
         <div className="flex flex-row">
+          <button
+            type="button"
+            onClick={() => setOpened((prevState) => !prevState)}
+            style={{ color: `${currentColor}`, borderRadius: "50%" }}
+            className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
+            title="Crear observación"
+          >
+            {observation == "" ? <RiDiscussLine /> : <RiDiscussFill />}
+          </button>
           <button
             type="button"
             onClick={handleAdd}
@@ -291,17 +306,7 @@ export const NotaAction = () => {
         <NotaTable />
         {/* Buttons */}
         <div className="flex justify-start gap-y-4 mt-5">
-          <div className="">
-            <button
-              type="button"
-              className="w-400 active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-md text-white font-bold mt-0"
-              style={{ backgroundColor: currentColor }}
-              onClick={() => alert("Hola")}
-            >
-              Observación
-            </button>
-          </div>
-          <div className="ml-4">
+          <div>
             <button
               type="submit"
               className="w-400 active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-md text-white font-bold mt-0"
@@ -311,7 +316,15 @@ export const NotaAction = () => {
             </button>
           </div>
         </div>
+        {/* Modal Observation */}
+        <ObervationModal
+          open={opened}
+          setOpened={setOpened}
+          observation={observation}
+          setObservation={setObservation}
+        />
       </form>
+
       {/* Toast */}
       <Toaster position="top-right" />
     </div>

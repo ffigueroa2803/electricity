@@ -53,8 +53,9 @@ const Table = ({ data, isLoading, controlModal, changeCurrentPage }) => {
                     {" "}
                     <button
                       onClick={() => controlModal(value, "edit")}
-                      style={{ color: currentColor, borderRadius: "50%" }}
-                      className="text-gray-500 text-xl hover:drop-shadow-xl hover:bg-light-gray p-2"
+                      style={{ color: currentColor }}
+                      className="text-gray-500 text-xl hover:underline"
+                      title="Editar"
                     >
                       <RiPencilLine />
                     </button>{" "}

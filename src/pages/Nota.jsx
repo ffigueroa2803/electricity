@@ -148,6 +148,7 @@ export const Nota = () => {
                       }
                       style={{ color: currentColor }}
                       className="text-gray-500 text-xl hover:underline"
+                      title="Editar"
                     >
                       <RiPencilLine />
                     </button>{" "}
