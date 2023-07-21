@@ -6,7 +6,7 @@ import {
 } from "../../features/nota/notaSlice";
 import { RiDeleteBin2Line } from "react-icons/ri";
 
-const NotaItems = ({ item, index }) => {
+const NotaItems = ({ item, index, action }) => {
   const dispatch = useDispatch();
 
   const { currentColor } = useSelector((state) => state?.theme);
@@ -16,7 +16,10 @@ const NotaItems = ({ item, index }) => {
   const handleChange = (e, productId) => {
     setAmount(e.target.value);
     dispatch(
-      setNotaEditItemAmount({ id: productId, amount: parseInt(e.target.value) })
+      setNotaEditItemAmount({
+        id: productId,
+        amount: parseInt(e.target.value),
+      })
     );
   };
 
@@ -30,7 +33,9 @@ const NotaItems = ({ item, index }) => {
         <td className="px-6 py-4">{index + 1}</td>
         <td className="px-6 py-4">{item?.producto?.code}</td>
         <td className="px-6 py-4 truncate">{item?.producto?.name}</td>
-        <td className="px-6 py-4 text-center">{item?.medida?.name}</td>
+        <td className="px-6 py-4 text-center">
+          {item?.producto?.medida?.name}
+        </td>
         <td className="px-6 py-4 text-center">
           <input
             id="cantidad"
@@ -46,8 +51,8 @@ const NotaItems = ({ item, index }) => {
           <button
             type="button"
             onClick={() => dispatch(setNotaDeleteItem(item?.producto?.id))}
-            style={{ color: currentColor, borderRadius: "50%" }}
-            className="text-gray-500 text-xl hover:drop-shadow-xl hover:bg-light-gray p-2"
+            style={{ color: currentColor }}
+            className="text-gray-500 text-xl"
             title="Eliminar producto"
           >
             <RiDeleteBin2Line />

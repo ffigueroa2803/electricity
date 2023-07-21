@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Header, LoadingCircle, NotFound, Pagination } from "../components";
 import { useDispatch, useSelector } from "react-redux";
-import { RiPencilLine } from "react-icons/ri";
+import { RiFilePdfLine, RiPencilLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { useGetNotasQuery } from "../features/nota/notaApi";
 import {
@@ -151,6 +151,15 @@ export const Nota = () => {
                       title="Editar"
                     >
                       <RiPencilLine />
+                    </button>{" "}
+                    <button
+                      type="button"
+                      onClick={() => console.log("Imprimir")}
+                      style={{ color: currentColor }}
+                      className="text-gray-500 text-xl hover:underline"
+                      title="Reporte"
+                    >
+                      <RiFilePdfLine />
                     </button>{" "}
                   </td>
                 </tr>

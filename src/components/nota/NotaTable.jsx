@@ -5,7 +5,7 @@ import { useGetNotaIdItemsQuery } from "../../features/nota/notaApi";
 import { notaClearInit, setNotaItems } from "../../features/nota/notaSlice";
 import NotaItems from "./NotaItems";
 
-const NotaTable = () => {
+const NotaTable = ({ action, isLoadingItems }) => {
   const { currentColor } = useSelector((state) => state?.theme);
   const { notaItems } = useSelector((state) => state?.nota);
 
@@ -33,9 +33,16 @@ const NotaTable = () => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {notaItems?.map((item, index) => (
-            <NotaItems key={index} item={item} index={index} />
-          ))}
+          {!isLoadingItems
+            ? notaItems?.map((item, index) => (
+                <NotaItems
+                  key={index}
+                  item={item}
+                  index={index}
+                  action={action}
+                />
+              ))
+            : "Cargando....."}
         </tbody>
       </table>
       {/* Toast */}

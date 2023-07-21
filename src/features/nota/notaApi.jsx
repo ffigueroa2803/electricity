@@ -40,6 +40,27 @@ export const notaApi = apiSlice.injectEndpoints({
         { type: "Notas", page, limit },
       ],
     }),
+
+    registerItemNota: builder.mutation({
+      query: (data) => ({
+        url: `/api/notas/${data?.id}/items`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: (result, error, { page, limit }) => [
+        { type: "Notas", page, limit },
+      ],
+    }),
+
+    deleteItemNota: builder.mutation({
+      query: (id) => ({
+        url: `/api/items/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, { page, limit }) => [
+        { type: "Notas", page, limit },
+      ],
+    }),
   }),
 });
 
@@ -47,4 +68,6 @@ export const {
   useGetNotasQuery,
   useGetNotaIdItemsQuery,
   useRegisterUpdateNotaMutation,
+  useRegisterItemNotaMutation,
+  useDeleteItemNotaMutation,
 } = notaApi;
