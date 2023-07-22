@@ -10,7 +10,7 @@ export const Profile = () => {
 
   const [email, setEmail] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("profile");
   };
