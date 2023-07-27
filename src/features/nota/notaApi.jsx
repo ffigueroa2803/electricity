@@ -13,12 +13,17 @@ export const notaApi = apiSlice.injectEndpoints({
       query: (data) =>
         `${
           data?.typeAction === "header"
-            ? `/api/notas/${data?.id}`
-            : `/api/notas/${data?.id}/items`
+            ? data?.id != "create"
+              ? `/api/notas/${data?.id}`
+              : null
+            : data?.id != "create"
+            ? `/api/notas/${data?.id}/items`
+            : null
         }`,
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
+          console.log(arg);
           if (arg?.typeAction == "items") dispatch(setNotaItems(result?.data));
         } catch (err) {
           console.log(err);
