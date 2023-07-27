@@ -6,7 +6,7 @@ import {
 } from "../../features/nota/notaSlice";
 import { RiDeleteBin2Line } from "react-icons/ri";
 
-const NotaItems = ({ item, index, action }) => {
+const NotaItems = ({ item, index }) => {
   const dispatch = useDispatch();
 
   const { currentColor } = useSelector((state) => state?.theme);

@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-import { useGetNotaIdItemsQuery } from "../../features/nota/notaApi";
-import { notaClearInit, setNotaItems } from "../../features/nota/notaSlice";
+import { useSelector } from "react-redux";
 import NotaItems from "./NotaItems";
+import LoadingCircle from "../LoadingCircle";
+import NotFound from "../NotFound";
 
 const NotaTable = ({ action, isLoadingItems }) => {
   const { currentColor } = useSelector((state) => state?.theme);
@@ -33,16 +32,20 @@ const NotaTable = ({ action, isLoadingItems }) => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {!isLoadingItems
-            ? notaItems?.map((item, index) => (
-                <NotaItems
-                  key={index}
-                  item={item}
-                  index={index}
-                  action={action}
-                />
-              ))
-            : "Cargando....."}
+          {isLoadingItems ? (
+            <LoadingCircle width="48" color={currentColor} colSpan="6" />
+          ) : notaItems?.length === 0 ? (
+            <NotFound title="No hay datos" colSpan="6" />
+          ) : (
+            notaItems?.map((item, index) => (
+              <NotaItems
+                key={index}
+                item={item}
+                index={index}
+                action={action}
+              />
+            ))
+          )}
         </tbody>
       </table>
       {/* Toast */}

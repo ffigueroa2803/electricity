@@ -374,9 +374,7 @@ export const NotaAction = () => {
           </div>
         </div>
         {/* Table */}
-        {!responseError && (
-          <NotaTable action={action} isLoadingItems={isLoadingItems} />
-        )}
+        <NotaTable action={action} isLoadingItems={isLoadingItems} />
         {/* Buttons */}
         <div className="flex justify-start gap-y-4 mt-5">
           <button
