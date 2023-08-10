@@ -154,7 +154,15 @@ export const Nota = () => {
                     </button>{" "}
                     <button
                       type="button"
-                      onClick={() => console.log("Imprimir")}
+                      onClick={() => {
+                        window.open(
+                          `${import.meta.env.VITE_APP_API}/api/notas/${
+                            value?.id
+                          }/informe.pdf`,
+                          "_blank"
+                        );
+                        return false;
+                      }}
                       style={{ color: currentColor }}
                       className="text-gray-500 text-xl hover:underline"
                       title="Reporte"
