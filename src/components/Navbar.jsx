@@ -13,6 +13,7 @@ import {
   themeHandleClick,
   themeSetIsClicked,
 } from "../features/theme/themeSlice";
+import { userProfile } from "../features/auth/authSlice";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <button
@@ -38,6 +39,8 @@ const Navbar = () => {
 
   const { data, isLoading, error } = useProfileQuery();
 
+  const handleActiveMenu = () => dispatch(themeSetActiveMenu(!activeMenu));
+
   useEffect(() => {
     const handleResize = () => dispatch(themeSetScreenSize(window.innerWidth));
     window.addEventListener("resize", handleResize);
@@ -54,7 +57,9 @@ const Navbar = () => {
     }
   }, [screenSize, dispatch]);
 
-  const handleActiveMenu = () => dispatch(themeSetActiveMenu(!activeMenu));
+  useEffect(() => {
+    if (data) dispatch(userProfile({ user: data }));
+  }, [data]);
 
   return (
     <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">

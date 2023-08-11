@@ -33,7 +33,7 @@ export const authApi = apiSlice.injectEndpoints({
           // we validate if themeMode exists
           const themeMode = localStorage.getItem("themeMode");
           if (themeMode) dispatch(themeSetMode(themeMode));
-          else dispatch(themeSetMode("Light"));
+          else dispatch(themeSetMode("Dark"));
         } catch (err) {
           console.log(err);
         }
@@ -47,21 +47,36 @@ export const authApi = apiSlice.injectEndpoints({
         try {
           const result = await queryFulfilled;
           // dispatch those data to redux store
+          dispatch(userProfile({ user: result.data }));
+        } catch (err) {
+          dispatch(userProfile({ user: undefined }));
+        }
+      },
+    }),
+
+    updateProfile: builder.mutation({
+      query: (data) => ({
+        url: "/api/auth/profile",
+        method: "PUT",
+        body: data,
+      }),
+
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+
           dispatch(
             userProfile({
               user: result.data,
             })
           );
         } catch (err) {
-          dispatch(
-            userProfile({
-              user: undefined,
-            })
-          );
+          console.log(err);
         }
       },
     }),
   }),
 });
 
-export const { useLoginMutation, useProfileQuery } = authApi;
+export const { useLoginMutation, useProfileQuery, useUpdateProfileMutation } =
+  authApi;

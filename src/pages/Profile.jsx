@@ -3,21 +3,36 @@ import React, { useEffect, useState } from "react";
 import { Header } from "../components";
 import { useSelector } from "react-redux";
 import Avatar from "../assets/avatar5.png";
+import { useUpdateProfileMutation } from "../features/auth/authApi";
+import toast, { Toaster } from "react-hot-toast";
 
 export const Profile = () => {
   const { currentColor } = useSelector((state) => state?.theme);
   const user = useSelector((state) => state?.auth?.user);
 
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [updateProfile, { data, isLoading, error }] =
+    useUpdateProfileMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("profile");
+    try {
+      updateProfile({ ...user, password: password });
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   useEffect(() => {
     if (user) setEmail(user?.email);
   }, [user]);
+
+  useEffect(() => {
+    if (error) toast.error("Error consultar con informática");
+    else if (data) toast.success("Contraseña cambiado correctamente!");
+  }, [data, error]);
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -47,18 +62,22 @@ export const Profile = () => {
                   type="text"
                   name="email"
                   value={email || ""}
-                  onChange={() => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Correo electronico"
+                  disabled
                 />
               </div>
               <div className="w-full px-3 mb-6 md:mb-8">
-                <label className="font-medium text-lg">Contraseña actual</label>
+                <label className="font-medium text-lg">
+                  Cambiar contraseña
+                </label>
                 <input
                   id="password_actual"
                   className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
-                  type="text"
+                  type="password"
                   name="password_actual"
                   placeholder="Correo electronico"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div className="flex justify-end w-full px-3 mb-6 md:mb-8">
@@ -67,13 +86,15 @@ export const Profile = () => {
                   className="w-[200px] active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-md text-white font-bold mt-0"
                   style={{ backgroundColor: currentColor }}
                 >
-                  Guardar perfil
+                  {isLoading ? "...Procesando" : "Guardar datos"}
                 </button>
               </div>
             </div>
           </div>
         </div>
       </form>
+      {/* Toast */}
+      <Toaster position="top-center" />
     </div>
   );
 };

@@ -404,7 +404,7 @@ export const NotaAction = () => {
         />
       </form>
       {/* Toast */}
-      <Toaster position="top-right" />
+      <Toaster position="top-center" />
     </div>
   );
 };
