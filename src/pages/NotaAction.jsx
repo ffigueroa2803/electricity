@@ -89,11 +89,9 @@ export const NotaAction = () => {
   const [registerUpdateNota, { data, isLoading, error: responseError }] =
     useRegisterUpdateNotaMutation();
 
-  const [registerItemNota, { data: dataAddItem }] =
-    useRegisterItemNotaMutation();
+  const [registerItemNota] = useRegisterItemNotaMutation();
 
-  const [deleteItemNota, { data: dataDeleteItem }] =
-    useDeleteItemNotaMutation();
+  const [deleteItemNota] = useDeleteItemNotaMutation();
 
   const handleChange = (selectedOption) => {
     setTypeSelected(selectedOption);
@@ -136,14 +134,16 @@ export const NotaAction = () => {
         observation: observation,
         areaId: `${areaSelected?.id}`,
         lugarId: `${placeSelected?.id}`,
-        motivoId: `${reasonSelected?.id}`,
+        motivoId:
+          reasonSelected?.id === undefined
+            ? undefined
+            : `${reasonSelected?.id}`,
         situacionId: `${situationSelected?.id}`,
         items: action == "edit" ? newNotaItemEdit : notaItems,
         page,
         limit,
         typeAction: action,
       });
-      navigate(`/authorized/nota-pedido`, { replace: true });
     } catch (error) {
       toast.error(error);
     }
@@ -202,9 +202,15 @@ export const NotaAction = () => {
     } else if (data) {
       if (action === "edit") {
         toast.success("Nota editado correctamente!");
+        setTimeout(() => {
+          navigate(`/authorized/nota-pedido`, { replace: true });
+        }, [3000]);
       } else {
         toast.success("Nota creado correctamente!");
         dispatch(notaClearInit());
+        setTimeout(() => {
+          navigate(`/authorized/nota-pedido`, { replace: true });
+        }, [3000]);
       }
     }
     return () => {};
@@ -225,7 +231,11 @@ export const NotaAction = () => {
             className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
             title="Crear observación"
           >
-            {observation == "" ? <RiDiscussLine /> : <RiDiscussFill />}
+            {observation === "" || observation === null ? (
+              <RiDiscussLine />
+            ) : (
+              <RiDiscussFill />
+            )}
           </button>
           <button
             type="button"
@@ -318,7 +328,6 @@ export const NotaAction = () => {
               name="crp"
               value={crp || ""}
               onChange={(e) => setCRP(e.target.value)}
-              required
             />
           </div>
           {/* Destino y/o Actividad */}
@@ -368,7 +377,7 @@ export const NotaAction = () => {
               <MasterSelect
                 selected={reasonSelected}
                 maintainer="motivos"
-                required={true}
+                required={typeSelected?.value == "ENTRY" ? true : false}
               />
             </div>
           </div>

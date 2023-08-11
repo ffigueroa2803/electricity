@@ -23,7 +23,6 @@ export const notaApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          console.log(arg);
           if (arg?.typeAction == "items") dispatch(setNotaItems(result?.data));
         } catch (err) {
           console.log(err);

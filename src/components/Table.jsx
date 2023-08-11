@@ -20,7 +20,7 @@ const Table = ({ data, isLoading, controlModal, changeCurrentPage }) => {
               <th className="font-semibold text-sm uppercase px-6 py-4 w-[25%]">
                 Nombre
               </th>
-              <th className="font-semibold text-sm uppercase px-6 py-4 text-center w-[15%]">
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center w-[20%]">
                 Descripcion
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">

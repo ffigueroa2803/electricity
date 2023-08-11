@@ -6,7 +6,7 @@ import {
 } from "../../features/nota/notaSlice";
 import { RiDeleteBin2Line } from "react-icons/ri";
 
-const NotaItems = ({ item, index }) => {
+const NotaItems = ({ item, index, action }) => {
   const dispatch = useDispatch();
 
   const { currentColor } = useSelector((state) => state?.theme);
@@ -44,6 +44,7 @@ const NotaItems = ({ item, index }) => {
             name="cantidad"
             value={amount || 1}
             onChange={(e) => handleChange(e, item?.producto?.id)}
+            disabled={action === "edit" ? true : false}
           />
         </td>
         <td className="px-6 py-4 text-center">

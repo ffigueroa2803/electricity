@@ -26,7 +26,7 @@ const ObervationModal = ({ open, setOpened, observation, setObservation }) => {
                 name="description"
                 cols="20"
                 rows="15"
-                value={observation}
+                value={observation || ""}
                 onChange={(e) => setObservation(e.target.value)}
               ></textarea>
             </div>

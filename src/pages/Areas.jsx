@@ -23,7 +23,10 @@ export const Areas = () => {
   const [area, setArea] = useState({});
   const [typeAction, setTypeAction] = useState("");
 
-  const { data, isLoading, error } = useGetAreasQuery({ page, limit, search });
+  const { data, isLoading, error } = useGetAreasQuery(
+    { page, limit, search },
+    { refetchOnMountOrArgChange: true }
+  );
 
   const getAreaSearch = () => {
     dispatch(areaChangeCurrentPage(1));
