@@ -41,6 +41,8 @@ import { productClearInit } from "../features/product/productSlice";
 
 export const NotaAction = () => {
   const { id } = useParams();
+  let skip = false;
+  if (id == "create") skip = true;
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -74,7 +76,7 @@ export const NotaAction = () => {
     error: responseErrorHeader,
   } = useGetNotaIdItemsQuery(
     { typeAction: "header", id: id },
-    { refetchOnMountOrArgChange: true }
+    { refetchOnMountOrArgChange: true, skip }
   );
 
   const {
@@ -83,7 +85,7 @@ export const NotaAction = () => {
     error: responseErrorItems,
   } = useGetNotaIdItemsQuery(
     { typeAction: "items", id: id },
-    { refetchOnMountOrArgChange: true }
+    { refetchOnMountOrArgChange: true, skip }
   );
 
   const [registerUpdateNota, { data, isLoading, error: responseError }] =
