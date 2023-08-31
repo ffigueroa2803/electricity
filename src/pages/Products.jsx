@@ -28,11 +28,10 @@ export const Products = () => {
   const [product, setProduct] = useState({});
   const [typeAction, setTypeAction] = useState("");
 
-  const { data, isLoading, error } = useGetProductsQuery({
-    page,
-    limit,
-    search,
-  });
+  const { data, isLoading, error } = useGetProductsQuery(
+    { page, limit, search },
+    { pollingInterval: 3000 }
+  );
 
   const getProductSearch = () => {
     dispatch(productChangeCurrentPage(1));

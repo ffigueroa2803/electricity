@@ -209,9 +209,9 @@ export const NotaAction = () => {
         }, [3000]);
       } else {
         toast.success("Nota creado correctamente!");
-        dispatch(notaClearInit());
         setTimeout(() => {
           navigate(`/authorized/nota-pedido`, { replace: true });
+          dispatch(notaClearInit());
         }, [3000]);
       }
     }

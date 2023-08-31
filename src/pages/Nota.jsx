@@ -23,11 +23,7 @@ export const Nota = () => {
     data = [],
     isLoading,
     error,
-  } = useGetNotasQuery({
-    page,
-    limit,
-    search,
-  });
+  } = useGetNotasQuery({ page, limit, search });
 
   const getNotaSearch = () => {
     dispatch(notaChangeCurrentPage(1));

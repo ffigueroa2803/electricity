@@ -23,7 +23,7 @@ const Table = ({ data, isLoading, controlModal, changeCurrentPage }) => {
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center w-[20%]">
                 Descripcion
               </th>
-              <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center w-[14%]">
                 F. Creacion
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
@@ -49,7 +49,7 @@ const Table = ({ data, isLoading, controlModal, changeCurrentPage }) => {
                   <td className="px-6 py-4 text-center">
                     {moment(value?.updatedAt).format("DD/MM/YYYY h:mm:ss a")}
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-6 py-4 text-right">
                     {" "}
                     <button
                       onClick={() => controlModal(value, "edit")}
