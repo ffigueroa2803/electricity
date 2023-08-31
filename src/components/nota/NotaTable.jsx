@@ -1,4 +1,3 @@
-import toast, { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import NotaItems from "./NotaItems";
 import LoadingCircle from "../LoadingCircle";
@@ -48,8 +47,6 @@ const NotaTable = ({ action, isLoadingItems }) => {
           )}
         </tbody>
       </table>
-      {/* Toast */}
-      <Toaster position="top-right" />
     </div>
   );
 };

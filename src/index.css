@@ -9,31 +9,3 @@ body {
   padding: 0;
   font-family: "Open Sans", sans-serif;
 }
-
-.DropZoneStyle {
-  background-color: red;
-  border-radius: "80%";
-  /* z-index: 0;
-  width: "100%";
-  height: "100%";
-  outline: "none";
-  display: "flex";
-  overflow: "hidden";
-  border-radius: "80%";
-  position: "relative";
-  align-items: "center";
-  justify-content: "center"; */
-}
-
-/* .DropZoneStyle>* {
-  width: "100%";
-  height: "100%"
-}
-
-.DropZoneStyle:hover {
-  cursor: "pointer";
-}
-
-.DropZoneStyle:hover .placeholder {
-  z-index: 9;
-} */
