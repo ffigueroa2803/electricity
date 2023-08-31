@@ -45,6 +45,7 @@ const NotaItems = ({ item, index, action }) => {
             value={amount || 1}
             onChange={(e) => handleChange(e, item?.producto?.id)}
             disabled={action === "edit" ? true : false}
+            min={1}
           />
         </td>
         <td className="px-6 py-4 text-center">
