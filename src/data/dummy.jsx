@@ -138,50 +138,9 @@ export const themeColors = [
   },
 ];
 
-export const situation = [
-  {
-    value: "91a8d3bb-eddc-43d7-863f-445b0763edbe",
-    label: "Nuevo",
-    name: "situacion",
-  },
-  {
-    value: "e3d1decf-2c96-40e1-a809-f15f05d4bdf3",
-    label: "Segundo uso",
-    name: "situacion",
-  },
-  {
-    value: "e8171035-7a1b-432d-9ec1-f13c5f9f2deb",
-    label: "Recuperado",
-    name: "situacion",
-  },
-];
-
 export const typeDocument = [
   { value: "ENTRY", label: "Entrada", name: "typeDocument" },
   { value: "EXIT", label: "Salida", name: "typeDocument" },
-];
-
-export const motivo = [
-  {
-    value: "7ceccec1-9a75-4476-9d03-9dca616ff519",
-    label: "Compra",
-    name: "motivo",
-  },
-  {
-    value: "ee0da112-0969-437b-a9af-9ad96d7f3bda",
-    label: "Devolución",
-    name: "motivo",
-  },
-  {
-    value: "fb3bbe8d-7a65-4796-b037-d75cf3e6b5a0",
-    label: "Sobrante",
-    name: "motivo",
-  },
-  {
-    value: "30f67036-af3c-4449-8c67-964d889cf299",
-    label: "Desmontaje",
-    name: "motivo",
-  },
 ];
 
 export const lineChartData = [
