@@ -289,6 +289,16 @@ export const NotaAction = () => {
                 options={typeDocument}
                 onChange={handleChange}
                 value={typeSelected || {}}
+                theme={(theme) => {
+                  return {
+                    ...theme,
+                    colors: {
+                      ...theme.colors,
+                      primary25: "#EDEDED",
+                      primary: `${currentColor}`,
+                    },
+                  };
+                }}
                 required
               />
             </div>
