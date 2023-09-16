@@ -16,6 +16,7 @@ import {
   userClearInit,
   userSearch,
 } from "../features/user/userSlice";
+import { BiTrash } from "react-icons/bi";
 
 export const Users = () => {
   const { currentColor } = useSelector((state) => state?.theme);
@@ -35,10 +36,14 @@ export const Users = () => {
     dispatch(userSearch(dataInput));
   };
 
-  const controlModal = (dataUser, acction) => {
+  const controlModal = (dataUser, action) => {
     setUser(dataUser);
-    setTypeAction(acction);
-    setOpened((prevState) => !prevState);
+    setTypeAction(action);
+    if (action === "new" || action === "edit" || action === undefined)
+      setOpened((prevState) => !prevState);
+    if (action === "delete") {
+      console.log("delete");
+    }
   };
 
   useEffect(() => {
@@ -91,9 +96,6 @@ export const Users = () => {
         <table className="mx-auto max-w-full w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden lg:table-fixed lg:w-[100%]">
           <thead style={{ background: currentColor }}>
             <tr className="text-white text-left">
-              <th className="font-semibold text-sm uppercase px-6 py-4 w-[25%]">
-                Id
-              </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 truncate">
                 Email
               </th>
@@ -110,13 +112,12 @@ export const Users = () => {
           </thead>
           <tbody className="divide-y divide-gray-200">
             {isLoading ? (
-              <LoadingCircle width="48" color={currentColor} colSpan="5" />
+              <LoadingCircle width="48" color={currentColor} colSpan="4" />
             ) : data?.items.length === 0 ? (
-              <NotFound title="No hay datos" colSpan="5" />
+              <NotFound title="No hay datos" colSpan="4" />
             ) : (
               data?.items.map((user) => (
                 <tr key={user?.id}>
-                  <td className="px-6 py-4">{user?.id}</td>
                   <td className="px-6 py-4">{user?.email}</td>
                   <td className="px-6 py-4 text-center">
                     <span>
@@ -131,10 +132,18 @@ export const Users = () => {
                     <button
                       onClick={() => controlModal(user, "edit")}
                       style={{ color: currentColor }}
-                      className="text-gray-500 text-xl hover:underline"
+                      className="text-gray-500 text-xl hover:underline mr-3"
                       title="Editar"
                     >
                       <RiPencilLine />
+                    </button>
+                    <button
+                      onClick={() => controlModal(user, "delete")}
+                      style={{ color: currentColor }}
+                      className="text-gray-500 text-xl hover:underline"
+                      title="Eliminar"
+                    >
+                      <BiTrash />
                     </button>{" "}
                   </td>
                 </tr>

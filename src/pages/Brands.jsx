@@ -31,10 +31,14 @@ export const Brands = () => {
     dispatch(brandSearch(dataInput));
   };
 
-  const controlModal = (dataBrand, acction) => {
+  const controlModal = (dataBrand, action) => {
     setBrand(dataBrand);
-    setTypeAction(acction);
-    setOpened((prevState) => !prevState);
+    setTypeAction(action);
+    if (action === "new" || action === "edit" || action === undefined)
+      setOpened((prevState) => !prevState);
+    if (action === "delete") {
+      console.log("delete");
+    }
   };
 
   useEffect(() => {

@@ -31,10 +31,14 @@ export const Places = () => {
     dispatch(placeSearch(dataInput));
   };
 
-  const controlModal = (dataPlace, acction) => {
+  const controlModal = (dataPlace, action) => {
     setPlace(dataPlace);
-    setTypeAction(acction);
-    setOpened((prevState) => !prevState);
+    setTypeAction(action);
+    if (action === "new" || action === "edit" || action === undefined)
+      setOpened((prevState) => !prevState);
+    if (action === "delete") {
+      console.log("delete");
+    }
   };
 
   useEffect(() => {

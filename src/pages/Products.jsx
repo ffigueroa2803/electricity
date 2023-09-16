@@ -16,6 +16,7 @@ import {
   productClearInit,
   productSearch,
 } from "../features/product/productSlice";
+import { BiTrash } from "react-icons/bi";
 
 export const Products = () => {
   const { currentColor } = useSelector((state) => state?.theme);
@@ -38,10 +39,14 @@ export const Products = () => {
     dispatch(productSearch(dataInput));
   };
 
-  const controlModal = (dataProduct, acction) => {
+  const controlModal = (dataProduct, action) => {
     setProduct(dataProduct);
-    setTypeAction(acction);
-    setOpened((prevState) => !prevState);
+    setTypeAction(action);
+    if (action === "new" || action === "edit" || action === undefined)
+      setOpened((prevState) => !prevState);
+    if (action === "delete") {
+      console.log("delete");
+    }
   };
 
   useEffect(() => {
@@ -138,10 +143,18 @@ export const Products = () => {
                     <button
                       onClick={() => controlModal(value, "edit")}
                       style={{ color: currentColor }}
-                      className="text-gray-500 text-xl hover:underline"
+                      className="text-gray-500 text-xl hover:underline mr-3"
                       title="Editar"
                     >
                       <RiPencilLine />
+                    </button>
+                    <button
+                      onClick={() => controlModal(value, "delete")}
+                      style={{ color: currentColor }}
+                      className="text-gray-500 text-xl hover:underline"
+                      title="Eliminar"
+                    >
+                      <BiTrash />
                     </button>{" "}
                   </td>
                 </tr>

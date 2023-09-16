@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Header, LoadingCircle, NotFound, Pagination } from "../components";
 import { useDispatch, useSelector } from "react-redux";
-import { RiFilePdfLine, RiPencilLine } from "react-icons/ri";
+import { RiFileForbidLine, RiFilePdfLine, RiPencilLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { useGetNotasQuery } from "../features/nota/notaApi";
 import {
@@ -143,7 +143,7 @@ export const Nota = () => {
                         })
                       }
                       style={{ color: currentColor }}
-                      className="text-gray-500 text-xl hover:underline"
+                      className="text-gray-500 text-xl hover:underline mr-2"
                       title="Editar"
                     >
                       <RiPencilLine />
@@ -160,10 +160,21 @@ export const Nota = () => {
                         return false;
                       }}
                       style={{ color: currentColor }}
-                      className="text-gray-500 text-xl hover:underline"
+                      className="text-gray-500 text-xl hover:underline mr-2"
                       title="Reporte"
                     >
                       <RiFilePdfLine />
+                    </button>{" "}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        console.log("Anular");
+                      }}
+                      style={{ color: currentColor }}
+                      className="text-gray-500 text-xl hover:underline"
+                      title="Reporte"
+                    >
+                      <RiFileForbidLine />
                     </button>{" "}
                   </td>
                 </tr>
@@ -171,7 +182,9 @@ export const Nota = () => {
             )}
           </tbody>
         </table>
-        {isLoading ? null : (
+        {isLoading ? (
+          "cargando"
+        ) : (
           <Pagination
             {...data?.meta}
             changeCurrentPage={notaChangeCurrentPage}

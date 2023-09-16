@@ -35,10 +35,14 @@ export const Measures = () => {
     dispatch(measureSearch(dataInput));
   };
 
-  const controlModal = (dataMesure, acction) => {
+  const controlModal = (dataMesure, action) => {
     setMeasure(dataMesure);
-    setTypeAction(acction);
-    setOpened((prevState) => !prevState);
+    setTypeAction(action);
+    if (action === "new" || action === "edit" || action === undefined)
+      setOpened((prevState) => !prevState);
+    if (action === "delete") {
+      console.log("delete");
+    }
   };
 
   useEffect(() => {

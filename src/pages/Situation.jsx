@@ -34,10 +34,14 @@ export const Situation = () => {
     dispatch(situationSearch(dataInput));
   };
 
-  const controlModal = (dataSituation, acction) => {
+  const controlModal = (dataSituation, action) => {
     setSituation(dataSituation);
-    setTypeAction(acction);
-    setOpened((prevState) => !prevState);
+    setTypeAction(action);
+    if (action === "new" || action === "edit" || action === undefined)
+      setOpened((prevState) => !prevState);
+    if (action === "delete") {
+      console.log("delete");
+    }
   };
 
   useEffect(() => {
