@@ -6,6 +6,7 @@ import {
   MasterSelect,
   NotaTable,
   ObervationModal,
+  ProductModal,
 } from "../components";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,6 +14,7 @@ import {
   RiAddLine,
   RiDiscussLine,
   RiDiscussFill,
+  RiFileAddLine,
 } from "react-icons/ri";
 import Select from "react-select";
 import { typeDocument } from "../data/dummy";
@@ -69,6 +71,8 @@ export const NotaAction = () => {
   const [crp, setCRP] = useState("");
   const [observation, setObservation] = useState("");
   const [opened, setOpened] = useState(false);
+  const [openedProduct, setOpenedProduct] = useState(false);
+  const [typeAction, setTypeAction] = useState("");
 
   const {
     data: dataHeader,
@@ -166,6 +170,11 @@ export const NotaAction = () => {
     }
   };
 
+  const controlModal = (action) => {
+    setTypeAction(action);
+    if (action === "new") setOpenedProduct((prevState) => !prevState);
+  };
+
   const changeTypeAction = useCallback(() => {
     if (dataHeader && action === "edit") {
       setCode(dataHeader?.code);
@@ -207,7 +216,7 @@ export const NotaAction = () => {
         setTimeout(() => {
           navigate(`/authorized/nota-pedido`, { replace: true });
         }, [3000]);
-      } else {
+      } else if (action === "new") {
         toast.success("Nota creado correctamente!");
         setTimeout(() => {
           navigate(`/authorized/nota-pedido`, { replace: true });
@@ -226,6 +235,15 @@ export const NotaAction = () => {
           title={`${action === "edit" ? "EDITAR" : "CREAR"} NOTA DE PEDIDO`}
         />
         <div className="flex flex-row">
+          <button
+            type="button"
+            onClick={() => controlModal({}, "new")}
+            style={{ color: `${currentColor}`, borderRadius: "50%" }}
+            className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
+            title="Crear Producto"
+          >
+            <RiFileAddLine />
+          </button>
           <button
             type="button"
             onClick={() => setOpened((prevState) => !prevState)}
@@ -415,6 +433,13 @@ export const NotaAction = () => {
           setObservation={setObservation}
         />
       </form>
+      {/* Modal Product */}
+      <ProductModal
+        open={openedProduct}
+        control={controlModal}
+        typeAction={typeAction}
+        toast={toast}
+      />
       {/* Toast */}
       <Toaster position="top-center" />
     </div>
