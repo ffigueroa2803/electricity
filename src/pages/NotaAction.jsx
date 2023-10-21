@@ -73,6 +73,7 @@ export const NotaAction = () => {
   const [opened, setOpened] = useState(false);
   const [openedProduct, setOpenedProduct] = useState(false);
   const [typeAction, setTypeAction] = useState("");
+  const [dataInput, setDataInput] = useState("");
 
   const {
     data: dataHeader,
@@ -170,9 +171,9 @@ export const NotaAction = () => {
     }
   };
 
-  const controlModal = (action) => {
-    setTypeAction(action);
-    if (action === "new") setOpenedProduct((prevState) => !prevState);
+  const controlModal = (comp) => {
+    setTypeAction(comp);
+    setOpenedProduct((prevState) => !prevState);
   };
 
   const changeTypeAction = useCallback(() => {
@@ -437,7 +438,9 @@ export const NotaAction = () => {
       <ProductModal
         open={openedProduct}
         control={controlModal}
+        product={{}}
         typeAction={typeAction}
+        setDataInput={setDataInput}
         toast={toast}
       />
       {/* Toast */}

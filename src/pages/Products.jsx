@@ -172,7 +172,6 @@ export const Products = () => {
       {/* Modal */}
       <ProductModal
         open={opened}
-        setOpened={setOpened}
         control={controlModal}
         product={product}
         typeAction={typeAction}
