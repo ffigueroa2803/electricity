@@ -237,7 +237,7 @@ export const NotaAction = () => {
         <div className="flex flex-row">
           <button
             type="button"
-            onClick={() => controlModal({}, "new")}
+            onClick={() => controlModal("new")}
             style={{ color: `${currentColor}`, borderRadius: "50%" }}
             className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
             title="Crear Producto"
