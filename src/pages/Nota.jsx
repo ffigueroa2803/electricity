@@ -183,7 +183,7 @@ export const Nota = () => {
           </tbody>
         </table>
         {isLoading ? (
-          "cargando"
+          <div className="mb-2">Cargando paginación</div>
         ) : (
           <Pagination
             {...data?.meta}
