@@ -101,7 +101,7 @@ export const Places = () => {
         items={place}
         typeAction={typeAction}
         setDataInput={setDataInput}
-        title="Lugar"
+        title="DESTINO Y/O ACTIVIDAD"
         mutation={useRegisterUpdatePlaceMutation}
         clearInit={placeClearInit}
         toast={toast}

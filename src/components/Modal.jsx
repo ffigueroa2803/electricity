@@ -85,11 +85,13 @@ const Modal = ({
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-extrabold text-gray-900 align-middle">
-                {typeAction === "edit" ? "EDITAR" : "NUEVO"}
+                {typeAction === "edit" ? "EDITAR" : `NUEVO`}
               </h1>
               {typeAction === "edit" ? (
                 <p className="text-base">Id : {items?.id}</p>
-              ) : null}
+              ) : (
+                title
+              )}
             </div>
             <button
               type="button"

@@ -4,6 +4,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   Header,
   MasterSelect,
+  Modal,
   NotaTable,
   ObervationModal,
   ProductModal,
@@ -14,7 +15,7 @@ import {
   RiAddLine,
   RiDiscussLine,
   RiDiscussFill,
-  RiFileAddLine,
+  RiProductHuntLine,
 } from "react-icons/ri";
 import Select from "react-select";
 import { typeDocument } from "../data/dummy";
@@ -40,6 +41,8 @@ import {
   setReasonSelected,
 } from "../features/reason/reasonSlice";
 import { productClearInit } from "../features/product/productSlice";
+import { useRegisterUpdatePlaceMutation } from "../features/place/placeApi";
+import { BiWorld } from "react-icons/bi";
 
 export const NotaAction = () => {
   const { id } = useParams();
@@ -72,6 +75,7 @@ export const NotaAction = () => {
   const [observation, setObservation] = useState("");
   const [opened, setOpened] = useState(false);
   const [openedProduct, setOpenedProduct] = useState(false);
+  const [openedPlace, setOpenedPlace] = useState(false);
   const [typeAction, setTypeAction] = useState("");
   const [dataInput, setDataInput] = useState("");
 
@@ -176,6 +180,11 @@ export const NotaAction = () => {
     setOpenedProduct((prevState) => !prevState);
   };
 
+  const controlModalPlace = (comp) => {
+    setTypeAction(comp);
+    setOpenedPlace((prevState) => !prevState);
+  };
+
   const changeTypeAction = useCallback(() => {
     if (dataHeader && action === "edit") {
       setCode(dataHeader?.code);
@@ -238,12 +247,21 @@ export const NotaAction = () => {
         <div className="flex flex-row">
           <button
             type="button"
+            onClick={() => controlModalPlace("new")}
+            style={{ color: `${currentColor}`, borderRadius: "50%" }}
+            className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
+            title="Crear Destino y/o Actividad"
+          >
+            <BiWorld />
+          </button>
+          <button
+            type="button"
             onClick={() => controlModal("new")}
             style={{ color: `${currentColor}`, borderRadius: "50%" }}
             className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
             title="Crear Producto"
           >
-            <RiFileAddLine />
+            <RiProductHuntLine />
           </button>
           <button
             type="button"
@@ -441,6 +459,19 @@ export const NotaAction = () => {
         product={{}}
         typeAction={typeAction}
         setDataInput={setDataInput}
+        toast={toast}
+      />
+      {/* Modal Destino y/o Actividad */}
+      <Modal
+        open={openedPlace}
+        setOpened={setOpenedPlace}
+        control={controlModalPlace}
+        items={{}}
+        typeAction={typeAction}
+        setDataInput={setDataInput}
+        title="DESTINO Y/O ACTIVIDAD"
+        mutation={useRegisterUpdatePlaceMutation}
+        clearInit={placeClearInit}
         toast={toast}
       />
       {/* Toast */}
