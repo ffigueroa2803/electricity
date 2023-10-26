@@ -76,8 +76,9 @@ export const Profile = () => {
                   className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                   type="password"
                   name="password_actual"
-                  placeholder="Correo electronico"
+                  placeholder="Ingrese contraseña nueva contraseña"
                   onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
               </div>
               <div className="flex justify-end w-full px-3 mb-6 md:mb-8">

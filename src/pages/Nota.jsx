@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Header, LoadingCircle, NotFound, Pagination } from "../components";
+import {
+  ConfirmDialog,
+  Header,
+  LoadingCircle,
+  NotFound,
+  Pagination,
+} from "../components";
 import { useDispatch, useSelector } from "react-redux";
 import { RiFileForbidLine, RiFilePdfLine, RiPencilLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +24,8 @@ export const Nota = () => {
   const { page, limit, search } = useSelector((state) => state?.nota);
 
   const [dataInput, setDataInput] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [nota, setNota] = useState({});
 
   const {
     data = [],
@@ -28,6 +36,14 @@ export const Nota = () => {
   const getNotaSearch = () => {
     dispatch(notaChangeCurrentPage(1));
     dispatch(notaSearch(dataInput));
+  };
+
+  const handleConfirm = () => {
+    setIsDialogOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsDialogOpen(false);
   };
 
   useEffect(() => {
@@ -168,11 +184,12 @@ export const Nota = () => {
                     <button
                       type="button"
                       onClick={() => {
-                        console.log("Anular");
+                        setNota(value);
+                        setIsDialogOpen(true);
                       }}
                       style={{ color: currentColor }}
                       className="text-gray-500 text-xl hover:underline"
-                      title="Reporte"
+                      title="Anular Nota de pedido"
                     >
                       <RiFileForbidLine />
                     </button>{" "}
@@ -191,6 +208,14 @@ export const Nota = () => {
           />
         )}
       </div>
+      {/* ConfirmDialog */}
+      <ConfirmDialog
+        open={isDialogOpen}
+        onConfirm={handleConfirm}
+        onClose={handleCancel}
+        title="Anular nota de pedido Numero"
+        data={nota}
+      />
     </div>
   );
 };
