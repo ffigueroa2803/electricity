@@ -5,7 +5,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 
 import avatar5 from "../assets/avatar5.png";
-import { Notification, UserProfile } from ".";
+import { NavbarSkeleton, Notification, UserProfile } from ".";
 import { useProfileQuery } from "../features/auth/authApi";
 import {
   themeSetScreenSize,
@@ -71,7 +71,7 @@ const Navbar = () => {
       />
       <div className="flex">
         {isLoading ? (
-          <p>cargando...</p>
+          <NavbarSkeleton />
         ) : (
           <>
             <NavButton

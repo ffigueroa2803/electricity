@@ -21,6 +21,7 @@ import ThemeSettings from "./ThemeSettings";
 import UserModal from "./user/UserModal";
 import UserProfile from "./UserProfile";
 import ConfirmDialog from "./ConfirmDialog";
+import NavbarSkeleton from "./skeletons/NavbarSkeleton";
 
 export {
   Button,
@@ -46,4 +47,5 @@ export {
   UserModal,
   UserProfile,
   ConfirmDialog,
+  NavbarSkeleton,
 };
