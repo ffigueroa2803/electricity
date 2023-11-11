@@ -77,6 +77,40 @@ export const links = [
   },
 ];
 
+export const links_collaborator = [
+  {
+    title: "Tablero",
+    links: [
+      {
+        route: "dashboard",
+        name: "Tablero",
+        icon: <AiOutlineDashboard />,
+      },
+    ],
+  },
+  {
+    title: "Mantenimentos",
+    links: [
+      {
+        route: "places",
+        name: "lugares",
+        icon: <BiWorld />,
+      },
+
+      {
+        route: "products",
+        name: "productos",
+        icon: <RiProductHuntLine />,
+      },
+      {
+        route: "nota-pedido",
+        name: "nota pedido",
+        icon: <RiStackLine />,
+      },
+    ],
+  },
+];
+
 export const chatData = [
   {
     image: avatar5,

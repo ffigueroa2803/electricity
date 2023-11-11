@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, redirect, useNavigate } from "react-router-dom";
 import { BsEyeSlash, BsEye } from "react-icons/bs";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -20,10 +20,10 @@ export const Login = () => {
 
   const [login, { data, isLoading, error: responseError }] = useLoginMutation();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    login({ username, password });
+    await login({ username, password });
   };
 
   const changeIconPassword = () => {

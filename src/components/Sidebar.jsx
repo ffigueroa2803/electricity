@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { useDispatch, useSelector } from "react-redux";
 
 import logo from "../assets/logo.png";
-import { links } from "../data/dummy";
+import { links, links_collaborator } from "../data/dummy";
 import { themeSetActiveMenu } from "../features/theme/themeSlice";
 
 const Sidebar = () => {
+  const [data, setData] = useState([]);
   const { screenSize, currentColor, activeMenu } = useSelector(
     (state) => state?.theme
   );
+  const user = useSelector((state) => state?.auth?.user);
 
   const dispatch = useDispatch();
 
@@ -20,6 +22,17 @@ const Sidebar = () => {
       dispatch(themeSetActiveMenu(false));
     }
   };
+
+  const hnadleSidebarUser = () => {
+    if (user === undefined) return <div>Cargando....</div>;
+  };
+
+  useEffect(() => {
+    if (user !== undefined) {
+      const resp = user?.isAdmin === false ? links_collaborator : links;
+      setData(resp);
+    }
+  }, [user]);
 
   const activeLink =
     "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-white text-md m-2";
@@ -54,29 +67,31 @@ const Sidebar = () => {
             </TooltipComponent>
           </div>
           <div className="mt-10">
-            {links.map((item) => (
-              <div key={item.title}>
-                <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
-                  {item.title}
-                </p>
-                {item.links.map((link) => (
-                  <NavLink
-                    to={`/authorized/${link.route}`}
-                    key={link.route}
-                    onClick={(e) => handleCloseSideBar(e)}
-                    style={({ isActive }) => ({
-                      backgroundColor: isActive ? currentColor : "",
-                    })}
-                    className={({ isActive }) =>
-                      isActive ? activeLink : normalLink
-                    }
-                  >
-                    {link.icon}
-                    <span className="capitalize">{link.name}</span>
-                  </NavLink>
+            {user === undefined
+              ? "Procesando"
+              : data.map((item) => (
+                  <div key={item.title}>
+                    <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
+                      {item.title}
+                    </p>
+                    {item.links.map((link) => (
+                      <NavLink
+                        to={`/authorized/${link.route}`}
+                        key={link.route}
+                        onClick={(e) => handleCloseSideBar(e)}
+                        style={({ isActive }) => ({
+                          backgroundColor: isActive ? currentColor : "",
+                        })}
+                        className={({ isActive }) =>
+                          isActive ? activeLink : normalLink
+                        }
+                      >
+                        {link.icon}
+                        <span className="capitalize">{link.name}</span>
+                      </NavLink>
+                    ))}
+                  </div>
                 ))}
-              </div>
-            ))}
           </div>
         </>
       )}

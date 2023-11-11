@@ -3,11 +3,15 @@ import React, { useEffect, useState } from "react";
 import { Header } from "../components";
 import { useSelector } from "react-redux";
 import Avatar from "../assets/avatar5.png";
-import { useUpdateProfileMutation } from "../features/auth/authApi";
+import {
+  useProfileQuery,
+  useUpdateProfileMutation,
+} from "../features/auth/authApi";
 import toast, { Toaster } from "react-hot-toast";
 
 export const Profile = () => {
   const { currentColor } = useSelector((state) => state?.theme);
+  // const { data: user, isLoadingUser, errorUser } = useProfileQuery();
   const user = useSelector((state) => state?.auth?.user);
 
   const [email, setEmail] = useState("");
@@ -19,7 +23,7 @@ export const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      updateProfile({ ...user, password: password });
+      await updateProfile({ ...user, password: password });
     } catch (error) {
       toast.error(error);
     }

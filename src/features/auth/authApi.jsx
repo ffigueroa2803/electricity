@@ -10,7 +10,7 @@ export const authApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-
+      invalidatesTags: ["User"],
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
@@ -41,8 +41,11 @@ export const authApi = apiSlice.injectEndpoints({
     }),
 
     profile: builder.query({
-      query: () => "/api/auth/profile",
-
+      query: () => ({
+        url: "/api/auth/profile",
+        method: "GET",
+      }),
+      providesTags: ["User"],
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
