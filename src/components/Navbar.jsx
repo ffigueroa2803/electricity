@@ -74,7 +74,7 @@ const Navbar = () => {
           <NavbarSkeleton />
         ) : (
           <>
-            <NavButton
+            {/* <NavButton
               title="Notification"
               dotColor="rgb(254, 201, 15)"
               customFunc={() => {
@@ -83,7 +83,7 @@ const Navbar = () => {
               }}
               color={currentColor}
               icon={<RiNotification3Line />}
-            />
+            /> */}
             <div
               className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
               onClick={() => {
@@ -107,7 +107,7 @@ const Navbar = () => {
           </>
         )}
 
-        {isClicked?.notification && <Notification />}
+        {/* {isClicked?.notification && <Notification />} */}
         {isClicked?.userProfile && <UserProfile />}
       </div>
     </div>
