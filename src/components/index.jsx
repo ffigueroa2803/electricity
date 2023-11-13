@@ -22,6 +22,7 @@ import UserModal from "./user/UserModal";
 import UserProfile from "./UserProfile";
 import ConfirmDialog from "./ConfirmDialog";
 import NavbarSkeleton from "./skeletons/NavbarSkeleton";
+import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 
 export {
   Button,
@@ -48,4 +49,5 @@ export {
   UserProfile,
   ConfirmDialog,
   NavbarSkeleton,
+  SidebarSkeleton,
 };
