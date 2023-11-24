@@ -18,6 +18,7 @@ import {
 } from "../features/user/userSlice";
 import { BiTrash } from "react-icons/bi";
 import { state_style_color } from "../data/dummy";
+import moment from "moment/moment";
 
 export const Users = () => {
   const { currentColor } = useSelector((state) => state?.theme);
@@ -97,13 +98,16 @@ export const Users = () => {
         <table className="mx-auto max-w-full w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden lg:table-fixed lg:w-[100%]">
           <thead style={{ background: currentColor }}>
             <tr className="text-white text-left">
-              <th className="font-semibold text-sm uppercase px-6 py-4 truncate">
+              <th className="font-semibold text-sm uppercase px-6 py-4 truncate w-[25%]">
                 Email
               </th>
-
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
                 {" "}
                 Rol{" "}
+              </th>
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
+                {" "}
+                F. Creacion{" "}
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
                 {" "}
@@ -124,6 +128,9 @@ export const Users = () => {
                   <td className="px-6 py-4 text-center">
                     {user?.isAdmin === true ? "Administrador" : "Colaborador"}
                   </td>
+                  <td className="px-6 py-4">
+                    {moment(user?.createdAt).format("DD/MM/YYYY")}
+                  </td>
                   <td className="px-6 py-4 text-center">
                     <span
                       className={
@@ -135,7 +142,6 @@ export const Users = () => {
                       {user?.state === true ? "ACTIVO" : "INACTIVO"}
                     </span>
                   </td>
-
                   <td className="px-6 py-4 text-center">
                     {" "}
                     <button
