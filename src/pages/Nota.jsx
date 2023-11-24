@@ -87,7 +87,7 @@ export const Nota = () => {
               <input
                 type="text"
                 id="form-subscribe-Filter"
-                className="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent lg:w-96"
+                className="rounded-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent lg:w-96"
                 placeholder="Ingrese nota de pedido"
                 value={dataInput}
                 onChange={(e) => setDataInput(e.target.value)}
@@ -190,6 +190,7 @@ export const Nota = () => {
                       style={{ color: currentColor }}
                       className="text-gray-500 text-xl hover:underline mr-2"
                       title="Editar"
+                      disabled={value?.state === true ? false : true}
                     >
                       <RiPencilLine />
                     </button>{" "}

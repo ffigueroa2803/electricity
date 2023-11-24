@@ -64,7 +64,7 @@ export const Reason = () => {
               <input
                 type="text"
                 id="form-subscribe-Filter"
-                className="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent lg:w-96"
+                className="rounded-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent lg:w-96"
                 placeholder="Ingrese descripcion"
                 value={dataInput}
                 onChange={(e) => setDataInput(e.target.value)}
@@ -82,7 +82,7 @@ export const Reason = () => {
         <div className="lg:mr-12">
           <button
             style={{ backgroundColor: currentColor }}
-            className="flex-shrink-0 px-4 py-2 mb-3 text-base font-semibold text-white rounded-lg shadow-md w-3/4 lg:w-20"
+            className="flex-shrink-0 px-4 py-2 mb-3 text-base font-semibold text-white rounded-lg shadow-md w-3/4 lg:w-20 md:w-20"
             onClick={() => controlModal({}, "new")}
           >
             Nuevo
