@@ -42,8 +42,7 @@ export const Nota = () => {
     error,
   } = useGetNotasQuery({ page, limit, search });
 
-  const [anularNota, { isLoading: isLoadingAnular, error: errorAnular }] =
-    useAnularNotaMutation();
+  const [anularNota, { isLoading: isLoadingAnular }] = useAnularNotaMutation();
 
   const getNotaSearch = () => {
     dispatch(notaChangeCurrentPage(1));
@@ -56,6 +55,8 @@ export const Nota = () => {
       if (deleteNota?.affected === 1) {
         setIsDialogOpen(false);
         toast.success("Anulado correctamente!");
+      } else {
+        toast.error("Error al anular");
       }
     } catch (error) {
       toast.error(error);
@@ -243,6 +244,7 @@ export const Nota = () => {
         onClose={handleCancel}
         title="Anular nota de pedido Numero"
         data={nota}
+        loading={isLoadingAnular}
       />
       {/* Toast */}
       <Toaster position="top-center" />

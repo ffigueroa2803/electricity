@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-const ConfirmDialog = ({ open, onClose, onConfirm, title, data }) => {
+const ConfirmDialog = ({ open, onClose, onConfirm, title, data, loading }) => {
   const { currentColor } = useSelector((state) => state?.theme);
 
   return (
@@ -52,8 +52,9 @@ const ConfirmDialog = ({ open, onClose, onConfirm, title, data }) => {
               type="button"
               className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
               style={{ backgroundColor: currentColor }}
+              disabled={loading === true ? true : false}
             >
-              Confirmar
+              {loading === true ? "Procesando" : "Confirmar"}
             </button>
             <button
               onClick={onClose}
