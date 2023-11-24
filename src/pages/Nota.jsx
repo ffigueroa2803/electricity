@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import {
   ConfirmDialog,
   Header,
@@ -9,12 +10,20 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RiFileForbidLine, RiFilePdfLine, RiPencilLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { useGetNotasQuery } from "../features/nota/notaApi";
+import {
+  useAnularNotaMutation,
+  useGetNotasQuery,
+} from "../features/nota/notaApi";
 import {
   notaChangeCurrentPage,
   notaClearInit,
   notaSearch,
 } from "../features/nota/notaSlice";
+
+const creado =
+  "bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded";
+const anulado =
+  "bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded";
 
 export const Nota = () => {
   const navigate = useNavigate();
@@ -33,13 +42,24 @@ export const Nota = () => {
     error,
   } = useGetNotasQuery({ page, limit, search });
 
+  const [anularNota, { isLoading: isLoadingAnular, error: errorAnular }] =
+    useAnularNotaMutation();
+
   const getNotaSearch = () => {
     dispatch(notaChangeCurrentPage(1));
     dispatch(notaSearch(dataInput));
   };
 
-  const handleConfirm = () => {
-    setIsDialogOpen(false);
+  const handleConfirm = async () => {
+    try {
+      const deleteNota = await anularNota(nota?.id).unwrap();
+      if (deleteNota?.affected === 1) {
+        setIsDialogOpen(false);
+        toast.success("Anulado correctamente!");
+      }
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   const handleCancel = () => {
@@ -107,7 +127,7 @@ export const Nota = () => {
               <th className="font-semibold text-sm uppercase px-6 py-4 truncate">
                 Fecha
               </th>
-              <th className="font-semibold text-sm uppercase px-6 py-4 text-center w-[20%]">
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center w-[15%]">
                 Area
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
@@ -121,6 +141,9 @@ export const Nota = () => {
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
                 Situación
+              </th>
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
+                Estado
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4"></th>
             </tr>
@@ -147,6 +170,11 @@ export const Nota = () => {
                   </td>
                   <td className="px-6 py-4 text-center">
                     {value?.situacion?.name}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className={value?.state === true ? creado : anulado}>
+                      {value?.state === true ? "CREADO" : "ANULADO"}
+                    </span>
                   </td>
                   <td className="px-6 py-4 text-right">
                     {" "}
@@ -216,6 +244,8 @@ export const Nota = () => {
         title="Anular nota de pedido Numero"
         data={nota}
       />
+      {/* Toast */}
+      <Toaster position="top-center" />
     </div>
   );
 };
