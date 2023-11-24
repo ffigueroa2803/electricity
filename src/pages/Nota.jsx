@@ -219,6 +219,7 @@ export const Nota = () => {
                       style={{ color: currentColor }}
                       className="text-gray-500 text-xl hover:underline"
                       title="Anular Nota de pedido"
+                      disabled={value?.state === true ? false : true}
                     >
                       <RiFileForbidLine />
                     </button>{" "}
