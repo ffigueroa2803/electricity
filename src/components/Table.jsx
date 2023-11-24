@@ -5,6 +5,7 @@ import { LoadingCircle, NotFound, Pagination } from "../components";
 import { RiPencilLine } from "react-icons/ri";
 import moment from "moment/moment";
 import { BiTrash } from "react-icons/bi";
+import { state_style_color } from "../data/dummy";
 
 const Table = ({ data, isLoading, controlModal, changeCurrentPage }) => {
   const { currentColor } = useSelector((state) => state?.theme);
@@ -24,6 +25,9 @@ const Table = ({ data, isLoading, controlModal, changeCurrentPage }) => {
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center w-[8%]">
                 F. Creacion
               </th>
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center w-[8%]">
+                Estado
+              </th>
               <th className="font-semibold text-sm uppercase px-6 py-4"></th>
             </tr>
           </thead>
@@ -39,6 +43,17 @@ const Table = ({ data, isLoading, controlModal, changeCurrentPage }) => {
                   <td className="px-6 py-4 truncate">{value?.description}</td>
                   <td className="px-6 py-4 text-center">
                     {moment(value?.createdAt).format("DD/MM/YYYY")}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span
+                      className={
+                        value?.state === true
+                          ? state_style_color?.create
+                          : state_style_color?.canceled
+                      }
+                    >
+                      {value?.state === true ? "ACTIVO" : "INACTIVO"}
+                    </span>
                   </td>
                   <td className="px-6 py-4 text-right">
                     {" "}

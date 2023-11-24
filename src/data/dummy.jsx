@@ -14,6 +14,13 @@ import { FiCreditCard } from "react-icons/fi";
 
 import avatar5 from "../assets/avatar5.png";
 
+export const state_style_color = {
+  create:
+    "bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded",
+  canceled:
+    "bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded",
+};
+
 export const links = [
   {
     title: "Tablero",

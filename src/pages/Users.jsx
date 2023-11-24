@@ -17,6 +17,7 @@ import {
   userSearch,
 } from "../features/user/userSlice";
 import { BiTrash } from "react-icons/bi";
+import { state_style_color } from "../data/dummy";
 
 export const Users = () => {
   const { currentColor } = useSelector((state) => state?.theme);
@@ -99,13 +100,14 @@ export const Users = () => {
               <th className="font-semibold text-sm uppercase px-6 py-4 truncate">
                 Email
               </th>
-              <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
-                {" "}
-                Estado{" "}
-              </th>
+
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
                 {" "}
                 Rol{" "}
+              </th>
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
+                {" "}
+                Estado{" "}
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4"></th>
             </tr>
@@ -120,13 +122,20 @@ export const Users = () => {
                 <tr key={user?.id}>
                   <td className="px-6 py-4">{user?.email}</td>
                   <td className="px-6 py-4 text-center">
-                    <span>
-                      {user?.state === true ? "Activo" : "Desactivado"}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-center">
                     {user?.isAdmin === true ? "Administrador" : "Colaborador"}
                   </td>
+                  <td className="px-6 py-4 text-center">
+                    <span
+                      className={
+                        user?.state === true
+                          ? state_style_color?.create
+                          : state_style_color?.canceled
+                      }
+                    >
+                      {user?.state === true ? "ACTIVO" : "INACTIVO"}
+                    </span>
+                  </td>
+
                   <td className="px-6 py-4 text-center">
                     {" "}
                     <button

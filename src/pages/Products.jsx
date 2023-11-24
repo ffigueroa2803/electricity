@@ -17,6 +17,7 @@ import {
   productSearch,
 } from "../features/product/productSlice";
 import { BiTrash } from "react-icons/bi";
+import { state_style_color } from "../data/dummy";
 
 export const Products = () => {
   const { currentColor } = useSelector((state) => state?.theme);
@@ -117,6 +118,9 @@ export const Products = () => {
               <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
                 Medida
               </th>
+              <th className="font-semibold text-sm uppercase px-6 py-4 text-center">
+                Estado
+              </th>
               <th className="font-semibold text-sm uppercase px-6 py-4"></th>
             </tr>
           </thead>
@@ -137,6 +141,17 @@ export const Products = () => {
                   </td>
                   <td className="px-6 py-4 text-center">
                     {value?.medida?.name}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span
+                      className={
+                        value?.state === true
+                          ? state_style_color?.create
+                          : state_style_color?.canceled
+                      }
+                    >
+                      {value?.state === true ? "ACTIVO" : "INACTIVO"}
+                    </span>
                   </td>
                   <td className="px-6 py-4 text-center">
                     {" "}
