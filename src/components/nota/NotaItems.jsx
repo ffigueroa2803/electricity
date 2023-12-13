@@ -44,7 +44,7 @@ const NotaItems = ({ item, index, action }) => {
             name="cantidad"
             value={amount || 1}
             onChange={(e) => handleChange(e, item?.producto?.id)}
-            disabled={action === "edit" ? true : false}
+            // disabled={action === "edit" ? true : false}
             min={1}
           />
         </td>

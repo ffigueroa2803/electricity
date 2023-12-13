@@ -124,7 +124,7 @@ export const Nota = () => {
           <thead style={{ background: currentColor }}>
             <tr className="text-white text-left">
               <th className="font-semibold text-sm uppercase px-6 py-4 w-[8%]">
-                Code
+                Codigo
               </th>
               <th className="font-semibold text-sm uppercase px-6 py-4 truncate">
                 Fecha
