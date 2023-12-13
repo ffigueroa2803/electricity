@@ -22,8 +22,15 @@ export const productApi = apiSlice.injectEndpoints({
         { type: "Products", page, limit },
       ],
     }),
+
+    getProductWithMoreMovement: builder.query({
+      query: () => `/api/productos/resume/masMovimientos`,
+    }),
   }),
 });
 
-export const { useGetProductsQuery, useRegisterUpdateProductMutation } =
-  productApi;
+export const {
+  useGetProductsQuery,
+  useRegisterUpdateProductMutation,
+  useGetProductWithMoreMovementQuery,
+} = productApi;
