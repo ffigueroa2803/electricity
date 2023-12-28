@@ -152,9 +152,9 @@ export const Nota = () => {
           </thead>
           <tbody className="divide-y divide-gray-200">
             {isLoading ? (
-              <LoadingCircle width="48" color={currentColor} colSpan="8" />
+              <LoadingCircle width="48" color={currentColor} colSpan="9" />
             ) : data?.items.length === 0 ? (
-              <NotFound title="No hay datos" colSpan="8" />
+              <NotFound title="No hay datos" colSpan="9" />
             ) : (
               data?.items?.map((value) => (
                 <tr key={value?.id}>

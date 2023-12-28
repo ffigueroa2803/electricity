@@ -44,7 +44,7 @@ const UserProfile = () => {
         <div>
           <p className="text-gray-500 text-sm dark:text-gray-400">
             {" "}
-            {user?.isAdmin ? "Administrator" : "Personal"}{" "}
+            {user?.isAdmin ? "Administrator" : "Colaborador"}{" "}
           </p>
           <p className="text-gray-500 text-sm font-semibold dark:text-gray-400">
             {" "}

@@ -203,16 +203,6 @@ export const lineChartData = [
     { x: new Date(2010, 0, 1), y: 78 },
     { x: new Date(2011, 0, 1), y: 84 },
   ],
-
-  [
-    { x: new Date(2005, 0, 1), y: 10 },
-    { x: new Date(2006, 0, 1), y: 20 },
-    { x: new Date(2007, 0, 1), y: 30 },
-    { x: new Date(2008, 0, 1), y: 39 },
-    { x: new Date(2009, 0, 1), y: 50 },
-    { x: new Date(2010, 0, 1), y: 70 },
-    { x: new Date(2011, 0, 1), y: 100 },
-  ],
 ];
 
 export const lineCustomSeries = [
@@ -220,7 +210,7 @@ export const lineCustomSeries = [
     dataSource: lineChartData[0],
     xName: "x",
     yName: "y",
-    name: "Germany",
+    name: "Entrada",
     width: "2",
     marker: { visible: true, width: 10, height: 10 },
     type: "Line",
@@ -230,17 +220,7 @@ export const lineCustomSeries = [
     dataSource: lineChartData[1],
     xName: "x",
     yName: "y",
-    name: "England",
-    width: "2",
-    marker: { visible: true, width: 10, height: 10 },
-    type: "Line",
-  },
-
-  {
-    dataSource: lineChartData[2],
-    xName: "x",
-    yName: "y",
-    name: "India",
+    name: "Salida",
     width: "2",
     marker: { visible: true, width: 10, height: 10 },
     type: "Line",
@@ -250,6 +230,9 @@ export const lineCustomSeries = [
 export const LinePrimaryXAxis = {
   valueType: "DateTime",
   labelFormat: "y",
+  minimum: "2022",
+  maximum: "2035",
+  interval: 3,
   intervalType: "Years",
   edgeLabelPlacement: "Shift",
   majorGridLines: { width: 0 },
@@ -257,11 +240,11 @@ export const LinePrimaryXAxis = {
 };
 
 export const LinePrimaryYAxis = {
-  labelFormat: "{value}%",
+  labelFormat: "{value}",
   rangePadding: "None",
   minimum: 0,
-  maximum: 100,
-  interval: 20,
+  maximum: 800,
+  interval: 100,
   lineStyle: { width: 0 },
   majorTickLines: { width: 0 },
   minorTickLines: { width: 0 },

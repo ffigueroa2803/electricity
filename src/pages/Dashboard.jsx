@@ -8,6 +8,7 @@ import { TiTick } from "react-icons/ti";
 export const Dashboard = () => {
   const { currentColor } = useSelector((state) => state?.theme);
   const [count, setCount] = useState(0);
+  const [title, setTitle] = useState("");
 
   const {
     data: recentMovement,
@@ -26,9 +27,10 @@ export const Dashboard = () => {
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       {/* Header */}
       <Header title="TABLERO" />
+      {/* Body */}
       <div className="flex flex-wrap lg:flex-nowrap justify-center">
         <div className="flex gap-10 m-4 flex-wrap justify-center">
-          {/* Recent Transactions */}
+          {/* Recent Movements */}
           <div className="bg-gray-50 dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl">
             <div className="flex justify-between items-center gap-2">
               <p className="text-xl font-semibold">
@@ -77,16 +79,16 @@ export const Dashboard = () => {
               </p>
             </div>
           </div>
-          {/* Sales Overview */}
+          {/* Movements Anual */}
           <div className="bg-gray-50 dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-760">
-            <div className="flex justify-between items-center gap-2 mb-10">
+            <div className="flex flex-col items-center gap-2 mb-10">
               <p className="text-xl font-semibold">
-                Resumen de entrada y salida de productos
+                Resumen anual de producto con mas movimientos.
               </p>
-              {/* <DropDown currentMode={currentMode} /> */}
+              <p className="text-sm text-gray-400">{title || "Cargando"}</p>
             </div>
             <div className="md:w-full overflow-auto">
-              <LineChart />
+              <LineChart setTitle={setTitle} />
             </div>
           </div>
         </div>

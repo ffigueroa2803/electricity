@@ -33,9 +33,9 @@ const Table = ({ data, isLoading, controlModal, changeCurrentPage }) => {
           </thead>
           <tbody className="divide-y divide-gray-200">
             {isLoading ? (
-              <LoadingCircle width="48" color={currentColor} colSpan="4" />
+              <LoadingCircle width="48" color={currentColor} colSpan="5" />
             ) : data?.items.length === 0 ? (
-              <NotFound title="No hay datos" colSpan="4" />
+              <NotFound title="No hay datos" colSpan="5" />
             ) : (
               data?.items.map((value) => (
                 <tr key={value?.id}>
