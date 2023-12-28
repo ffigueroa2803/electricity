@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   screenSize: undefined,
   currentMode: "Dark",
-  currentColor: "#FF5C8E",
+  currentColor: "#7352FF",
   themeSettings: false,
   activeMenu: true,
   isClicked: {
