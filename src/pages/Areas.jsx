@@ -56,14 +56,16 @@ export const Areas = () => {
 
   const handleConfirm = async () => {
     try {
-      let result = await deleteArea(dataArea?.id).unwrap();
+      let result = await deleteArea(area?.id).unwrap();
       if (result?.status === 501) {
         toast.error(result?.message);
         return;
       }
       toast.success(result?.message);
+      setIsDialogOpen(false);
     } catch (error) {
       toast.error(error);
+      setIsDialogOpen(false);
     }
   };
 
@@ -142,7 +144,8 @@ export const Areas = () => {
         onConfirm={handleConfirm}
         onClose={handleCancel}
         title="Estas seguro de eliminar o desactivar"
-        loading={isLoading}
+        data={null}
+        loading={isLoadingArea}
         prefix="el area "
         result={area}
       />
