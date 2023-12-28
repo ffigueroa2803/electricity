@@ -9,18 +9,14 @@ import {
   Legend,
   Tooltip,
 } from "@syncfusion/ej2-react-charts";
-import {
-  LinePrimaryXAxis,
-  LinePrimaryYAxis,
-  lineCustomSeries,
-} from "../../data/dummy";
+import { LinePrimaryXAxis, LinePrimaryYAxis } from "../../data/dummy";
 import { useSelector } from "react-redux";
 import { useGetProductWithMoreMovementAnualQuery } from "../../features/product/productApi";
 
 export const LineChart = ({ setTitle }) => {
   const chartData = [[], []];
   const { currentMode } = useSelector((state) => state?.theme);
-  const [lineCustomSeriesP, setLineCustomSeriesP] = useState([]);
+  const [lineCustomSeries, setLineCustomSeries] = useState([]);
 
   const {
     data: recentMovementAnual,
@@ -65,7 +61,7 @@ export const LineChart = ({ setTitle }) => {
       });
     });
 
-    setLineCustomSeriesP([
+    setLineCustomSeries([
       {
         dataSource: chartData[0],
         xName: "x",
@@ -107,7 +103,7 @@ export const LineChart = ({ setTitle }) => {
       <Inject services={[LineSeries, DateTime, Legend, Tooltip]} />
       <SeriesCollectionDirective>
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {lineCustomSeriesP?.map((item, index) => (
+        {lineCustomSeries?.map((item, index) => (
           <SeriesDirective key={index} {...item} />
         ))}
       </SeriesCollectionDirective>
