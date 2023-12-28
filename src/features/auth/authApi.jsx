@@ -4,13 +4,30 @@ import { userLoggedIn, userProfile } from "./authSlice";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    profile: builder.query({
+      query: () => ({
+        url: "/api/auth/profile",
+        method: "GET",
+      }),
+      providesTags: ["Auth"],
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          // dispatch those data to redux store
+          dispatch(userProfile({ user: result.data }));
+        } catch (err) {
+          dispatch(userProfile({ user: undefined }));
+        }
+      },
+    }),
+
     login: builder.mutation({
       query: (data) => ({
         url: "/api/login",
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["Auth"],
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
@@ -36,23 +53,6 @@ export const authApi = apiSlice.injectEndpoints({
           else dispatch(themeSetMode("Dark"));
         } catch (err) {
           console.log(err);
-        }
-      },
-    }),
-
-    profile: builder.query({
-      query: () => ({
-        url: "/api/auth/profile",
-        method: "GET",
-      }),
-      providesTags: ["User"],
-      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
-        try {
-          const result = await queryFulfilled;
-          // dispatch those data to redux store
-          dispatch(userProfile({ user: result.data }));
-        } catch (err) {
-          dispatch(userProfile({ user: undefined }));
         }
       },
     }),

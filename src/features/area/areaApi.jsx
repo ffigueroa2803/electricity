@@ -20,6 +20,16 @@ export const areaApi = apiSlice.injectEndpoints({
         { type: "Areas", page, limit },
       ],
     }),
+
+    deleteArea: builder.mutation({
+      query: (id) => ({
+        url: `/api/areas/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, { page, limit }) => [
+        { type: "Areas", page, limit },
+      ],
+    }),
   }),
 });
 
@@ -27,4 +37,5 @@ export const {
   useGetAreasQuery,
   useLazyGetAreasQuery,
   useRegisterUpdateAreaMutation,
+  useDeleteAreaMutation,
 } = areaApi;

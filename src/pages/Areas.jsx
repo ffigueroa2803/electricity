@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
-import { Header, Modal, Table } from "../components";
+import { ConfirmDialog, Header, Modal, Table } from "../components";
 import {
+  useDeleteAreaMutation,
   useGetAreasQuery,
   useRegisterUpdateAreaMutation,
 } from "../features/area/areaApi";
@@ -22,25 +23,52 @@ export const Areas = () => {
   const [opened, setOpened] = useState(false);
   const [area, setArea] = useState({});
   const [typeAction, setTypeAction] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { data, isLoading, error } = useGetAreasQuery(
     { page, limit, search },
     { refetchOnMountOrArgChange: true }
   );
 
+  const [
+    deleteArea,
+    { data: dataArea, isLoading: isLoadingArea, error: errorArea },
+  ] = useDeleteAreaMutation();
+
   const getAreaSearch = () => {
     dispatch(areaChangeCurrentPage(1));
     dispatch(areaSearch(dataInput));
   };
 
-  const controlModal = (dataArea, action) => {
-    setArea(dataArea);
-    setTypeAction(action);
-    if (action === "new" || action === "edit" || action === undefined)
-      setOpened((prevState) => !prevState);
-    if (action === "delete") {
-      console.log("delete");
+  const controlModal = async (dataArea, action) => {
+    try {
+      setArea(dataArea);
+      setTypeAction(action);
+      if (action === "new" || action === "edit" || action === undefined)
+        setOpened((prevState) => !prevState);
+      if (action === "delete") {
+        setIsDialogOpen(true);
+      }
+    } catch (error) {
+      toast.error(error);
     }
+  };
+
+  const handleConfirm = async () => {
+    try {
+      let result = await deleteArea(dataArea?.id).unwrap();
+      if (result?.status === 501) {
+        toast.error(result?.message);
+        return;
+      }
+      toast.success(result?.message);
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsDialogOpen(false);
   };
 
   useEffect(() => {
@@ -107,6 +135,16 @@ export const Areas = () => {
         mutation={useRegisterUpdateAreaMutation}
         clearInit={areaClearInit}
         toast={toast}
+      />
+      {/* ConfirmDialog */}
+      <ConfirmDialog
+        open={isDialogOpen}
+        onConfirm={handleConfirm}
+        onClose={handleCancel}
+        title="Estas seguro de eliminar o desactivar"
+        loading={isLoading}
+        prefix="el area "
+        result={area}
       />
       {/* Toast */}
       <Toaster position="top-right" />

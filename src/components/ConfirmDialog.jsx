@@ -1,7 +1,16 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-const ConfirmDialog = ({ open, onClose, onConfirm, title, data, loading }) => {
+const ConfirmDialog = ({
+  open,
+  onClose,
+  onConfirm,
+  title,
+  data,
+  loading,
+  prefix,
+  result,
+}) => {
   const { currentColor } = useSelector((state) => state?.theme);
 
   return (
@@ -36,7 +45,8 @@ const ConfirmDialog = ({ open, onClose, onConfirm, title, data, loading }) => {
                   className="text-2xl leading-6 font-medium text-gray-900"
                   id="modal-title"
                 >
-                  {title} #{data.code}
+                  {title} {prefix} {result && result?.name}{" "}
+                  {data && `#${data?.code}`}
                 </h3>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
