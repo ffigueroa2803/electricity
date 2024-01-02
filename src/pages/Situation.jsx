@@ -4,6 +4,7 @@ import {
   situationChangeCurrentPage,
   situationClearInit,
   situationSearch,
+  situationToggleChecked,
 } from "../features/situation/situationSlice";
 import {
   useRegisterUpdateSituationMutation,
@@ -14,7 +15,9 @@ import toast, { Toaster } from "react-hot-toast";
 
 export const Situation = () => {
   const { currentColor } = useSelector((state) => state?.theme);
-  const { page, limit, search } = useSelector((state) => state?.situation);
+  const { page, limit, search, toggle } = useSelector(
+    (state) => state?.situation
+  );
 
   const dispatch = useDispatch();
 
@@ -108,6 +111,8 @@ export const Situation = () => {
         mutation={useRegisterUpdateSituationMutation}
         clearInit={situationClearInit}
         toast={toast}
+        toggle={toggle}
+        toggleChecked={situationToggleChecked}
       />
       {/* Toast */}
       <Toaster position="top-right" />

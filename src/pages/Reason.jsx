@@ -4,6 +4,7 @@ import {
   reasonChangeCurrentPage,
   reasonClearInit,
   reasonSearch,
+  reasonToggleChecked,
 } from "../features/reason/reasonSlice";
 import {
   useRegisterUpdateReasonMutation,
@@ -14,7 +15,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 export const Reason = () => {
   const { currentColor } = useSelector((state) => state?.theme);
-  const { page, limit, search } = useSelector((state) => state?.reason);
+  const { page, limit, search, toggle } = useSelector((state) => state?.reason);
 
   const dispatch = useDispatch();
 
@@ -108,6 +109,8 @@ export const Reason = () => {
         mutation={useRegisterUpdateReasonMutation}
         clearInit={reasonClearInit}
         toast={toast}
+        toggle={toggle}
+        toggleChecked={reasonToggleChecked}
       />
       {/* Toast */}
       <Toaster position="top-right" />

@@ -11,11 +11,12 @@ import {
   brandChangeCurrentPage,
   brandClearInit,
   brandSearch,
+  brandToggleChecked,
 } from "../features/brand/brandSlice";
 
 export const Brands = () => {
   const { currentColor } = useSelector((state) => state?.theme);
-  const { page, limit, search } = useSelector((state) => state?.brand);
+  const { page, limit, search, toggle } = useSelector((state) => state?.brand);
 
   const dispatch = useDispatch();
 
@@ -105,6 +106,8 @@ export const Brands = () => {
         mutation={useRegisterUpdateBrandMutation}
         clearInit={brandClearInit}
         toast={toast}
+        toggle={toggle}
+        toggleChecked={brandToggleChecked}
       />
       {/* Toast */}
       <Toaster position="top-right" />

@@ -6,6 +6,7 @@ const initialState = {
   search: "",
   modal: false,
   situationSelected: null,
+  toggle: { state: false },
 };
 
 const situationSlice = createSlice({
@@ -18,11 +19,20 @@ const situationSlice = createSlice({
     situationSearch: (state, action) => {
       state.search = action.payload;
     },
+    situationToggleChecked: (state, action) => {
+      state.toggle = {
+        ...state.toggle,
+        [action.payload.type]: action.payload.value,
+      };
+    },
     situationClearInit: (state) => {
       state.page = 1;
       state.limit = 7;
       state.search = "";
       state.situationSelected = "";
+      state.toggle = {
+        state: false,
+      };
     },
     setSituationSelected: (state, action) => {
       state.situationSelected = action.payload;
@@ -33,7 +43,7 @@ const situationSlice = createSlice({
 export const {
   situationChangeCurrentPage,
   situationSearch,
-  situationClearSearch,
+  situationToggleChecked,
   situationClearInit,
   setSituationSelected,
 } = situationSlice.actions;

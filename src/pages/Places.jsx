@@ -11,11 +11,12 @@ import {
   placeChangeCurrentPage,
   placeClearInit,
   placeSearch,
+  placeToggleChecked,
 } from "../features/place/placeSlice";
 
 export const Places = () => {
   const { currentColor } = useSelector((state) => state?.theme);
-  const { page, limit, search } = useSelector((state) => state?.place);
+  const { page, limit, search, toggle } = useSelector((state) => state?.place);
 
   const dispatch = useDispatch();
 
@@ -105,6 +106,8 @@ export const Places = () => {
         mutation={useRegisterUpdatePlaceMutation}
         clearInit={placeClearInit}
         toast={toast}
+        toggle={toggle}
+        toggleChecked={placeToggleChecked}
       />
       {/* Toast */}
       <Toaster position="top-right" />

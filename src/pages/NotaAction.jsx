@@ -31,7 +31,11 @@ import {
   useRegisterUpdateNotaMutation,
 } from "../features/nota/notaApi";
 import { areaClearInit, setAreaSelected } from "../features/area/areaSlice";
-import { placeClearInit, setPlaceSelected } from "../features/place/placeSlice";
+import {
+  placeClearInit,
+  placeToggleChecked,
+  setPlaceSelected,
+} from "../features/place/placeSlice";
 import {
   setSituationSelected,
   situationClearInit,
@@ -58,7 +62,7 @@ export const NotaAction = () => {
   const { page, limit } = useSelector((state) => state?.nota);
   const { productSelected } = useSelector((state) => state?.product);
   const { areaSelected } = useSelector((state) => state?.area);
-  const { placeSelected } = useSelector((state) => state?.place);
+  const { placeSelected, toggle } = useSelector((state) => state?.place);
   const { reasonSelected } = useSelector((state) => state?.reason);
   const { situationSelected } = useSelector((state) => state?.situation);
   const { notaItems } = useSelector((state) => state?.nota);
@@ -464,15 +468,15 @@ export const NotaAction = () => {
       {/* Modal Destino y/o Actividad */}
       <Modal
         open={openedPlace}
-        setOpened={setOpenedPlace}
         control={controlModalPlace}
-        items={{}}
         typeAction={typeAction}
         setDataInput={setDataInput}
         title="DESTINO Y/O ACTIVIDAD"
         mutation={useRegisterUpdatePlaceMutation}
         clearInit={placeClearInit}
         toast={toast}
+        toggle={toggle}
+        toggleChecked={placeToggleChecked}
       />
       {/* Toast */}
       <Toaster position="top-center" />

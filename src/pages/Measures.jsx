@@ -11,11 +11,14 @@ import {
   measureChangeCurrentPage,
   measureClearInit,
   measureSearch,
+  measureToggleChecked,
 } from "../features/measure/measureSlice";
 
 export const Measures = () => {
   const { currentColor } = useSelector((state) => state?.theme);
-  const { page, limit, search } = useSelector((state) => state?.measure);
+  const { page, limit, search, toggle } = useSelector(
+    (state) => state?.measure
+  );
 
   const dispatch = useDispatch();
 
@@ -109,6 +112,8 @@ export const Measures = () => {
         mutation={useRegisterUpdateMeasureMutation}
         clearInit={measureClearInit}
         toast={toast}
+        toggle={toggle}
+        toggleChecked={measureToggleChecked}
       />
       {/* Toast */}
       <Toaster position="top-right" />

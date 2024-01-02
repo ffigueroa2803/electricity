@@ -6,6 +6,7 @@ const initialState = {
   search: "",
   modal: false,
   placeSelected: null,
+  toggle: { state: false },
 };
 
 const placeSlice = createSlice({
@@ -18,11 +19,20 @@ const placeSlice = createSlice({
     placeSearch: (state, action) => {
       state.search = action.payload;
     },
+    placeToggleChecked: (state, action) => {
+      state.toggle = {
+        ...state.toggle,
+        [action.payload.type]: action.payload.value,
+      };
+    },
     placeClearInit: (state) => {
       state.page = 1;
       state.limit = 7;
       state.search = "";
       state.placeSelected = null;
+      state.toggle = {
+        state: false,
+      };
     },
     setPlaceSelected: (state, action) => {
       state.placeSelected = action.payload;
@@ -33,7 +43,7 @@ const placeSlice = createSlice({
 export const {
   placeChangeCurrentPage,
   placeSearch,
-  placeClearSearch,
+  placeToggleChecked,
   placeClearInit,
   setPlaceSelected,
 } = placeSlice.actions;

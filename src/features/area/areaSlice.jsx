@@ -6,6 +6,7 @@ const initialState = {
   search: "",
   modal: false,
   areaSelected: null,
+  toggle: { state: false },
 };
 
 const areaSlice = createSlice({
@@ -18,11 +19,20 @@ const areaSlice = createSlice({
     areaSearch: (state, action) => {
       state.search = action.payload;
     },
+    areaToggleChecked: (state, action) => {
+      state.toggle = {
+        ...state.toggle,
+        [action.payload.type]: action.payload.value,
+      };
+    },
     areaClearInit: (state) => {
       state.page = 1;
       state.limit = 7;
       state.search = "";
       state.areaSelected = null;
+      state.toggle = {
+        state: false,
+      };
     },
     setAreaSelected: (state, action) => {
       state.areaSelected = action.payload;
@@ -33,7 +43,7 @@ const areaSlice = createSlice({
 export const {
   areaChangeCurrentPage,
   areaSearch,
-  areaClearSearch,
+  areaToggleChecked,
   areaClearInit,
   setAreaSelected,
 } = areaSlice.actions;

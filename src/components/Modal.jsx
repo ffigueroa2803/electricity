@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import Toggle from "./user/Toggle";
 
 const Modal = ({
   open,
@@ -13,6 +14,8 @@ const Modal = ({
   mutation,
   clearInit,
   toast,
+  toggle,
+  toggleChecked,
 }) => {
   const id = items?.id || null;
 
@@ -31,11 +34,13 @@ const Modal = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let state = toggle?.state;
     try {
       await registerUpdate({
         id,
         name,
         description,
+        state,
         page,
         limit,
         typeAction,
@@ -46,13 +51,21 @@ const Modal = ({
     }
   };
 
+  const getValueToggle = (type, value) => {
+    if (type === "state") {
+      dispatch(toggleChecked({ type: "state", value: !value }));
+    }
+  };
+
   const changeTypeAction = useCallback(() => {
     if (typeAction === "edit") {
       setName(items?.name);
       setDescription(items?.description);
+      dispatch(toggleChecked({ type: "state", value: items?.state }));
     } else {
       setName("");
       setDescription("");
+      dispatch(toggleChecked({ type: "state", value: false }));
     }
   }, [typeAction, items, dispatch]);
 
@@ -130,6 +143,15 @@ const Modal = ({
                   required
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+              {/* Toggle status */}
+              <div className="mt-4">
+                <Toggle
+                  conditional={toggle?.state}
+                  type="state"
+                  getValueToggle={getValueToggle}
+                  currentColor={currentColor}
                 />
               </div>
               {/* Button */}

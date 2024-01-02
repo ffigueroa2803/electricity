@@ -6,6 +6,7 @@ const initialState = {
   search: "",
   modal: false,
   measureSelected: null,
+  toggle: { state: false },
 };
 
 const measureSlice = createSlice({
@@ -18,10 +19,19 @@ const measureSlice = createSlice({
     measureSearch: (state, action) => {
       state.search = action.payload;
     },
+    measureToggleChecked: (state, action) => {
+      state.toggle = {
+        ...state.toggle,
+        [action.payload.type]: action.payload.value,
+      };
+    },
     measureClearInit: (state) => {
       state.page = 1;
       state.limit = 7;
       state.search = "";
+      state.toggle = {
+        state: false,
+      };
     },
     setMeasureSelected: (state, action) => {
       state.measureSelected = action.payload;
@@ -32,7 +42,7 @@ const measureSlice = createSlice({
 export const {
   measureChangeCurrentPage,
   measureSearch,
-  measureClearSearch,
+  measureToggleChecked,
   measureClearInit,
   setMeasureSelected,
 } = measureSlice.actions;

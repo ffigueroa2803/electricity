@@ -11,11 +11,12 @@ import {
   areaChangeCurrentPage,
   areaClearInit,
   areaSearch,
+  areaToggleChecked,
 } from "../features/area/areaSlice";
 
 export const Areas = () => {
   const { currentColor } = useSelector((state) => state?.theme);
-  const { page, limit, search } = useSelector((state) => state?.area);
+  const { page, limit, search, toggle } = useSelector((state) => state?.area);
 
   const dispatch = useDispatch();
 
@@ -137,6 +138,8 @@ export const Areas = () => {
         mutation={useRegisterUpdateAreaMutation}
         clearInit={areaClearInit}
         toast={toast}
+        toggle={toggle}
+        toggleChecked={areaToggleChecked}
       />
       {/* ConfirmDialog */}
       <ConfirmDialog
