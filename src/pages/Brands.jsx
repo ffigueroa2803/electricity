@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
 
-import { Header, Modal, Table } from "../components";
+import { ConfirmDialog, Header, Modal, Table } from "../components";
 import {
+  useDeleteBrandMutation,
   useGetBrandsQuery,
   useRegisterUpdateBrandMutation,
 } from "../features/brand/brandApi";
@@ -24,8 +25,14 @@ export const Brands = () => {
   const [opened, setOpened] = useState(false);
   const [brand, setBrand] = useState({});
   const [typeAction, setTypeAction] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { data, isLoading, error } = useGetBrandsQuery({ page, limit, search });
+
+  const [
+    deleteBrand,
+    { data: dataBrand, isLoading: isLoadingBrand, error: errorBrand },
+  ] = useDeleteBrandMutation();
 
   const getBrandSearch = () => {
     dispatch(brandChangeCurrentPage(1));
@@ -33,13 +40,36 @@ export const Brands = () => {
   };
 
   const controlModal = (dataBrand, action) => {
-    setBrand(dataBrand);
-    setTypeAction(action);
-    if (action === "new" || action === "edit" || action === undefined)
-      setOpened((prevState) => !prevState);
-    if (action === "delete") {
-      console.log("delete");
+    try {
+      setBrand(dataBrand);
+      setTypeAction(action);
+      if (action === "new" || action === "edit" || action === undefined)
+        setOpened((prevState) => !prevState);
+      if (action === "delete") {
+        setIsDialogOpen(true);
+      }
+    } catch (error) {
+      toast.error(error);
     }
+  };
+
+  const handleConfirm = async () => {
+    try {
+      let result = await deleteBrand(brand?.id).unwrap();
+      if (result?.status === 501) {
+        toast.error(result?.message);
+        return;
+      }
+      toast.success(result?.message);
+      setIsDialogOpen(false);
+    } catch (error) {
+      toast.error(error);
+      setIsDialogOpen(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsDialogOpen(false);
   };
 
   useEffect(() => {
@@ -108,6 +138,17 @@ export const Brands = () => {
         toast={toast}
         toggle={toggle}
         toggleChecked={brandToggleChecked}
+      />
+      {/* ConfirmDialog */}
+      <ConfirmDialog
+        open={isDialogOpen}
+        onConfirm={handleConfirm}
+        onClose={handleCancel}
+        title="Estas seguro de eliminar o desactivar"
+        data={null}
+        loading={isLoadingBrand}
+        prefix="la marca "
+        result={brand}
       />
       {/* Toast */}
       <Toaster position="top-right" />

@@ -20,7 +20,21 @@ export const brandApi = apiSlice.injectEndpoints({
         { type: "Marcas", page, limit },
       ],
     }),
+
+    deleteBrand: builder.mutation({
+      query: (id) => ({
+        url: `/api/marcas/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, { page, limit }) => [
+        { type: "Marcas", page, limit },
+      ],
+    }),
   }),
 });
 
-export const { useGetBrandsQuery, useRegisterUpdateBrandMutation } = brandApi;
+export const {
+  useGetBrandsQuery,
+  useRegisterUpdateBrandMutation,
+  useDeleteBrandMutation,
+} = brandApi;
