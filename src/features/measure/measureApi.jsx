@@ -22,8 +22,21 @@ export const measureApi = apiSlice.injectEndpoints({
         { type: "Medidas", page, limit },
       ],
     }),
+
+    deleteMeasure: builder.mutation({
+      query: (id) => ({
+        url: `/api/medidas/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, { page, limit }) => [
+        { type: "Medidas", page, limit },
+      ],
+    }),
   }),
 });
 
-export const { useGetMeasuresQuery, useRegisterUpdateMeasureMutation } =
-  measureApi;
+export const {
+  useGetMeasuresQuery,
+  useRegisterUpdateMeasureMutation,
+  useDeleteMeasureMutation,
+} = measureApi;

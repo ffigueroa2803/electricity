@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
 
-import { Header, Modal, Table } from "../components";
+import { ConfirmDialog, Header, Modal, Table } from "../components";
 import {
+  useDeletePlaceMutation,
   useGetPlacesQuery,
   useRegisterUpdatePlaceMutation,
 } from "../features/place/placeApi";
@@ -24,8 +25,14 @@ export const Places = () => {
   const [opened, setOpened] = useState(false);
   const [place, setPlace] = useState({});
   const [typeAction, setTypeAction] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { data, isLoading, error } = useGetPlacesQuery({ page, limit, search });
+
+  const [
+    deletePlace,
+    { data: dataPlace, isLoading: isLoadingPlace, error: errorPlace },
+  ] = useDeletePlaceMutation();
 
   const getPlaceSearch = () => {
     dispatch(placeChangeCurrentPage(1));
@@ -38,8 +45,27 @@ export const Places = () => {
     if (action === "new" || action === "edit" || action === undefined)
       setOpened((prevState) => !prevState);
     if (action === "delete") {
-      console.log("delete");
+      setIsDialogOpen(true);
     }
+  };
+
+  const handleConfirm = async () => {
+    try {
+      let result = await deletePlace(place?.id).unwrap();
+      if (result?.status === 501) {
+        toast.error(result?.message);
+        return;
+      }
+      toast.success(result?.message);
+      setIsDialogOpen(false);
+    } catch (error) {
+      toast.error(error);
+      setIsDialogOpen(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsDialogOpen(false);
   };
 
   useEffect(() => {
@@ -108,6 +134,17 @@ export const Places = () => {
         toast={toast}
         toggle={toggle}
         toggleChecked={placeToggleChecked}
+      />
+      {/* ConfirmDialog */}
+      <ConfirmDialog
+        open={isDialogOpen}
+        onConfirm={handleConfirm}
+        onClose={handleCancel}
+        title="Estas seguro de eliminar o desactivar"
+        data={null}
+        loading={isLoadingPlace}
+        prefix="el lugar "
+        result={place}
       />
       {/* Toast */}
       <Toaster position="top-right" />

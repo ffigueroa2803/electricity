@@ -22,6 +22,16 @@ export const reasonApi = apiSlice.injectEndpoints({
         { type: "Motivos", page, limit },
       ],
     }),
+
+    deleteReason: builder.mutation({
+      query: (id) => ({
+        url: `/api/motivos/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, { page, limit }) => [
+        { type: "Motivos", page, limit },
+      ],
+    }),
   }),
 });
 
@@ -29,4 +39,5 @@ export const {
   useGetReasonsQuery,
   useLazyGetReasonsQuery,
   useRegisterUpdateReasonMutation,
+  useDeleteReasonMutation,
 } = reasonApi;

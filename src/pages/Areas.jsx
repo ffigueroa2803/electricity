@@ -31,10 +31,8 @@ export const Areas = () => {
     { refetchOnMountOrArgChange: true }
   );
 
-  const [
-    deleteArea,
-    { data: dataArea, isLoading: isLoadingArea, error: errorArea },
-  ] = useDeleteAreaMutation();
+  const [deleteArea, { isLoading: isLoadingArea, error: errorArea }] =
+    useDeleteAreaMutation();
 
   const getAreaSearch = () => {
     dispatch(areaChangeCurrentPage(1));
@@ -59,13 +57,13 @@ export const Areas = () => {
     try {
       let result = await deleteArea(area?.id).unwrap();
       if (result?.status === 501) {
-        toast.error(result?.message);
+        toast.error(result?.message || errorArea);
         return;
       }
       toast.success(result?.message);
       setIsDialogOpen(false);
     } catch (error) {
-      toast.error(error);
+      toast.error(error || errorArea);
       setIsDialogOpen(false);
     }
   };

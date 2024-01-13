@@ -9,8 +9,9 @@ import {
 import {
   useRegisterUpdateSituationMutation,
   useGetSituationsQuery,
+  useDeleteSituationMutation,
 } from "../features/situation/situationApi";
-import { Header, Modal, Table } from "../components";
+import { ConfirmDialog, Header, Modal, Table } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 
 export const Situation = () => {
@@ -25,12 +26,17 @@ export const Situation = () => {
   const [opened, setOpened] = useState(false);
   const [situation, setSituation] = useState({});
   const [typeAction, setTypeAction] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const { data, isLoading, error } = useGetSituationsQuery({
-    page,
-    limit,
-    search,
-  });
+  const { data, isLoading, error } = useGetSituationsQuery(
+    { page, limit, search },
+    { refetchOnMountOrArgChange: true }
+  );
+
+  const [
+    deleteSituation,
+    { isLoading: isLoadingSituation, error: errorSituation },
+  ] = useDeleteSituationMutation();
 
   const getSituationSearch = () => {
     dispatch(situationChangeCurrentPage(1));
@@ -43,8 +49,27 @@ export const Situation = () => {
     if (action === "new" || action === "edit" || action === undefined)
       setOpened((prevState) => !prevState);
     if (action === "delete") {
-      console.log("delete");
+      setIsDialogOpen(true);
     }
+  };
+
+  const handleConfirm = async () => {
+    try {
+      let result = await deleteSituation(situation?.id).unwrap();
+      if (result?.status === 501) {
+        toast.error(result?.message || errorSituation);
+        return;
+      }
+      toast.success(result?.message);
+      setIsDialogOpen(false);
+    } catch (error) {
+      toast.error(error || errorSituation);
+      setIsDialogOpen(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsDialogOpen(false);
   };
 
   useEffect(() => {
@@ -113,6 +138,17 @@ export const Situation = () => {
         toast={toast}
         toggle={toggle}
         toggleChecked={situationToggleChecked}
+      />
+      {/* ConfirmDialog */}
+      <ConfirmDialog
+        open={isDialogOpen}
+        onConfirm={handleConfirm}
+        onClose={handleCancel}
+        title="Estas seguro de eliminar o desactivar"
+        data={null}
+        loading={isLoadingSituation}
+        prefix="la situacion de nombre "
+        result={situation}
       />
       {/* Toast */}
       <Toaster position="top-right" />

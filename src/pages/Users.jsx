@@ -152,14 +152,14 @@ export const Users = () => {
                     >
                       <RiPencilLine />
                     </button>
-                    <button
+                    {/* <button
                       onClick={() => controlModal(user, "delete")}
                       style={{ color: currentColor }}
                       className="text-gray-500 text-xl hover:underline"
                       title="Eliminar"
                     >
                       <BiTrash />
-                    </button>{" "}
+                    </button>{" "} */}
                   </td>
                 </tr>
               ))

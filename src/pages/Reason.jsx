@@ -9,8 +9,9 @@ import {
 import {
   useRegisterUpdateReasonMutation,
   useGetReasonsQuery,
+  useDeleteReasonMutation,
 } from "../features/reason/reasonApi";
-import { Header, Modal, Table } from "../components";
+import { ConfirmDialog, Header, Modal, Table } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 
 export const Reason = () => {
@@ -23,12 +24,16 @@ export const Reason = () => {
   const [opened, setOpened] = useState(false);
   const [reason, setReason] = useState({});
   const [typeAction, setTypeAction] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { data, isLoading, error } = useGetReasonsQuery({
     page,
     limit,
     search,
   });
+
+  const [deleteReason, { isLoading: isLoadingReason, error: errorReason }] =
+    useDeleteReasonMutation();
 
   const getReasonSearch = () => {
     dispatch(reasonChangeCurrentPage(1));
@@ -41,8 +46,27 @@ export const Reason = () => {
     if (action === "new" || action === "edit" || action === undefined)
       setOpened((prevState) => !prevState);
     if (action === "delete") {
-      console.log("delete");
+      setIsDialogOpen(true);
     }
+  };
+
+  const handleConfirm = async () => {
+    try {
+      let result = await deleteReason(reason?.id).unwrap();
+      if (result?.status === 501) {
+        toast.error(result?.message || errorReason);
+        return;
+      }
+      toast.success(result?.message);
+      setIsDialogOpen(false);
+    } catch (error) {
+      toast.error(error || errorReason);
+      setIsDialogOpen(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsDialogOpen(false);
   };
 
   useEffect(() => {
@@ -111,6 +135,17 @@ export const Reason = () => {
         toast={toast}
         toggle={toggle}
         toggleChecked={reasonToggleChecked}
+      />
+      {/* ConfirmDialog */}
+      <ConfirmDialog
+        open={isDialogOpen}
+        onConfirm={handleConfirm}
+        onClose={handleCancel}
+        title="Estas seguro de eliminar o desactivar"
+        data={null}
+        loading={isLoadingReason}
+        prefix="el motivo "
+        result={reason}
       />
       {/* Toast */}
       <Toaster position="top-right" />

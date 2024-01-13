@@ -22,6 +22,16 @@ export const situationApi = apiSlice.injectEndpoints({
         { type: "Situaciones", page, limit },
       ],
     }),
+
+    deleteSituation: builder.mutation({
+      query: (id) => ({
+        url: `/api/situaciones/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, { page, limit }) => [
+        { type: "Situaciones", page, limit },
+      ],
+    }),
   }),
 });
 
@@ -29,4 +39,5 @@ export const {
   useGetSituationsQuery,
   useLazyGetSituationsQuery,
   useRegisterUpdateSituationMutation,
+  useDeleteSituationMutation,
 } = situationApi;

@@ -22,7 +22,21 @@ export const placeApi = apiSlice.injectEndpoints({
         { type: "Lugares", page, limit },
       ],
     }),
+
+    deletePlace: builder.mutation({
+      query: (id) => ({
+        url: `/api/lugares/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, { page, limit }) => [
+        { type: "Lugares", page, limit },
+      ],
+    }),
   }),
 });
 
-export const { useGetPlacesQuery, useRegisterUpdatePlaceMutation } = placeApi;
+export const {
+  useGetPlacesQuery,
+  useRegisterUpdatePlaceMutation,
+  useDeletePlaceMutation,
+} = placeApi;

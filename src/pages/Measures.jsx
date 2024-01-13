@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
 
-import { Header, Modal, Table } from "../components";
+import { ConfirmDialog, Header, Modal, Table } from "../components";
 import {
+  useDeleteMeasureMutation,
   useGetMeasuresQuery,
   useRegisterUpdateMeasureMutation,
 } from "../features/measure/measureApi";
@@ -26,12 +27,18 @@ export const Measures = () => {
   const [opened, setOpened] = useState(false);
   const [measure, setMeasure] = useState({});
   const [typeAction, setTypeAction] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { data, isLoading, error } = useGetMeasuresQuery({
     page,
     limit,
     search,
   });
+
+  const [
+    deleteMeasure,
+    { data: dataMeasure, isLoading: isLoadingMeasure, error: errorMeasure },
+  ] = useDeleteMeasureMutation();
 
   const getMeasureSearch = () => {
     dispatch(measureChangeCurrentPage(1));
@@ -44,8 +51,27 @@ export const Measures = () => {
     if (action === "new" || action === "edit" || action === undefined)
       setOpened((prevState) => !prevState);
     if (action === "delete") {
-      console.log("delete");
+      setIsDialogOpen(true);
     }
+  };
+
+  const handleConfirm = async () => {
+    try {
+      let result = await deleteMeasure(measure?.id).unwrap();
+      if (result?.status === 501) {
+        toast.error(result?.message);
+        return;
+      }
+      toast.success(result?.message);
+      setIsDialogOpen(false);
+    } catch (error) {
+      toast.error(error);
+      setIsDialogOpen(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsDialogOpen(false);
   };
 
   useEffect(() => {
@@ -114,6 +140,17 @@ export const Measures = () => {
         toast={toast}
         toggle={toggle}
         toggleChecked={measureToggleChecked}
+      />
+      {/* ConfirmDialog */}
+      <ConfirmDialog
+        open={isDialogOpen}
+        onConfirm={handleConfirm}
+        onClose={handleCancel}
+        title="Estas seguro de eliminar o desactivar"
+        data={null}
+        loading={isLoadingMeasure}
+        prefix="la medida "
+        result={measure}
       />
       {/* Toast */}
       <Toaster position="top-right" />
