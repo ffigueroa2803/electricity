@@ -26,11 +26,10 @@ export const Reason = () => {
   const [typeAction, setTypeAction] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const { data, isLoading, error } = useGetReasonsQuery({
-    page,
-    limit,
-    search,
-  });
+  const { data, isLoading, error } = useGetReasonsQuery(
+    { page, limit, search },
+    { refetchOnMountOrArgChange: true }
+  );
 
   const [deleteReason, { isLoading: isLoadingReason, error: errorReason }] =
     useDeleteReasonMutation();

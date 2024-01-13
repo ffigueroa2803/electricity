@@ -27,7 +27,10 @@ export const Brands = () => {
   const [typeAction, setTypeAction] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const { data, isLoading, error } = useGetBrandsQuery({ page, limit, search });
+  const { data, isLoading, error } = useGetBrandsQuery(
+    { page, limit, search },
+    { refetchOnMountOrArgChange: true }
+  );
 
   const [
     deleteBrand,

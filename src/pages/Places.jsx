@@ -27,7 +27,10 @@ export const Places = () => {
   const [typeAction, setTypeAction] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const { data, isLoading, error } = useGetPlacesQuery({ page, limit, search });
+  const { data, isLoading, error } = useGetPlacesQuery(
+    { page, limit, search },
+    { refetchOnMountOrArgChange: true }
+  );
 
   const [
     deletePlace,

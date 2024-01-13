@@ -29,11 +29,10 @@ export const Measures = () => {
   const [typeAction, setTypeAction] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const { data, isLoading, error } = useGetMeasuresQuery({
-    page,
-    limit,
-    search,
-  });
+  const { data, isLoading, error } = useGetMeasuresQuery(
+    { page, limit, search },
+    { refetchOnMountOrArgChange: true }
+  );
 
   const [
     deleteMeasure,
