@@ -158,6 +158,7 @@ export const NotaAction = () => {
         page,
         limit,
         typeAction: action,
+        state: true,
       });
     } catch (error) {
       toast.error(error);
@@ -230,7 +231,7 @@ export const NotaAction = () => {
         setTimeout(() => {
           navigate(`/authorized/nota-pedido`, { replace: true });
         }, [3000]);
-      } else if (action === "new") {
+      } else if (action === "create") {
         toast.success("Nota creado correctamente!");
         setTimeout(() => {
           navigate(`/authorized/nota-pedido`, { replace: true });

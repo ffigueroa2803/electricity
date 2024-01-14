@@ -238,7 +238,7 @@ const ProductModal = ({
                   className="w-full border-2 border-gray-100 rounded-md py-2 px-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                   name="description"
                   cols="20"
-                  rows="5"
+                  rows="3"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
