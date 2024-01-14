@@ -60,10 +60,10 @@ export const Brands = () => {
     try {
       let result = await deleteBrand(brand?.id).unwrap();
       if (result?.status === 501) {
-        toast.error(result?.message);
+        toast.error(result?.message || errorBrand);
         return;
       }
-      toast.success(result?.message);
+      toast.success(result?.message || errorBrand);
       setIsDialogOpen(false);
     } catch (error) {
       toast.error(error);

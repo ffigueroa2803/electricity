@@ -30,6 +30,16 @@ export const productApi = apiSlice.injectEndpoints({
     getProductWithMoreMovementAnual: builder.query({
       query: () => `/api/productos/resume/anual`,
     }),
+
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/api/productos/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, { page, limit }) => [
+        { type: "Products", page, limit },
+      ],
+    }),
   }),
 });
 
@@ -38,4 +48,5 @@ export const {
   useRegisterUpdateProductMutation,
   useGetProductWithMoreMovementQuery,
   useGetProductWithMoreMovementAnualQuery,
+  useDeleteProductMutation,
 } = productApi;

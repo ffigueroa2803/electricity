@@ -4,13 +4,17 @@ import toast, { Toaster } from "react-hot-toast";
 import { RiDeleteBin2Line, RiPencilLine } from "react-icons/ri";
 
 import {
+  ConfirmDialog,
   Header,
   LoadingCircle,
   NotFound,
   Pagination,
   ProductModal,
 } from "../components";
-import { useGetProductsQuery } from "../features/product/productApi";
+import {
+  useDeleteProductMutation,
+  useGetProductsQuery,
+} from "../features/product/productApi";
 import {
   productChangeCurrentPage,
   productClearInit,
@@ -29,11 +33,15 @@ export const Products = () => {
   const [opened, setOpened] = useState(false);
   const [product, setProduct] = useState({});
   const [typeAction, setTypeAction] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { data, isLoading, error } = useGetProductsQuery(
     { page, limit, search },
     { pollingInterval: 3000 }
   );
+
+  const [deleteProduct, { isLoading: isLoadingProduct, error: errorProduct }] =
+    useDeleteProductMutation();
 
   const getProductSearch = () => {
     dispatch(productChangeCurrentPage(1));
@@ -46,8 +54,27 @@ export const Products = () => {
     if (action === "new" || action === "edit" || action === undefined)
       setOpened((prevState) => !prevState);
     if (action === "delete") {
-      console.log("delete");
+      setIsDialogOpen(true);
     }
+  };
+
+  const handleConfirm = async () => {
+    try {
+      let result = await deleteProduct(product?.id).unwrap();
+      if (result?.status === 501) {
+        toast.error(result?.message || errorProduct);
+        return;
+      }
+      toast.success(result?.message);
+      setIsDialogOpen(false);
+    } catch (error) {
+      toast.error(error || errorProduct);
+      setIsDialogOpen(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsDialogOpen(false);
   };
 
   useEffect(() => {
@@ -192,6 +219,17 @@ export const Products = () => {
         typeAction={typeAction}
         setDataInput={setDataInput}
         toast={toast}
+      />
+      {/* ConfirmDialog */}
+      <ConfirmDialog
+        open={isDialogOpen}
+        onConfirm={handleConfirm}
+        onClose={handleCancel}
+        title="Estas seguro de eliminar o desactivar"
+        data={null}
+        loading={isLoadingProduct}
+        prefix="el producto "
+        result={product}
       />
       {/* Toast */}
       <Toaster position="top-right" />
