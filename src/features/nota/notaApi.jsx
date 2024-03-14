@@ -65,6 +65,7 @@ export const notaApi = apiSlice.injectEndpoints({
         { type: "Notas", page, limit },
       ],
     }),
+
     anularNota: builder.mutation({
       query: (id) => ({
         url: `/api/notas/${id}`,

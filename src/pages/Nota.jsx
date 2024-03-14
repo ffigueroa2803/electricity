@@ -53,12 +53,8 @@ export const Nota = () => {
   const handleConfirm = async () => {
     try {
       const deleteNota = await anularNota(nota?.id).unwrap();
-      if (deleteNota?.affected === 1) {
-        setIsDialogOpen(false);
-        toast.success("Anulado correctamente!");
-      } else {
-        toast.error("Error al anular");
-      }
+      setIsDialogOpen(false);
+      toast.success("Anulado correctamente!");
     } catch (error) {
       toast.error(error);
     }
