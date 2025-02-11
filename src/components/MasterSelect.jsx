@@ -55,7 +55,7 @@ const MasterSelect = ({ selected, maintainer, required = true }) => {
         const response = await fetch(
           `${
             import.meta.env.VITE_APP_API
-          }/api/${maintainer}?page=1&limit=${limit}&querySearch=${inputValue}`
+          }/api/${maintainer}?page=1&limit=${limit}&querySearch=${inputValue}&state=true`
         );
         const result = await response.json();
 
