@@ -3,16 +3,19 @@ import { MdOutlineCancel } from "react-icons/md";
 import { BsCheck } from "react-icons/bs";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
-import { themeColors } from "../data/dummy";
+import { listAvatars, themeColors } from "../data/dummy";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  themeSetAvatar,
   themeSetColor,
   themeSetMode,
   themeSetThemeSettings,
 } from "../features/theme/themeSlice";
 
 const ThemeSettings = () => {
-  const { currentColor, currentMode } = useSelector((state) => state?.theme);
+  const { currentColor, currentMode, avatar } = useSelector(
+    (state) => state?.theme
+  );
 
   const dispatch = useDispatch();
 
@@ -88,6 +91,33 @@ const ThemeSettings = () => {
                       }`}
                     />
                   </button>
+                </div>
+              </TooltipComponent>
+            ))}
+          </div>
+        </div>
+        <div className="p-4 border-t-1 border-color ml-4">
+          <p className="font-semibold text-xl ">Opción de Avatar</p>
+          <div className="flex gap-3">
+            {listAvatars.map((item, index) => (
+              <TooltipComponent
+                key={index}
+                content={item.name}
+                position="TopCenter"
+              >
+                <div
+                  className="relative mt-2 cursor-pointer flex-wrap gap-5 items-center"
+                  key={item.name}
+                >
+                  <img
+                    src={`/src/assets/${item.name}.png`}
+                    className={`rounded-full w-[50px] h-[50px] ${
+                      item.name !== avatar
+                        ? "border-1 border-gray-600"
+                        : "border-2 border-white"
+                    }`}
+                    onClick={() => dispatch(themeSetAvatar(item.name))}
+                  />
                 </div>
               </TooltipComponent>
             ))}

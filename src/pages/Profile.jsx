@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 
 import { Header } from "../components";
-import { useSelector } from "react-redux";
-import Avatar from "../assets/avatar5.png";
+import { useDispatch, useSelector } from "react-redux";
 import {
   useProfileQuery,
   useUpdateProfileMutation,
 } from "../features/auth/authApi";
 import toast, { Toaster } from "react-hot-toast";
+import { themeSetThemeSettings } from "../features/theme/themeSlice";
 
 export const Profile = () => {
-  const { currentColor } = useSelector((state) => state?.theme);
+  const { currentColor, avatar } = useSelector((state) => state?.theme);
   // const { data: user, isLoadingUser, errorUser } = useProfileQuery();
   const user = useSelector((state) => state?.auth?.user);
+
+  const dispatch = useDispatch();
+
+  const imagePath = `/src/assets/${avatar}.png`;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,14 +50,18 @@ export const Profile = () => {
         <div className="flex flex-wrap lg:flex-nowrap justify-center">
           {/* Avatar */}
           <div className="group/avatar bg-gray-50 dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-100 h-full lg:mr-1 lg:w-52 lg:h-[345px]">
-            <div className="flex relative items-center justify-center z-0 rounded-[50%] w-[150px] h-[150px] ml-12 group-hover/avatar:cursor-pointer lg:w-[100%] lg:h-[50%] lg:ml-0">
+            <div className="flex relative items-center justify-center z-0 rounded-[50%] w-[150px] h-[150px] ml-12 group-hover/avatar:cursor-pointer lg:w-[100%] lg:h-[50%] lg:ml-0 mt-10">
               <div className="group/image">
-                <img src={Avatar} className="rounded-full" />
+                <img
+                  src={imagePath}
+                  className="rounded-full"
+                  onClick={() => dispatch(themeSetThemeSettings(true))}
+                />
               </div>
             </div>
-            <div className="mt-4 items-center">
+            {/* <div className="mt-4 items-center">
               Allowed *.jpeg, *.jpg, *.png, *.gif
-            </div>
+            </div> */}
           </div>
           {/* Update data */}
           <div className="bg-gray-50 mt-2 dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-80 md:w-760 lg:mt-0">

@@ -5,16 +5,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from ".";
 import { userProfileData } from "../data/dummy";
 import { userLoggedOut } from "../features/auth/authSlice";
-import avatar5 from "../assets/avatar5.png";
 import { themeSetIsClicked } from "../features/theme/themeSlice";
 import { NavLink } from "react-router-dom";
 
 const UserProfile = () => {
-  const { currentColor } = useSelector((state) => state?.theme);
+  const { currentColor, avatar } = useSelector((state) => state?.theme);
 
   const user = useSelector((state) => state?.auth?.user);
 
   const dispatch = useDispatch();
+
+  const imagePath = `/src/assets/${avatar}.png`;
 
   const logout = () => {
     dispatch(userLoggedOut());
@@ -38,7 +39,7 @@ const UserProfile = () => {
       <div className="flex gap-5 items-center mt-6 border-color border-b-1 pb-6">
         <img
           className="rounded-full h-24 w-24"
-          src={avatar5}
+          src={imagePath}
           alt="user-profile"
         />
         <div>

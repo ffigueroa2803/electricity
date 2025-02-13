@@ -10,6 +10,7 @@ const initialState = {
     userProfile: false,
     notification: false,
   },
+  avatar: "avatar1",
 };
 
 const themeSlice = createSlice({
@@ -42,6 +43,10 @@ const themeSlice = createSlice({
     themeHandleClick: (state, action) => {
       state.isClicked = { ...state.isClicked, [action.payload]: true };
     },
+    themeSetAvatar: (state, action) => {
+      state.avatar = action.payload;
+      localStorage.setItem("avatarMode", action.payload);
+    },
   },
 });
 
@@ -53,5 +58,6 @@ export const {
   themeSetActiveMenu,
   themeSetIsClicked,
   themeHandleClick,
+  themeSetAvatar,
 } = themeSlice.actions;
 export default themeSlice.reducer;

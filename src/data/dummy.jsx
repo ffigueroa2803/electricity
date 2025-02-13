@@ -179,6 +179,24 @@ export const themeColors = [
   },
 ];
 
+export const listAvatars = [
+  {
+    name: "avatar1",
+  },
+  {
+    name: "avatar2",
+  },
+  {
+    name: "avatar3",
+  },
+  {
+    name: "avatar4",
+  },
+  {
+    name: "avatar5",
+  },
+];
+
 export const typeDocument = [
   { value: "ENTRY", label: "Entrada", name: "typeDocument" },
   { value: "EXIT", label: "Salida", name: "typeDocument" },

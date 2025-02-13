@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 
-import { themeSetColor, themeSetMode } from "./features/theme/themeSlice";
+import {
+  themeSetAvatar,
+  themeSetColor,
+  themeSetMode,
+} from "./features/theme/themeSlice";
 import { RootRouter } from "./routers/RootRouter";
 import "./App.css";
 
@@ -14,9 +18,11 @@ const App = () => {
   useEffect(() => {
     const currentThemeMode = localStorage.getItem("themeMode");
     const currentThemeColor = localStorage.getItem("colorMode");
-    if (currentThemeMode && currentThemeColor) {
+    const currentThemeAvatar = localStorage.getItem("avatarMode");
+    if (currentThemeMode && currentThemeColor && currentThemeAvatar) {
       dispatch(themeSetMode(currentThemeMode));
       dispatch(themeSetColor(currentThemeColor));
+      dispatch(themeSetAvatar(currentThemeAvatar));
     }
   }, [dispatch]);
 

@@ -31,11 +31,12 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 );
 
 const Navbar = () => {
-  const { screenSize, currentColor, activeMenu, isClicked } = useSelector(
-    (state) => state?.theme
-  );
+  const { screenSize, currentColor, activeMenu, isClicked, avatar } =
+    useSelector((state) => state?.theme);
 
   const dispatch = useDispatch();
+
+  const imagePath = `/src/assets/${avatar}.png`;
 
   const { data, isLoading, error } = useProfileQuery();
 
@@ -93,7 +94,7 @@ const Navbar = () => {
             >
               <img
                 className="rounded-full w-8 h-8"
-                src={avatar5}
+                src={imagePath}
                 alt="user-profile"
               />
               <p>
