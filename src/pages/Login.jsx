@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BsEyeSlash, BsEye } from "react-icons/bs";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -54,11 +54,10 @@ export const Login = () => {
   }, [data, responseError, navigate]);
 
   return (
-    <div className="max-w-[650px] px-10 py-20 rounded-2xl">
-      <h1 className="text-3xl font-semibold">Inicio de sessión</h1>
-      <p className="font-medium text-base text-gray-500 mt-4">
-        ¡Bienvenido de nuevo! Por favor, ingrese la dirección de correo
-        electrónico asociada con su cuenta.
+    <div className="max-w-[650px] px-10 py-20 rounded-2xl  bg-white shadow-lg">
+      <h1 className="text-3xl font-semibold text-center">Inicio de sessión</h1>
+      <p className="font-medium text-base text-gray-500 mt-4 text-center">
+        ¡Bienvenido de nuevo! Ingresa tus credenciales para continuar.
       </p>
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-8">
@@ -70,7 +69,7 @@ export const Login = () => {
             </label>
             <input
               id="email"
-              className="w-full border-2 border-gray-100 rounded-md p-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+              className="w-full border border-gray-300 rounded-lg p-3 mt-1 bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
               type="email"
               name="email"
               autoComplete="email"
@@ -81,11 +80,11 @@ export const Login = () => {
             />
           </div>
           {/* Password */}
-          <div className="mt-4">
+          <div className="mt-8">
             <label className="font-medium text-base">Contraseña</label>
             <input
               id="password"
-              className="w-full border-2 border-gray-100 rounded-md p-4 mt-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+              className="w-full border border-gray-300 rounded-lg p-3 mt-1 bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
               type="password"
               name="password"
               autoComplete="current-password"
@@ -98,12 +97,12 @@ export const Login = () => {
               <div></div>
               {show ? (
                 <BsEyeSlash
-                  className="text-2xl mt-[-60px] mr-[20px]"
+                  className="text-2xl mt-[-50px] mr-[20px]"
                   onClick={() => changeIconPassword()}
                 />
               ) : (
                 <BsEye
-                  className="text-2xl mt-[-60px] mr-[20px]"
+                  className="text-2xl mt-[-50px] mr-[20px]"
                   onClick={() => changeIconPassword()}
                 />
               )}
