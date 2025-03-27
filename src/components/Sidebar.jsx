@@ -4,7 +4,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { useDispatch, useSelector } from "react-redux";
 
-import logo from "../assets/logo.png";
+import logo from "../assets/Logo_de_Electro_Ucayali.svg";
 import { links, links_collaborator } from "../data/dummy";
 import { themeSetActiveMenu } from "../features/theme/themeSlice";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
@@ -51,9 +51,11 @@ const Sidebar = () => {
               className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900 mr-6"
             >
               <img
-                className="w-[351px] h-[121px] object-cover items-center"
+                className="object-contain items-center"
                 src={logo}
                 alt="electro"
+                width="351px"
+                height="180px"
               />
             </Link>
             <TooltipComponent content="Menu" position="BottomCenter">

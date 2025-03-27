@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
-import LogoImage from "../assets/inicio.png";
+import LogoImage from "../assets/logo_ini.jpg";
 import { useAuth } from "../hooks/useAuth";
 import { useAuthCheck } from "../hooks/useAuthCheck";
 import { LoadingPage } from "../components";
