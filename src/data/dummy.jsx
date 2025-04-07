@@ -136,20 +136,20 @@ export const userProfileData = [
     iconBg: "#E5FAFB",
     route: "profile",
   },
-  {
-    icon: <BsShield />,
-    title: "Mi bandeja de entrada",
-    desc: "Mensajes & Correos electrónicos",
-    iconColor: "rgb(0, 194, 146)",
-    iconBg: "rgb(235, 250, 242)",
-  },
-  {
-    icon: <FiCreditCard />,
-    title: "Mis tareas",
-    desc: "Tareas pendientes y diarias",
-    iconColor: "rgb(255, 244, 229)",
-    iconBg: "rgb(254, 201, 15)",
-  },
+  // {
+  //   icon: <BsShield />,
+  //   title: "Mi bandeja de entrada",
+  //   desc: "Mensajes & Correos electrónicos",
+  //   iconColor: "rgb(0, 194, 146)",
+  //   iconBg: "rgb(235, 250, 242)",
+  // },
+  // {
+  //   icon: <FiCreditCard />,
+  //   title: "Mis tareas",
+  //   desc: "Tareas pendientes y diarias",
+  //   iconColor: "rgb(255, 244, 229)",
+  //   iconBg: "rgb(254, 201, 15)",
+  // },
 ];
 
 export const themeColors = [
