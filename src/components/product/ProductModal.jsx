@@ -187,6 +187,7 @@ const ProductModal = ({
                   value={stock}
                   onChange={(e) => setStock(e.target.value)}
                   required
+                  disabled={typeAction === "edit" ? true : false}
                 />
               </div>
             </div>
